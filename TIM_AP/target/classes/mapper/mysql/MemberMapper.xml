@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tim.ap.mapper.MemberMapper">
+
+	<resultMap type="com.tim.ap.entity.MemberEntity" id="MemberResultMap">
+		<result property="id" column="ID" />
+		<result property="email" column="EMAIL" />
+		<result property="pw" column="PW" />
+		<result property="name_last" column="NAME_LAST" />
+		<result property="name_first" column="NAME_FIRST" />
+		<result property="role" column="ROLE" />
+		<result property="auth" column="AUTH" />
+	</resultMap>
+
+	<select id="getMemberList" resultType="com.tim.ap.entity.MemberEntity">
+		SELECT ID, EMAIL, PW, NAME_LAST, NAME_FIRST, ROLE, AUTH
+			FROM MEMBER
+	</select>
+
+	<select id="getMember" parameterType="java.lang.Integer" resultType="com.tim.ap.entity.MemberEntity">
+		select * from member
+		where id = #{id}
+	</select>
+	
+	<insert id="insertMember" parameterType="com.tim.ap.entity.MemberEntity">
+		INSERT INTO MEMBER(ID, EMAIL, PW, NAME_LAST, NAME_FIRST)
+		VALUES(#{id}, #{email}, #{pw}, #{name_last}, #{name_first})
+	</insert>
+</mapper>
