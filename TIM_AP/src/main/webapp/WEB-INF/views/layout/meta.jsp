@@ -1,3 +1,4 @@
+<script type="text/JavaScript" src="http://code.jquery.com/jquery-1.7.min.js"></script>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Tech In Motion Co., LTD</title>

@@ -1,5 +1,7 @@
 package com.tim.ap.controller;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.Locale;
 
@@ -58,11 +60,37 @@ public class MemberController {
 		System.out.println("로그인");
 		MemberEntity mem = memberService.getMember(member.getId());
 		
-		if(member.getPw().equals(mem.getPw())){
-			result.setViewName("/audio/list");
-			String name = mem.getName_first()+mem.getName_last();
-			session.setAttribute("id", mem.getId());
-			result.addObject("name", name);
+		//sha알고리즘 형태로 변환시켜주는것.
+		try {
+            MessageDigest md = MessageDigest.getInstance("SHA-512"); 
+            md.update(member.getPw().getBytes()); 
+            byte byteData[] = md.digest();
+ 
+            StringBuffer sb = new StringBuffer(); 
+            for(int i=0; i<byteData.length; i++) {
+                sb.append(Integer.toString((byteData[i]&0xff) + 0x100, 16).substring(1));
+            }
+ 
+            String retVal = sb.toString();
+            System.out.println(retVal); 
+            member.setPw(retVal);
+        } catch(NoSuchAlgorithmException e){
+            e.printStackTrace(); 
+        }
+		//
+		result.addObject("failed", "true");
+		if(mem != null){
+			//member는 로그인폼에서 받아온 값이고, mem은 DB에 저장된 값을 가져온것.
+			//비교후 넘어가거나 로그인이 안되있다면 다시 로그인창으로 보내는것.
+			if(member.getPw().equals(mem.getPw())){
+				result.setViewName("/audio/list");
+				String name = mem.getName_first()+mem.getName_last();
+				session.setAttribute("id", mem.getId());
+				result.addObject("name", name);
+			}
+		}else{
+			result.addObject("failed", "false");
+			result.setViewName("/member/login");
 		}
 //		if(member.getId()==1&&member.getPw().equals("1")){
 //			result.setViewName("/audio/list");
