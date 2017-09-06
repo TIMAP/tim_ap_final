@@ -47,12 +47,14 @@ public class MemberController {
 		System.out.println("로그인폼");
 		logger.info("/member/login", locale);
 		ModelAndView result = new ModelAndView();
-		
-		
-		
 		result.setViewName("/member/login");
 		return result;
 	}
+	
+	/**
+	 * 로그인 정보를 입력후 아이디와 비밀번호가 존재시 메인화면으로 넘어가고
+	 * 없으면 다시 로그인폼으로 돌아가며 비밀번호나 아이디가 틀릴경우 알럿메세지를 가지고 돌아간다. 
+	 */
 	@RequestMapping(value="/login" , method=RequestMethod.POST)
 	public ModelAndView login(Locale locale, MemberEntity member,HttpSession session) {
 		logger.info("/member/login", locale);
@@ -83,7 +85,7 @@ public class MemberController {
 			//member는 로그인폼에서 받아온 값이고, mem은 DB에 저장된 값을 가져온것.
 			//비교후 넘어가거나 로그인이 안되있다면 다시 로그인창으로 보내는것.
 			if(member.getPw().equals(mem.getPw())){
-				result.setViewName("/audio/list");
+				result.setViewName("/member/main");
 				String name = mem.getName_first()+mem.getName_last();
 				session.setAttribute("id", mem.getId());
 				result.addObject("name", name);
@@ -92,17 +94,6 @@ public class MemberController {
 			result.addObject("failed", "false");
 			result.setViewName("/member/login");
 		}
-//		if(member.getId()==1&&member.getPw().equals("1")){
-//			result.setViewName("/audio/list");
-//		}else {
-//			result.setViewName("/member/login");
-//		}
-//		MemberEntity mem = memberService.getMember(member.getId());
-//		session.setAttribute("id", member.getId());
-//		result.addObject("fname", mem.getName_first());
-//		result.addObject("name", mem.getName_last());
-//		result.addObject("email", mem.getEmail());
-		//여기서 아이디 받아서 로그인하고 오디오 리스트페이지로
 		return result;
 	}
 	
@@ -126,4 +117,27 @@ public class MemberController {
 		result.setViewName("redirect:/member/loginform");
 		return result;
 	}
+	
+	/**
+	 * 로그아웃
+	 */
+	@RequestMapping("/logout")
+	public ModelAndView logout(HttpSession session){
+		ModelAndView result = new ModelAndView();
+		session.invalidate();
+		result.setViewName("redirect:/member/loginform");
+		return result;
+	}
+	
+	/**
+	 * 메인화면으로 가는 컨트롤러
+	 */
+	@RequestMapping("/main")
+	public ModelAndView main(){
+		ModelAndView result = new ModelAndView();
+		result.setViewName("/member/main");
+		return result;
+	}
+	
+	
 }
