@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.tim.ap.entity.ConferListSelectEntity;
 import com.tim.ap.entity.ConferenceEntity;
 import com.tim.ap.service.ConferenceService;
 
@@ -27,9 +30,9 @@ public class ConferenceController {
 		return "/conference/join";
 	}
 
-	@RequestMapping(value = "/creat", method = RequestMethod.POST)
+	@RequestMapping("/create")
 	public String createForm() {
-		return "/conference/creat";
+		return "/conference/create";
 	}
 
 	@RequestMapping(value = "/list", produces="text/plain;charset=UTF-8", method = RequestMethod.GET)
@@ -53,5 +56,23 @@ public class ConferenceController {
 		conferenceService.updateConference(conferenceEntity);
 
 		return new com.google.gson.Gson().toJson(conferenceEntity);
+	}
+	
+	@RequestMapping("/conferencelist")
+	public @ResponseBody ModelAndView conferencelist(@RequestParam(value="page",defaultValue="1")int pageNumber,
+			String val, String index) {
+		ModelAndView result = new ModelAndView();
+		List<ConferenceEntity> conferenceList = conferenceService.getConferenceList();
+		
+		ConferListSelectEntity select = new ConferListSelectEntity();
+		if(val!=null && !val.equals("")){
+			select.setIndex(index);
+			select.setVal(val);
+		}
+		
+		result.addObject("select", select);
+		result.addObject("conferenceList", conferenceList);
+		result.setViewName("/conference/conferencelist");
+		return result;
 	}
 }

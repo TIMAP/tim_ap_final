@@ -10,7 +10,7 @@
 // 	회의
 	function conference() {
 		alert("회의");
-		location.href="/conference/list";
+		location.href="/conference/conferencelist";
 	}
 	
 // 	오디오

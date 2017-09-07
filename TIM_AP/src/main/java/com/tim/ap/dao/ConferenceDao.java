@@ -1,7 +1,10 @@
 package com.tim.ap.dao;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import com.tim.ap.entity.ConferListSelectEntity;
+import com.tim.ap.entity.ConferListViewEntity;
 import com.tim.ap.entity.ConferenceEntity;
 
 public interface ConferenceDao {

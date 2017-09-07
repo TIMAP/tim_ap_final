@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
-	<script src="/TIM_AP_WEB/resources/js/audio/audioplay.js"></script>
-	<script src="/TIM_AP_WEB/resources/js/audio/main.js"></script>
+	<script src="/resources/js/audio/audioplay.js"></script>
+	<script src="/resources/js/audio/main.js"></script>
 	
 <script>
 
@@ -56,7 +56,7 @@ $(document).ready(function() {
 });
 	//작성자 : 홍기훈 오디오 녹음을 위한객체
 	
-	  var WORKER_PATH = '/TIM_AP_WEB/resources/js/audio/recorderWorker.js';
+	  var WORKER_PATH = '/resources/js/audio/recorderWorker.js';
 
 	  var Recorder = function(source, cfg){
 		    var config = cfg || {};
@@ -257,9 +257,9 @@ $(document).ready(function() {
 		<canvas id="wavedisplay" width="300" height="200"></canvas>
 	</div>
 	<div id="controls">
-		<img id="record" src="/TIM_AP_WEB/resources/images/mic1.png" onclick="toggleRecording(this);" width="50px" height="50px"> 
+		<img id="record" src="/resources/images/mic1.png" onclick="toggleRecording(this);" width="50px" height="50px"> 
 		<a id="save" href="#">
-		<img src="/TIM_AP_WEB/resources/images/save.svg" width="50px" height="50px">
+		<img src="/resources/images/save.svg" width="50px" height="50px">
 		</a>
 	</div>
 	<input type="button" id="closeConf" value="회의종료">
