@@ -37,7 +37,7 @@ th, tr, td  {
 </div>
 <br/>
 
-<button><a href="/conference/create">회의 추가</a></button>
+<button><a href="/audio/form">회의 추가</a></button>
 <table>
 	<tr>
 		<th>No.</th>
