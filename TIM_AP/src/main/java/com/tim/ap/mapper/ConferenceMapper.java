@@ -9,5 +9,6 @@ public interface ConferenceMapper {
 	    int insertConference(ConferenceEntity conferenceEntity);
 	    void updateConference(ConferenceEntity conferenceEntity);
 	    ConferenceEntity selectConference();
+	    int selectConferCount();
 	    //void deleteConference(String id);
 }
