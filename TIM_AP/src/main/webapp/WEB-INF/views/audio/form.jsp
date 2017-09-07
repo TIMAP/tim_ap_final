@@ -148,7 +148,7 @@ $(document).ready(function() {
 		    var link = document.getElementById("save");
 		    link.href = url;
 		    link.download = filename || 'output.wav';
-//			alert(url);
+		alert(url);
 		    uploadWav(blob);
 		  }
 		  

@@ -25,7 +25,7 @@ public class ConferenceController {
 	@Autowired
 	private ConferenceService conferenceService;
 
-	@RequestMapping(value = "/join", method = RequestMethod.POST)
+	@RequestMapping(value = "/join")
 	public String loginForm() {
 		return "/conference/join";
 	}

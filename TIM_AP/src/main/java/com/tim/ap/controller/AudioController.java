@@ -68,7 +68,7 @@ public class AudioController {
 		return result;
 	}
 
-	@RequestMapping(value = "/upload", method = RequestMethod.POST)
+	@RequestMapping("/upload")
 	public ModelAndView upload(Locale locale, @RequestParam("multipartFile") List<MultipartFile> multipartFiles, ConferenceEntity conferenceEntity) throws IOException, UnsupportedAudioFileException {
 		logger.info("/audio/upload", locale);
 		
