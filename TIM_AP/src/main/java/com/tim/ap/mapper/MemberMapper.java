@@ -10,6 +10,6 @@ public interface MemberMapper {
 	    MemberEntity getMember(int id);
 	    void insertMember(MemberEntity memberEntity);
 	    void excelUpload(List<MemberEntity> memberList);
-	    //void updateMember(String id);
-	    //void deleteMember(String id);
+	    void updateMember(String id);
+	    void deleteMember(String id);
 }

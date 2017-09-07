@@ -27,4 +27,16 @@
 		INSERT INTO MEMBER(ID, EMAIL, PW, NAME_LAST, NAME_FIRST)
 		VALUES(#{id}, #{email}, #{pw}, #{name_last}, #{name_first})
 	</insert>
+	
+	<update id="updateMember" parameterType="com.tim.ap.entity.MemberEntity">
+		UPDATE MEMBER SET PW = #{pw} WHERE ID = #{id}
+	</update>
+	
+<!-- 	<update id="deleteMember"> -->
+<!-- 		UPDATE MEMBER SET DISABLED = 'Y' WHERE ID = #{id} -->
+<!-- 	</update> -->
+	
+	<delete id="deleteMember">
+		DELETE FROM MEMBER WHERE ID = #{id}
+	</delete>
 </mapper>
