@@ -1,8 +1,11 @@
 package com.tim.ap.service;
 
+import java.io.File;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +15,8 @@ import org.springframework.web.servlet.ModelAndView;
 import com.tim.ap.dao.MemberDao;
 import com.tim.ap.entity.MemberEntity;
 import com.tim.ap.mapper.MemberMapper;
+import com.tim.ap.util.ExcelRead;
+import com.tim.ap.util.ExcelReadOption;
 
 @Repository
 public class MemberService implements MemberDao {
@@ -60,5 +65,38 @@ public class MemberService implements MemberDao {
         }
 		sqlSession.insert("insertMember", member);
 	}
+	
+	@Override
+	public void excelUpload(File destFile){
+		MemberMapper userMapper = sqlSession.getMapper(MemberMapper.class);
+		ExcelReadOption excelReadOption = new ExcelReadOption();
+        excelReadOption.setFilePath(destFile.getAbsolutePath());
+        excelReadOption.setOutputColumns("A","B","C","D","E","F","G","H");
+        excelReadOption.setStartRow(2);
+        
+        
+        List<Map<String, String>>excelContent =ExcelRead.read(excelReadOption);
+        List<MemberEntity> memberList = new ArrayList<MemberEntity>();
+        
+        
+        for(Map<String, String> article: excelContent){
+        	
+        	MemberEntity memberEntity = new MemberEntity();
+        	
+        	memberEntity.setId(Integer.parseInt(article.get("A")));
+        	memberEntity.setEmail(article.get("B"));
+        	memberEntity.setPw(article.get("C"));
+        	memberEntity.setName_last(article.get("D"));
+        	memberEntity.setName_first(article.get("E"));
+        	memberEntity.setRole(article.get("F").charAt(0));
+        	memberEntity.setAuth(article.get("G").charAt(0));
+        	memberEntity.setDisable(article.get("H").charAt(0));
+        	
+        	memberList.add(memberEntity);
+            System.out.println("여기 오세요 ?");
+        }
+        
+        userMapper.excelUpload(memberList);
 
+}
 }

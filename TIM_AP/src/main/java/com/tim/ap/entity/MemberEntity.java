@@ -8,6 +8,15 @@ public class MemberEntity {
 	private String name_first;
 	private char role;
 	private char auth;
+	private char disable;
+
+	public char getDisable() {
+		return disable;
+	}
+
+	public void setDisable(char disable) {
+		this.disable = disable;
+	}
 
 	public int getId() {
 		return id;
