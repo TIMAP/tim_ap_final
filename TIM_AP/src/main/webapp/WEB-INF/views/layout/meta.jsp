@@ -72,5 +72,9 @@ div.mainDivThree{
 	background: blue;
 	float: left;
 }
-
+/* 로그인폼 */
+div.loginForm{
+	width: 100%;
+	height: 76%;
+}
 </style>

@@ -12,7 +12,8 @@
 		}
 	})
 </script>
-	<div id="content">
+<div id="content">
+	<div class="loginForm">
 		로그인 폼
 		<form action="<c:url value='/member/login'/>" method="post">
 							<div class="form-group">
@@ -26,3 +27,4 @@
 						</form>
 		<button><a href="/member/joinForm">회원가입</a></button>
 	</div>
+</div>
