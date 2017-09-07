@@ -15,4 +15,6 @@ public interface MemberDao {
     public void excelUpload(File destFile);
 
 	public MemberEntity getMember(int id);
+	public void deleteMember(MemberEntity member);
+	public void updateMember(MemberEntity member);
 }
