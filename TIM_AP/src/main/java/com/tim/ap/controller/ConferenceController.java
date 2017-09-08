@@ -1,5 +1,6 @@
 package com.tim.ap.controller;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.tim.ap.entity.ConferListSelectEntity;
+import com.tim.ap.entity.ConferListViewEntity;
 import com.tim.ap.entity.ConferenceEntity;
 import com.tim.ap.service.ConferenceService;
 
@@ -25,6 +27,9 @@ public class ConferenceController {
 	@Autowired
 	private ConferenceService conferenceService;
 
+	private static final int BOARD_COUNT_PER_PAGE = 3;
+	private static final int PAGE_NUMBER_COUNT_PER_PAGE = 5;
+	
 	@RequestMapping(value = "/join")
 	public String loginForm() {
 		return "/conference/join";
@@ -62,17 +67,56 @@ public class ConferenceController {
 	public @ResponseBody ModelAndView conferencelist(@RequestParam(value="page",defaultValue="1")int pageNumber,
 			String val, String index) {
 		ModelAndView result = new ModelAndView();
-		List<ConferenceEntity> conferenceList = conferenceService.getConferenceList();
+//		List<ConferenceEntity> conferenceList = conferenceService.getConferenceList();
 		
-		ConferListSelectEntity select = new ConferListSelectEntity();
-		if(val!=null && !val.equals("")){
+		ConferListSelectEntity select = new ConferListSelectEntity();//검색조건과 값을 가진 Entity
+		if(val!=null && !val.equals("")){// 처음 들어간 화면이 아닌 검색조건에 값을 입력한 경우 Entity에게 값을 넣어준다.
 			select.setIndex(index);
 			select.setVal(val);
 		}
-		
-		result.addObject("select", select);
-		result.addObject("conferenceList", conferenceList);
+		ConferListViewEntity viewData = returnViewEntity(pageNumber, select);
+		if(viewData.getPageTotalCount()>0){
+			int beginPageNumber = (viewData.getCurrentPageNumber()-1)/PAGE_NUMBER_COUNT_PER_PAGE*PAGE_NUMBER_COUNT_PER_PAGE+1;
+			int endPageNumber = beginPageNumber+ PAGE_NUMBER_COUNT_PER_PAGE-1;
+			if(endPageNumber > viewData.getPageTotalCount()){
+				endPageNumber = viewData.getPageTotalCount();
+			}
+			result.addObject("perPage", PAGE_NUMBER_COUNT_PER_PAGE);	//페이지 번호의 갯수
+			result.addObject("end", viewData.getConferList().size()-1);//마지막 페이지getBoardList
+			result.addObject("beginPage", beginPageNumber);	//보여줄 페이지 번호의 시작
+			result.addObject("endPage", endPageNumber);		//보여줄 페이지 번호의 끝
+		}
+		result.addObject("select", select);//그리고 값을 가진 것으 ㄹ넣어준다.
+		result.addObject("viewData", viewData);
 		result.setViewName("/conference/conferencelist");
 		return result;
 	}
+	
+	/**
+	 * 게시판의 값을 반환해주는 메서드 
+	 */
+	public ConferListViewEntity returnViewEntity(int pageNumber, ConferListSelectEntity select){
+//		final int BOARD_COUNT_PER_PAGE = 3;
+		int currentPageNumber = pageNumber; //페이지의 넘버를 갖고 있는 아이
+
+		int selectConferenceTotalCount = conferenceService.selectConferenceTotalCount(); //총 갯수를 갖고 있는 아이
+
+		List<ConferenceEntity> boardList = null;
+		int firstRow = 0;
+		int endRow = 0;
+		if (selectConferenceTotalCount > 0) {
+			firstRow = (pageNumber - 1) * BOARD_COUNT_PER_PAGE + 1;
+			endRow = firstRow + BOARD_COUNT_PER_PAGE - 1;
+			boardList = conferenceService.selectList(firstRow, endRow, select);
+			if (select.getVal() != null && !select.getVal().equals("")) {
+				selectConferenceTotalCount = conferenceService.selectListCount(select);
+			}
+		} else {
+			currentPageNumber = 0;
+			boardList = Collections.emptyList();
+		}
+		return new ConferListViewEntity(boardList, selectConferenceTotalCount,
+				currentPageNumber, BOARD_COUNT_PER_PAGE, firstRow, endRow);
+	}
+	
 }

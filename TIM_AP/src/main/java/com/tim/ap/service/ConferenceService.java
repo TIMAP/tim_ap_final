@@ -3,6 +3,7 @@ package com.tim.ap.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -56,6 +57,28 @@ public class ConferenceService implements ConferenceDao {
 		conferenceEntity = conferenceMapper.selectConference();
 
 		return conferenceEntity;
+	}
+
+	//전체 갯수를 반환하는 메서드
+	@Override
+	public int selectConferenceTotalCount() {
+		return sqlSession.selectOne("selectConferenceTotalCount");
+	}
+	
+	//검색될 리스트를 반환해주는 메서드
+	@Override
+	public List<ConferenceEntity> selectList(int firstRow, int endRow,
+			ConferListSelectEntity select) {
+		int offset = firstRow - 1;
+		int limit = endRow - firstRow + 1;
+		RowBounds rowBounds = new RowBounds(offset, limit);
+		List<ConferenceEntity> boardList = sqlSession.selectList("selectConferenceList",select,rowBounds);
+		return boardList;
+	}
+
+	@Override
+	public int selectListCount(ConferListSelectEntity select) {
+		return sqlSession.selectOne("selectListCount");
 	}
 	
 	
