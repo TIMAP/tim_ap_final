@@ -100,7 +100,8 @@ public class ConferenceController {
 		int currentPageNumber = pageNumber; //페이지의 넘버를 갖고 있는 아이
 
 		int selectConferenceTotalCount = conferenceService.selectConferenceTotalCount(); //총 갯수를 갖고 있는 아이
-
+		System.out.println(select.getIndex());
+		System.out.println(select.getVal());
 		List<ConferenceEntity> boardList = null;
 		int firstRow = 0;
 		int endRow = 0;
@@ -108,8 +109,10 @@ public class ConferenceController {
 			firstRow = (pageNumber - 1) * BOARD_COUNT_PER_PAGE + 1;
 			endRow = firstRow + BOARD_COUNT_PER_PAGE - 1;
 			boardList = conferenceService.selectList(firstRow, endRow, select);
+			System.out.println("첫번째이프문"+selectConferenceTotalCount);
 			if (select.getVal() != null && !select.getVal().equals("")) {
 				selectConferenceTotalCount = conferenceService.selectListCount(select);
+				System.out.println("두번째이프문"+selectConferenceTotalCount);
 			}
 		} else {
 			currentPageNumber = 0;

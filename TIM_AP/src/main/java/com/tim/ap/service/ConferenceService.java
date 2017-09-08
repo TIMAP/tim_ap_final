@@ -72,13 +72,15 @@ public class ConferenceService implements ConferenceDao {
 		int offset = firstRow - 1;
 		int limit = endRow - firstRow + 1;
 		RowBounds rowBounds = new RowBounds(offset, limit);
+		System.out.println(select.getIndex());
+		System.out.println(select.getVal());
 		List<ConferenceEntity> boardList = sqlSession.selectList("selectConferenceList",select,rowBounds);
 		return boardList;
 	}
 
 	@Override
 	public int selectListCount(ConferListSelectEntity select) {
-		return sqlSession.selectOne("selectListCount");
+		return sqlSession.selectOne("selectListCount",select);
 	}
 	
 	
