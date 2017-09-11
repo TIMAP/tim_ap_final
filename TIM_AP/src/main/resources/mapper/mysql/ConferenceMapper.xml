@@ -95,6 +95,7 @@
 		    	AND date like CONCAT('%', #{val}, '%')
 		    </when>
 	  	</choose>
+		    	order by 1 desc
 	</select>
 	
 <!-- 	검색된 리스트의 갯수를 반환하는 쿼리 -->

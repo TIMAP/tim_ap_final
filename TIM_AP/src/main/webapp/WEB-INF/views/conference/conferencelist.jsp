@@ -42,7 +42,6 @@ th, tr, td  {
 <table>
 	<tr>
 		<th>No.</th>
-		<th>주최자</th>
 		<th>제목</th>
 		<th>등록일</th>
 		<th>참여권한</th>
@@ -52,7 +51,6 @@ th, tr, td  {
 <%-- 		<c:when test="${viewData.boardTotalCount > 0 }"> --%>
 			<c:forEach items="${viewData.conferList }" var="confer" varStatus="i">
 				<tr>
-					<td>${i.count}</td>
 					<td><a href="/conference/join">${confer.id }</a></td>
 					<td>${confer.title }</td>
 					<td>${confer.date}</td>

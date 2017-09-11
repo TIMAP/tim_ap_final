@@ -4,7 +4,7 @@
 // 	로그인유저 개인정보
 	function loginUserInfo() {
 		alert("로그인유저");
-		location.href="/member/loginform";
+		location.href="/member/userInfo?id=${id}";
 	}
 	
 // 	회의
