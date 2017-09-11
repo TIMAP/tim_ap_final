@@ -31,7 +31,7 @@
 		<h1>회의</h1>
 	</div>
 	
-	<div class="mainDivThree" onclick="audio();">
-		<h1>오디오페이퍼</h1>
-	</div>
+<!-- 	<div class="mainDivThree" onclick="audio();"> -->
+<!-- 		<h1>오디오페이퍼</h1> -->
+<!-- 	</div> -->
 </div>

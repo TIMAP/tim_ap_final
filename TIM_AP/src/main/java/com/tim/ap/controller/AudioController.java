@@ -94,7 +94,8 @@ public class AudioController {
 		try {
 			if (multipartFiles != null && multipartFiles.size() != 0) {
 				// get information - audio.properties
-				String uploadTempRootPath = System.getProperty("catalina.home") + File.separator + "audio_temp";
+				String uploadTempRootPath = "C:/tim/tim_ap_final/TIM_AP/src/main/webapp/resources/audio";
+				//String uploadTempRootPath = System.getProperty("catalina.home") + File.separator + "audio_temp";
 				System.out.println(uploadTempRootPath);
 
 				if (!FileTool.isExistsDirectory(uploadTempRootPath)) {
