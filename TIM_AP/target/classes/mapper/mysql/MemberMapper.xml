@@ -11,6 +11,7 @@
 		<result property="name_first" column="NAME_FIRST" />
 		<result property="role" column="ROLE" />
 		<result property="auth" column="AUTH" />
+		<result property="disabled" column="DISABLED" />
 	</resultMap>
 
 	<select id="getMemberList" resultType="com.tim.ap.entity.MemberEntity">
@@ -32,11 +33,11 @@
 		UPDATE MEMBER SET PW = #{pw} WHERE ID = #{id}
 	</update>
 	
-<!-- 	<update id="deleteMember"> -->
-<!-- 		UPDATE MEMBER SET DISABLED = 'Y' WHERE ID = #{id} -->
-<!-- 	</update> -->
+	<update id="deleteMember">
+		UPDATE MEMBER SET DISABLED = 'Y' WHERE ID = #{id}
+	</update>
 	
-	<delete id="deleteMember">
-		DELETE FROM MEMBER WHERE ID = #{id}
-	</delete>
+<!-- 	<delete id="deleteMember"> -->
+<!-- 		DELETE FROM MEMBER WHERE ID = #{id} -->
+<!-- 	</delete> -->
 </mapper>

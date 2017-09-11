@@ -119,7 +119,7 @@ public class MemberService implements MemberDao {
         	memberEntity.setName_first(article.get("E"));
         	memberEntity.setRole(article.get("F").charAt(0));
         	memberEntity.setAuth(article.get("G").charAt(0));
-        	memberEntity.setDisable(article.get("H").charAt(0));
+        	memberEntity.setDisabled(article.get("H").charAt(0));
         	
         	memberList.add(memberEntity);
             System.out.println("여기 오세요 ?");
