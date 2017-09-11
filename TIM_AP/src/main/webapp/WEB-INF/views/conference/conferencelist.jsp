@@ -51,7 +51,7 @@ th, tr, td  {
 <%-- 		<c:when test="${viewData.boardTotalCount > 0 }"> --%>
 			<c:forEach items="${viewData.conferList }" var="confer" varStatus="i">
 				<tr>
-					<td><a href="/conference/join">${confer.id }</a></td>
+					<td><a href="/audio/list?c_id=${confer.id }">${confer.id }</a></td>
 					<td>${confer.title }</td>
 					<td>${confer.date}</td>
 					<td>${confer.role }</td>

@@ -2,7 +2,17 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ page import="java.util.*"%>
 <%@ page import="com.tim.ap.entity.AudioEntity"%>
-
+<style>
+table {
+	border: 1px solid #444444;
+	text-align: center;
+	border-collapse: collapse;
+}
+th, tr, td  {
+	border: 1px solid #444444;
+	padding: 10px;
+}
+</style>
 <table>
 	<tr>
 		<td style="text-align:center; width:100px;">ID</td>

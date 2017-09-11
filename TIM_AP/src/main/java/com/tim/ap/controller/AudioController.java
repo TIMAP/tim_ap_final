@@ -77,7 +77,6 @@ public class AudioController {
 		
 		File file = convert(multipartFiles.get(0));
 		
-		
 		 AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(file);
 		    AudioFormat format = audioInputStream.getFormat();
 		    long audioFileLength = file.length();
@@ -94,6 +93,8 @@ public class AudioController {
 		try {
 			if (multipartFiles != null && multipartFiles.size() != 0) {
 				// get information - audio.properties
+				
+				//경로 설정을 직접 정해 주었습니다.
 				String uploadTempRootPath = "C:/tim/tim_ap_final/TIM_AP/src/main/webapp/resources/audio";
 				//String uploadTempRootPath = System.getProperty("catalina.home") + File.separator + "audio_temp";
 				System.out.println(uploadTempRootPath);
@@ -115,9 +116,9 @@ public class AudioController {
 
 						byte[] bytes = multipartFile.getBytes();
 
-						
-						
-						String tempFileName = UniqueFileIdGenerator.getUniqueFileId() +"_"+ dateMaker() + ".wav" ;
+						//tepFileName을 회의 아이디와 날짜로 저장
+						String tempFileName = conferenceId+" "+dateMaker()+" "+UniqueFileIdGenerator.getUniqueFileId()+".wav";
+						//String tempFileName = UniqueFileIdGenerator.getUniqueFileId() +"_"+ dateMaker() + ".wav" ;
 						
 						File uploadFile = new File(uploadTempFilePath + File.separator + tempFileName);
 //						File uploadFile = new File(uploadTempFilePath + File.separator + multipartFile.getOriginalFilename());
@@ -132,6 +133,27 @@ public class AudioController {
 					}
 				}
 
+				
+				//오디오 파일 업로드
+				AudioEntity audioEntity = new AudioEntity();
+				
+				String playTimeFormatter = String.format("%06d", playTime);
+				
+				audioEntity.setC_id(conferenceId);
+				audioEntity.setM_email("sysadmin");
+//				audioEntity.setM_email(uploadTempFileNameArray[uploadTempFileNameArray.length - 2]);
+//				audioEntity.setTime_beg(uploadTempFileNameArray[uploadTempFileNameArray.length - 1].split("-")[0]);
+				audioEntity.setTime_beg("000000");
+//				audioEntity.setTime_end(uploadTempFileNameArray[uploadTempFileNameArray.length - 1].split("-")[1]);
+				audioEntity.setTime_end(playTimeFormatter);
+				audioEntity.setAd_text("리눅스안들리고 그냥 셈플로 너어놈");
+				audioEntity.setAd_wav_filepath(uploadTempRootPath);
+				audioEntity.setAd_download_cnt(0);
+				
+				audioService.insertAudio(audioEntity);
+				System.out.println(file.lastModified());
+				//==============================test=======================
+				
 				File uploadTempDirectory = new File(uploadTempFilePath);
 
 				if (!uploadTempDirectory.isDirectory()) {
@@ -182,9 +204,9 @@ public class AudioController {
 						System.out.println(output);
 						
 						// test data
-						AudioEntity audioEntity = new AudioEntity();
+						//AudioEntity audioEntity = new AudioEntity();
 						
-						String playTimeFormatter = String.format("%06d", playTime);
+						//String playTimeFormatter = String.format("%06d", playTime);
 						
 						audioEntity.setC_id(conferenceId);
 						audioEntity.setM_email("sysadmin");
@@ -224,8 +246,9 @@ public class AudioController {
 		return result;
 	}
 
-	@RequestMapping(value = "/list", method = RequestMethod.POST)
-	public ModelAndView listPost(Locale locale, @RequestParam("c_id") int c_id) {
+	//jsp로 만듬
+	@RequestMapping(value = "/list", produces="text/plain;charset=UTF-8", method = RequestMethod.GET)
+	public @ResponseBody ModelAndView listPost(Locale locale, @RequestParam("c_id") int c_id) {
 		logger.info("/audio/list", locale);
 
 		AudioEntity audioEntity = new AudioEntity();
@@ -240,7 +263,8 @@ public class AudioController {
 
 		return result;
 	}
-
+	
+	/**
 	@RequestMapping(value = "/list", produces="text/plain;charset=UTF-8", method = RequestMethod.GET)
 	public @ResponseBody String listGet(Locale locale, @RequestParam("c_id") int c_id) {
 		logger.info("/audio/list", locale);
@@ -252,7 +276,8 @@ public class AudioController {
 
 		return new com.google.gson.Gson().toJson(audioList);
 	}
-
+	*/
+	
 	@RequestMapping(value = "/download", method = RequestMethod.GET)
 	public void download(Locale locale, HttpServletResponse response, @RequestParam("id") int id) throws IOException {
 		logger.info("/audio/download", locale);
