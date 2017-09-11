@@ -15,7 +15,7 @@
 									</div>
 									<button type="button" class="btn btn-default loginButton" onclick="loginButton();">로그인</button>
 									<button type="button" class="btn btn-default loginButton" onclick="location.href='/login/searchForm'">정보 찾기</button>
-									<button class="btn btn-default loginButton"><a href="/member/joinForm">회원가입</a></button>
+									<button type="button" class="btn btn-default loginButton" onclick="joinMember();">회원가입</button>
 				</form>
 			</div>
 		</div>
@@ -36,6 +36,9 @@
 		}else{
 			 $('.loginFormInfo').submit();
 		}
+	}
+	function joinMember(){
+		location.href="/member/joinForm";
 	}
 </script>
 <script>

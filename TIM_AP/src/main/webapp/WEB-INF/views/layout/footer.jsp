@@ -3,6 +3,6 @@
 <div id="footer">
 <!-- 	<footer> Tiles - Footer Area </footer> -->
 	<c:if test="${id != null }">
-		<img src="/resources/images/audiopaper111.png" width="470px" height="124px">
+<!-- 		<img src="/resources/images/audiopaper111.png" width="470px" height="124px"> -->
 	</c:if>
 </div>
