@@ -37,7 +37,8 @@ th, tr, td  {
 </div>
 <br/>
 
-<button><a href="/audio/form">회의 추가</a></button>
+<input type="button" value="회의 추가" onclick="location.href='/audio/form' " class="btn">
+<input type="button" value="뒤로 가기" onclick="history.back(-1);" class="btn">
 <table>
 	<tr>
 		<th>No.</th>
