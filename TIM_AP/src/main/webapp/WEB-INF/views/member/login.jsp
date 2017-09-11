@@ -3,18 +3,22 @@
 
 <div id="content">
 	<div class="loginForm">
-		로그인 폼
-		<form action="<c:url value='/member/login'/>" method="post" class="loginFormInfo">
-							<div class="form-group">
-								<input type="text" id="id" class="id" name="id" placeholder="아이디를 입력하세요."/>
-							</div>
-							<div class="form-group">
-								<input type="password" id="pw" class="pw" name="pw" placeholder="비밀번호를 입력하세요."/>
-							</div>
-							<button type="button" onclick="loginButton();">로그인</button>
-							<button type="button" class="btn btn-default" onclick="location.href='/login/searchForm'">아이디/비밀번호 찾기</button>
-						</form>
-		<button><a href="/member/joinForm">회원가입</a></button>
+		<div class="loginFormDiv">
+			<div class="loginImgDiv"></div><!-- 이미지 div -->
+			<div class="loginFromDiv">
+				<form action="<c:url value='/member/login'/>" method="post" class="loginFormInfo">
+									<div class="form-group">
+										<input type="text" id="id" class="id form-control" name="id" placeholder="아이디를 입력하세요."/>
+									</div>
+									<div class="form-group">
+										<input type="password" id="pw" class="pw form-control" name="pw" placeholder="비밀번호를 입력하세요."/>
+									</div>
+									<button type="button" class="btn btn-default loginButton" onclick="loginButton();">로그인</button>
+									<button type="button" class="btn btn-default loginButton" onclick="location.href='/login/searchForm'">정보 찾기</button>
+									<button class="btn btn-default loginButton"><a href="/member/joinForm">회원가입</a></button>
+				</form>
+			</div>
+		</div>
 	</div>
 </div>
 <script>
