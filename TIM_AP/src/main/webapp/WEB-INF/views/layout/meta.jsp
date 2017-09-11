@@ -31,12 +31,22 @@ div.headerImg{
 }
 div #headerInfo{
 	text-align : right;
-	float: right; 
+	float: right;
+	margin-right: 10%; 
+	padding-top: 1%;
+}
+
+a{
+	font-weight: bold;
+}
+
+.headerImg{
+	padding-left: 3%;
 }
 
 /* 입력태그 */
 input.memjoin{
-	width: 250px;
+	width: 300px;
 }
 /* 버튼 */
 input.btn{
@@ -61,28 +71,30 @@ ul li label{
 /* 메인화면 div들 */
 div.mainDiv{
 	width: 100%;
-	height: 100%;
+	height: 90%;
+	background: linear-gradient(-135deg, #E4A972, #9941D8) fixed;  	
+	text-align: center;
 }
 div.mainDivOne{
-	width: 30%;
-	height: 80%;
-	background: red;
-	float: left;
+	width: 20%;
+	height: 50%;
+	background: rgba(255, 255, 255, 0.8);
+ 	float: left; 
+ 	margin-left: 20%;
+ 	margin-top: 10%;
+ 	border-radius:50px;
 }
 div.mainDivTwo{
-	width: 30%;
-	height: 80%;
-	background: yellow;
+	width: 20%;
+	height: 50%;
+	background: rgba(255, 255, 255, 0.8);
 	float: left;
-}
-div.mainDivThree{
-	width: 30%;
-	height: 80%;
-	background: blue;
-	float: left;
+	margin-left: 20%;
+	margin-top: 10%; 
+ 	border-radius:50px;
 }
 /* 로그인폼 */
-div.loginForm{
+div.loginForm,.joinDiv{
 	width: 100%;
 	height: 100%;
 	text-align: center;
@@ -124,4 +136,59 @@ input.id,.pw{
 button.loginButton{
 	margin: 2% 3%;
 }
+
+input.joinButton{
+	width: 90px;
+}
+div.joinForm{
+	padding-top: 5%;
+}
+ul.joinUl{
+	margin: 2% auto;
+}
+
+ul li{
+	margin: 1% auto;
+}
+div.joinImgDiv{
+	height: 12%;
+	width: 25%;
+	margin: 0 auto;
+	background-image: url('/resources/images/TECHINMOTION1.png');
+	background-repeat: no-repeat;
+}
+.form-control1{
+/*     display: block; */
+    width: 100%;
+    height: 34px;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #555;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+    -webkit-transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
+    -o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+    transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+}
+div.userInfoImgDiv{
+	width:32%;
+	height:30%;
+	margin: 25% auto 15% auto;
+	background-image: url('/resources/images/if_Padlock_User_Control_88832.png');
+	background-repeat: no-repeat;
+}
+div.conferenceImgDiv{
+	width:32%;
+	height:30%;
+	margin: 25% auto 15% auto;
+	background-image: url('/resources/images/if_Group_Meeting_Light_80844.png');
+	background-repeat: no-repeat;
+}
+
+
 </style>

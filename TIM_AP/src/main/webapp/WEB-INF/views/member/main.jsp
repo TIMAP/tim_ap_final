@@ -22,16 +22,13 @@
 </script>
 
 <div class="mainDiv">
-	<h1>메인이고</h1>
 	<div class="mainDivOne" onclick="loginUserInfo();">
+		<div class="userInfoImgDiv"></div>		
 		<h1>개인정보</h1>
 	</div>
 	
 	<div class="mainDivTwo" onclick="conference();">
+		<div class="conferenceImgDiv"></div>
 		<h1>회의</h1>
 	</div>
-	
-<!-- 	<div class="mainDivThree" onclick="audio();"> -->
-<!-- 		<h1>오디오페이퍼</h1> -->
-<!-- 	</div> -->
 </div>
