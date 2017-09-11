@@ -18,15 +18,28 @@
 	          });
 	      }
 	}
+	function memberUpdate() {
+		var pw = $('#pw').val().trim();
+		var pwPattern = /^[0-9a-zA-Z!@#$%^*+=-]{8,16}$/; //비밀번호패턴
+		
+		if(!pwPattern.test(pw)){
+			alert("비밀번호를 8 - 16자리로 입력해주세요.");
+			$('#pw').val("");
+			$('#pw').focus();
+			return false;
+		}else{
+			$('.updateForm').submit();
+		}
+	}
 </script>
 <div class="joinDiv">
-	<form action="/member/memberUpdate" method="post">
+	<form action="/member/memberUpdate" method="post" class="updateForm">
 		<ul>
 			<li>
 				<label class="joinlabel">아 이 디  :</label><input type = "text" name = "id" class="memjoin" value="${mem.id}" readonly>
 			</li>
 			<li>
-				<label class="joinlabel">비밀번호:</label><input type = "password" name = "pw" class="memjoin" placeholder="변경할 비밀번호를 입력해주세요.">
+				<label class="joinlabel">비밀번호:</label><input type = "password" name = "pw" id="pw" class="memjoin" placeholder="변경할 비밀번호를 입력해주세요.">
 			</li>
 			<li>
 				<label class="joinlabel">이 메 일  :</label><input type ="email" name = "email" class="memjoin" value="${mem.email}" readonly>
@@ -39,7 +52,7 @@
 			</li>
 		</ul>
 	<input type="button" value="뒤로가기" onclick="history.back(-1);" class="btn"> 
-	<input type="submit" value="수정" class="btn">
+	<input type="button" onclick="memberUpdate();" value="수정" class="btn">
 	<input type="reset" value="초기화" class="btn">
 	<input type="button" value="회원탈퇴" class="btn" onclick="memberDelete(${mem.id});">
 	</form>
