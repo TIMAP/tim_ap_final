@@ -254,7 +254,8 @@ public class AudioController {
 				// - 1].split("-")[1]);
 				audioEntity.setTime_end(playTimeFormatter);
 				audioEntity.setAd_text("리눅스안들리고 그냥 셈플로 너어놈");
-				audioEntity.setAd_wav_filepath(uploadTempRootPath);
+				audioEntity.setAd_wav_filepath(uploadTempRootPath + File.separator
+						+ UniqueFileIdGenerator.getUniqueFileId());
 				audioEntity.setAd_download_cnt(0);
 
 				audioService.insertAudio(audioEntity);

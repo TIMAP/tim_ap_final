@@ -8,7 +8,7 @@ function homeMain(){
 	<div class="container-fliud headerTopColor">
 		<c:if test="${id != null }">	
 			<div class="headerImg textLeft" onclick="homeMain();">
-				<img class="headerImg" src="/resources/images/TECHINMOTION1.png" width="400px" height="100px">
+				<img class="headerImg" src="/resources/images/TECHINMOTION1.png" width="400px" height="100px" style="cursor:pointer" >
 			</div>
 			<div id="headerInfo" class="headerImg textRight">
 				<a class="headerTop">
