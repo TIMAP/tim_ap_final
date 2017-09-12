@@ -14,6 +14,8 @@
 			<mapping path="/**" />
 			<exclude-mapping path="/member/loginform"/>
 			<exclude-mapping path="/member/login"/>
+			<exclude-mapping path="/member/joinForm"/>
+			<exclude-mapping path="/member/join"/>
 			<beans:bean class="com.tim.ap.controller.loginCheck">
 			</beans:bean>
 		</interceptor>
