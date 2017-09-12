@@ -45,17 +45,17 @@ public class AudioController {
 
 	@Autowired
 	private AudioService audioService;
-	
+
 	@Autowired
 	private ConferenceService conferenceService;
-	
-	//서버 프로세스 구동에 필요한 변수
-	public String filetemppath="/home/speech/20161012/2016Jul06_ASR_Package_8k_DNN_support/STT/converter/wavtemp";
-	public String uploadpath="/home/speech/20161012/2016Jul06_ASR_Package_8k_DNN_support/STT/converter/wavfile/";
-	public String downloadpath="/home/speech/20161012/2016Jul06_ASR_Package_8k_DNN_support/STT/converter/wavInfo/";
-	public String command="/home/speech/20161012/2016Jul06_ASR_Package_8k_DNN_support/STT/converter/conv.sh";
-	public String mlfpath="/home/speech/20161012/2016Jul06_ASR_Package_8k_DNN_support/STT/result/TEST_MT_N1_n0.mlf2.org";
-	public String run="/home/speech/20161012/2016Jul06_ASR_Package_8k_DNN_support/STT/11_MT_list.dnn_gpu.sh";
+
+	// 서버 프로세스 구동에 필요한 변수
+	public String filetemppath = "/home/speech/20161012/2016Jul06_ASR_Package_8k_DNN_support/STT/converter/wavtemp";
+	public String uploadpath = "/home/speech/20161012/2016Jul06_ASR_Package_8k_DNN_support/STT/converter/wavfile/";
+	public String downloadpath = "/home/speech/20161012/2016Jul06_ASR_Package_8k_DNN_support/STT/converter/wavInfo/";
+	public String command = "/home/speech/20161012/2016Jul06_ASR_Package_8k_DNN_support/STT/converter/conv.sh";
+	public String mlfpath = "/home/speech/20161012/2016Jul06_ASR_Package_8k_DNN_support/STT/result/TEST_MT_N1_n0.mlf2.org";
+	public String run = "/home/speech/20161012/2016Jul06_ASR_Package_8k_DNN_support/STT/11_MT_list.dnn_gpu.sh";
 	public String clean = "/home/speech/20161012/2016Jul06_ASR_Package_8k_DNN_support/STT/clean.sh";
 
 	@RequestMapping("/form")
@@ -68,42 +68,40 @@ public class AudioController {
 		return result;
 	}
 
-	@RequestMapping("/upload")
-	public ModelAndView upload(Locale locale, @RequestParam("multipartFile") List<MultipartFile> multipartFiles, ConferenceEntity conferenceEntity) throws IOException, UnsupportedAudioFileException {
+	@RequestMapping("/update")
+	public ModelAndView update(Locale locale, @RequestParam("multipartFile") List<MultipartFile> multipartFiles,
+			ConferenceEntity conferenceEntity) throws IOException, UnsupportedAudioFileException {
 		logger.info("/audio/upload", locale);
-		
-		System.out.println("FileSize = "+multipartFiles.get(0).getSize()+" // FileName = "+ multipartFiles.get(0).getName());
-		System.out.println(conferenceEntity);
-		
+
 		File file = convert(multipartFiles.get(0));
-		
-		 AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(file);
-		    AudioFormat format = audioInputStream.getFormat();
-		    long audioFileLength = file.length();
-		    int frameSize = format.getFrameSize();
-		    float frameRate = format.getFrameRate();
-		    float durationInSeconds = (audioFileLength / (frameSize * frameRate));
-		    int playTime = (int)durationInSeconds;
-		    System.out.println("몇초? ->"+ playTime+"초");
-		
-		conferenceService.insertConference(conferenceEntity);
-		
-		int conferenceId = conferenceService.selectConference().getId(); 
-		
+
+		AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(file);
+		AudioFormat format = audioInputStream.getFormat();
+		long audioFileLength = file.length();
+		int frameSize = format.getFrameSize();
+		float frameRate = format.getFrameRate();
+		float durationInSeconds = (audioFileLength / (frameSize * frameRate));
+		int playTime = (int) durationInSeconds;
+		System.out.println("몇초? ->" + playTime + "초");
+
+		int conferenceId = conferenceService.selectConference().getId();
+
 		try {
 			if (multipartFiles != null && multipartFiles.size() != 0) {
 				// get information - audio.properties
-				
-				//경로 설정을 직접 정해 주었습니다.
+
+				// 경로 설정을 직접 정해 주었습니다.
 				String uploadTempRootPath = "C:/tim/tim_ap_final/TIM_AP/src/main/webapp/resources/audio";
-				//String uploadTempRootPath = System.getProperty("catalina.home") + File.separator + "audio_temp";
+				// String uploadTempRootPath = System.getProperty("catalina.home") +
+				// File.separator + "audio_temp";
 				System.out.println(uploadTempRootPath);
 
 				if (!FileTool.isExistsDirectory(uploadTempRootPath)) {
 					FileTool.makeDirectory(uploadTempRootPath);
 				}
 
-				String uploadTempFilePath = uploadTempRootPath + File.separator + UniqueFileIdGenerator.getUniqueFileId();
+				String uploadTempFilePath = uploadTempRootPath + File.separator
+						+ UniqueFileIdGenerator.getUniqueFileId();
 				FileTool.makeDirectory(uploadTempFilePath);
 
 				for (int i = 0; i < multipartFiles.size(); i++) {
@@ -116,12 +114,119 @@ public class AudioController {
 
 						byte[] bytes = multipartFile.getBytes();
 
-						//tepFileName을 회의 아이디와 날짜로 저장
-						String tempFileName = conferenceId+" "+dateMaker()+" "+UniqueFileIdGenerator.getUniqueFileId()+".wav";
-						//String tempFileName = UniqueFileIdGenerator.getUniqueFileId() +"_"+ dateMaker() + ".wav" ;
-						
+						// tepFileName을 회의 아이디와 날짜로 저장
+						String tempFileName = conferenceId + " " + dateMaker() + " "
+								+ UniqueFileIdGenerator.getUniqueFileId() + ".wav";
+						// String tempFileName = UniqueFileIdGenerator.getUniqueFileId() +"_"+
+						// dateMaker() + ".wav" ;
+
 						File uploadFile = new File(uploadTempFilePath + File.separator + tempFileName);
-//						File uploadFile = new File(uploadTempFilePath + File.separator + multipartFile.getOriginalFilename());
+						// File uploadFile = new File(uploadTempFilePath + File.separator +
+						// multipartFile.getOriginalFilename());
+						BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(uploadFile));
+
+						stream.write(bytes);
+						stream.close();
+
+						logger.info("/audio/upload : Upload File Location : " + uploadFile.getAbsolutePath());
+					} else {
+						throw new FileUploadException();
+					}
+				}
+				// 오디오 파일 업로드
+				AudioEntity audioEntity = new AudioEntity();
+
+				String playTimeFormatter = String.format("%06d", playTime);
+
+				audioEntity.setC_id(conferenceId);
+				audioEntity.setM_email("sysadmin");
+				// audioEntity.setM_email(uploadTempFileNameArray[uploadTempFileNameArray.length
+				// - 2]);
+				// audioEntity.setTime_beg(uploadTempFileNameArray[uploadTempFileNameArray.length
+				// - 1].split("-")[0]);
+				audioEntity.setTime_beg("000000");
+				// audioEntity.setTime_end(uploadTempFileNameArray[uploadTempFileNameArray.length
+				// - 1].split("-")[1]);
+				audioEntity.setTime_end(playTimeFormatter);
+				audioEntity.setAd_text("리눅스안들리고 그냥 셈플로 너어놈");
+				audioEntity.setAd_wav_filepath(uploadTempRootPath);
+				audioEntity.setAd_download_cnt(0);
+
+				audioService.insertAudio(audioEntity);
+				System.out.println(file.lastModified());
+
+			}
+		} catch (FileUploadException fe) {
+			fe.printStackTrace();
+			logger.error("/audio/upload", "File Upload Error");
+		} catch (Exception e) {
+			logger.error("/audio/upload", "Error");
+			e.printStackTrace();
+		}
+		return done(locale);
+	}
+
+	@RequestMapping("/upload")
+	public ModelAndView upload(Locale locale, @RequestParam("multipartFile") List<MultipartFile> multipartFiles,
+			ConferenceEntity conferenceEntity) throws IOException, UnsupportedAudioFileException {
+		logger.info("/audio/upload", locale);
+
+		System.out.println(
+				"FileSize = " + multipartFiles.get(0).getSize() + " // FileName = " + multipartFiles.get(0).getName());
+		System.out.println(conferenceEntity);
+
+		File file = convert(multipartFiles.get(0));
+
+		AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(file);
+		AudioFormat format = audioInputStream.getFormat();
+		long audioFileLength = file.length();
+		int frameSize = format.getFrameSize();
+		float frameRate = format.getFrameRate();
+		float durationInSeconds = (audioFileLength / (frameSize * frameRate));
+		int playTime = (int) durationInSeconds;
+		System.out.println("몇초? ->" + playTime + "초");
+
+		conferenceService.insertConference(conferenceEntity);
+
+		int conferenceId = conferenceService.selectConference().getId();
+
+		try {
+			if (multipartFiles != null && multipartFiles.size() != 0) {
+				// get information - audio.properties
+
+				// 경로 설정을 직접 정해 주었습니다.
+				String uploadTempRootPath = "C:/tim/tim_ap_final/TIM_AP/src/main/webapp/resources/audio";
+				// String uploadTempRootPath = System.getProperty("catalina.home") +
+				// File.separator + "audio_temp";
+				System.out.println(uploadTempRootPath);
+
+				if (!FileTool.isExistsDirectory(uploadTempRootPath)) {
+					FileTool.makeDirectory(uploadTempRootPath);
+				}
+
+				String uploadTempFilePath = uploadTempRootPath + File.separator
+						+ UniqueFileIdGenerator.getUniqueFileId();
+				FileTool.makeDirectory(uploadTempFilePath);
+
+				for (int i = 0; i < multipartFiles.size(); i++) {
+					MultipartFile multipartFile = multipartFiles.get(i);
+
+					if (!multipartFile.isEmpty()) {
+						AudioEntity audioDataEntity = new AudioEntity();
+
+						audioDataEntity.setMultipartFile(multipartFile);
+
+						byte[] bytes = multipartFile.getBytes();
+
+						// tepFileName을 회의 아이디와 날짜로 저장
+						String tempFileName = conferenceId + " " + dateMaker() + " "
+								+ UniqueFileIdGenerator.getUniqueFileId() + ".wav";
+						// String tempFileName = UniqueFileIdGenerator.getUniqueFileId() +"_"+
+						// dateMaker() + ".wav" ;
+
+						File uploadFile = new File(uploadTempFilePath + File.separator + tempFileName);
+						// File uploadFile = new File(uploadTempFilePath + File.separator +
+						// multipartFile.getOriginalFilename());
 						BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(uploadFile));
 
 						stream.write(bytes);
@@ -133,27 +238,29 @@ public class AudioController {
 					}
 				}
 
-				
-				//오디오 파일 업로드
+				// 오디오 파일 업로드
 				AudioEntity audioEntity = new AudioEntity();
-				
+
 				String playTimeFormatter = String.format("%06d", playTime);
-				
+
 				audioEntity.setC_id(conferenceId);
 				audioEntity.setM_email("sysadmin");
-//				audioEntity.setM_email(uploadTempFileNameArray[uploadTempFileNameArray.length - 2]);
-//				audioEntity.setTime_beg(uploadTempFileNameArray[uploadTempFileNameArray.length - 1].split("-")[0]);
+				// audioEntity.setM_email(uploadTempFileNameArray[uploadTempFileNameArray.length
+				// - 2]);
+				// audioEntity.setTime_beg(uploadTempFileNameArray[uploadTempFileNameArray.length
+				// - 1].split("-")[0]);
 				audioEntity.setTime_beg("000000");
-//				audioEntity.setTime_end(uploadTempFileNameArray[uploadTempFileNameArray.length - 1].split("-")[1]);
+				// audioEntity.setTime_end(uploadTempFileNameArray[uploadTempFileNameArray.length
+				// - 1].split("-")[1]);
 				audioEntity.setTime_end(playTimeFormatter);
 				audioEntity.setAd_text("리눅스안들리고 그냥 셈플로 너어놈");
 				audioEntity.setAd_wav_filepath(uploadTempRootPath);
 				audioEntity.setAd_download_cnt(0);
-				
+
 				audioService.insertAudio(audioEntity);
 				System.out.println(file.lastModified());
-				//==============================test=======================
-				
+				// ==============================test=======================
+
 				File uploadTempDirectory = new File(uploadTempFilePath);
 
 				if (!uploadTempDirectory.isDirectory()) {
@@ -162,15 +269,18 @@ public class AudioController {
 
 				// get information - audio.properties
 				String uploadRealRootPath = "/usr/local/ap/data/";
-//				String uploadRealRootPath = "/home/speech/20161012/2016Jul06_ASR_Package_8k_DNN_support/STT/converter/wavInfo/";
-//				String uploadRealRootPath = "d:/temp/";
+				// String uploadRealRootPath =
+				// "/home/speech/20161012/2016Jul06_ASR_Package_8k_DNN_support/STT/converter/wavInfo/";
+				// String uploadRealRootPath = "d:/temp/";
 
 				File[] uploadTempFileList = uploadTempDirectory.listFiles();
 
 				for (int i = 0; i < uploadTempFileList.length; i++) {
 					File uploadTempFile = uploadTempFileList[i];
-					String uploadTempFileName = uploadTempFile.getName().substring(0, uploadTempFile.getName().lastIndexOf("."));
-					String uploadTempFileExtention = uploadTempFile.getName() .substring(uploadTempFile.getName().lastIndexOf(".") + 1);
+					String uploadTempFileName = uploadTempFile.getName().substring(0,
+							uploadTempFile.getName().lastIndexOf("."));
+					String uploadTempFileExtention = uploadTempFile.getName()
+							.substring(uploadTempFile.getName().lastIndexOf(".") + 1);
 					String uploadRealFilePath = uploadRealRootPath;
 
 					if ("WAV".equals(uploadTempFileExtention.toUpperCase())) {
@@ -185,35 +295,39 @@ public class AudioController {
 						}
 
 						String sttPath = uploadpath;
-						
-						//프로세스 생성 후 클린(이전파일 데이터 삭제)
+
+						// 프로세스 생성 후 클린(이전파일 데이터 삭제)
 						CommendProcess cp = new CommendProcess();
 						cp.commend(clean);
 
 						FileTool.copy(uploadTempFile.getAbsolutePath(), sttPath + uploadTempFile.getName());
 						FileTool.copy(uploadTempFile.getAbsolutePath(), uploadRealRootPath + uploadTempFile.getName());
 
-						logger.info("/audio/upload : Move File Location : " + uploadRealFilePath + uploadTempFile.getName());
+						logger.info("/audio/upload : Move File Location : " + uploadRealFilePath
+								+ uploadTempFile.getName());
 
 						cp.commend(command);
 						cp.commendSTT(run);
-						
+
 						OutputString out = new OutputString();
 						String output = out.output(mlfpath);
-						
+
 						System.out.println(output);
-						
+
 						// test data
-						//AudioEntity audioEntity = new AudioEntity();
-						
-						//String playTimeFormatter = String.format("%06d", playTime);
-						
+						// AudioEntity audioEntity = new AudioEntity();
+
+						// String playTimeFormatter = String.format("%06d", playTime);
+
 						audioEntity.setC_id(conferenceId);
 						audioEntity.setM_email("sysadmin");
-//						audioEntity.setM_email(uploadTempFileNameArray[uploadTempFileNameArray.length - 2]);
-//						audioEntity.setTime_beg(uploadTempFileNameArray[uploadTempFileNameArray.length - 1].split("-")[0]);
+						// audioEntity.setM_email(uploadTempFileNameArray[uploadTempFileNameArray.length
+						// - 2]);
+						// audioEntity.setTime_beg(uploadTempFileNameArray[uploadTempFileNameArray.length
+						// - 1].split("-")[0]);
 						audioEntity.setTime_beg("000000");
-//						audioEntity.setTime_end(uploadTempFileNameArray[uploadTempFileNameArray.length - 1].split("-")[1]);
+						// audioEntity.setTime_end(uploadTempFileNameArray[uploadTempFileNameArray.length
+						// - 1].split("-")[1]);
 						audioEntity.setTime_end(playTimeFormatter);
 						audioEntity.setAd_text(output);
 						audioEntity.setAd_wav_filepath(uploadTempFile.getName());
@@ -246,8 +360,8 @@ public class AudioController {
 		return result;
 	}
 
-	//jsp로 만듬
-	@RequestMapping(value = "/list", produces="text/plain;charset=UTF-8", method = RequestMethod.GET)
+	// jsp로 만듬
+	@RequestMapping(value = "/list", produces = "text/plain;charset=UTF-8", method = RequestMethod.GET)
 	public @ResponseBody ModelAndView listPost(Locale locale, @RequestParam("c_id") int c_id) {
 		logger.info("/audio/list", locale);
 
@@ -259,25 +373,27 @@ public class AudioController {
 		List<AudioEntity> audioList = audioService.getAudioList(audioEntity);
 
 		result.addObject("result", audioList);
+		result.addObject("c_id", c_id);
 		result.setViewName("/audio/list");
 
 		return result;
 	}
-	
+
 	/**
-	@RequestMapping(value = "/list", produces="text/plain;charset=UTF-8", method = RequestMethod.GET)
-	public @ResponseBody String listGet(Locale locale, @RequestParam("c_id") int c_id) {
-		logger.info("/audio/list", locale);
+	 * @RequestMapping(value = "/list", produces="text/plain;charset=UTF-8", method
+	 *                       = RequestMethod.GET) public @ResponseBody String
+	 *                       listGet(Locale locale, @RequestParam("c_id") int c_id)
+	 *                       { logger.info("/audio/list", locale);
+	 * 
+	 *                       AudioEntity audioEntity = new AudioEntity();
+	 *                       audioEntity.setC_id(c_id);
+	 * 
+	 *                       List<AudioEntity> audioList =
+	 *                       audioService.getAudioList(audioEntity);
+	 * 
+	 *                       return new com.google.gson.Gson().toJson(audioList); }
+	 */
 
-		AudioEntity audioEntity = new AudioEntity();
-		audioEntity.setC_id(c_id);
-
-		List<AudioEntity> audioList = audioService.getAudioList(audioEntity);
-
-		return new com.google.gson.Gson().toJson(audioList);
-	}
-	*/
-	
 	@RequestMapping(value = "/download", method = RequestMethod.GET)
 	public void download(Locale locale, HttpServletResponse response, @RequestParam("id") int id) throws IOException {
 		logger.info("/audio/download", locale);
@@ -295,11 +411,12 @@ public class AudioController {
 		response.setContentType("application/octet-stream");
 		response.setHeader("Content-Disposition", "attachment; filename=\"" + audioEntity.getAd_wav_filepath() + "\"");
 
-		//String filePath = "C:\\Users\\JunHyuk\\Desktop\\wav_file\\wav_data";
+		// String filePath = "C:\\Users\\JunHyuk\\Desktop\\wav_file\\wav_data";
 		String filePath = "/usr/local/ap";
 
 		OutputStream outPutStream = response.getOutputStream();
-		FileInputStream fileInputStream = new FileInputStream(filePath + File.separator + audioEntity.getAd_wav_filepath());
+		FileInputStream fileInputStream = new FileInputStream(
+				filePath + File.separator + audioEntity.getAd_wav_filepath());
 
 		int n = 0;
 		byte[] b = new byte[512];
@@ -311,22 +428,21 @@ public class AudioController {
 		fileInputStream.close();
 		outPutStream.close();
 	}
-	
-	public String dateMaker(){
-		SimpleDateFormat mSimpleDateFormat = new SimpleDateFormat ( "yyyy.MM.dd", Locale.KOREA );
-		Date currentTime = new Date ();
-		String mTime = mSimpleDateFormat.format ( currentTime );
+
+	public String dateMaker() {
+		SimpleDateFormat mSimpleDateFormat = new SimpleDateFormat("yyyy.MM.dd", Locale.KOREA);
+		Date currentTime = new Date();
+		String mTime = mSimpleDateFormat.format(currentTime);
 		return mTime;
 	}
-	
-	public File convert(MultipartFile file) throws IOException
-	{    
-	    File convFile = new File(file.getOriginalFilename());
-	    convFile.createNewFile(); 
-	    FileOutputStream fos = new FileOutputStream(convFile); 
-	    fos.write(file.getBytes());
-	    fos.close(); 
-	    return convFile;
+
+	public File convert(MultipartFile file) throws IOException {
+		File convFile = new File(file.getOriginalFilename());
+		convFile.createNewFile();
+		FileOutputStream fos = new FileOutputStream(convFile);
+		fos.write(file.getBytes());
+		fos.close();
+		return convFile;
 	}
-	
+
 }

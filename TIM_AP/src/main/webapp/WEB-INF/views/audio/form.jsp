@@ -243,7 +243,10 @@ $(document).ready(function() {
 	</div>
 	<div id="content">
 		<form action="upload" method="post" enctype="multipart/form-data">
-		    <input id="addFile" type="button" value="파일추가" class="btn btn-default loginButton joinButton conferenceSelect"/>&nbsp;&nbsp;<input type="submit" value="완료" class="btn btn-default loginButton joinButton conferenceSelect"/><input type="reset" value="취소" class="btn btn-default loginButton joinButton conferenceSelect">    
+		    <input id="addFile" type="button" value="파일추가" class="btn btn-default loginButton joinButton conferenceSelect"/>&nbsp;&nbsp;<input type="submit" value="완료" class="btn btn-default loginButton joinButton conferenceSelect"/>
+		    <input type="button"
+				class="btn btn-default loginButton joinButton conferenceSelect"
+				value="뒤로 가기" onclick="history.back(-1);" class="btn">    
 			<input type="button" id="holdConfbtn" value="회의개설" class="btn btn-default loginButton joinButton conferenceSelect">
 <!-- 		    <table id="fileListTable" > -->
 <!-- 	        	<tr> -->
