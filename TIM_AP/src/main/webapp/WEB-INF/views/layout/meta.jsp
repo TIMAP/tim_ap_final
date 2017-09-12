@@ -133,6 +133,7 @@ input.id,.pw{
 	padding-bottom: 7px;
 	margin-bottom: 0;
 }
+
 button.loginButton{
 	margin: 2% 3%;
 }
@@ -189,6 +190,54 @@ div.conferenceImgDiv{
 	background-image: url('/resources/images/if_Group_Meeting_Light_80844.png');
 	background-repeat: no-repeat;
 }
+
+form.updateForm{
+	padding-top: 10%;
+}
+
+form.updateForm ul{
+	margin-bottom: 3%;
+}
+
+table.conferenceList{
+	text-align: center;
+	width: 40%;
+}
+
+.conferenceSelect{
+	height: 30px;
+}
+
+.multipartFile1 { 
+/* display: inline-block;  */
+/* padding: .5em .75em;  */
+/* color: #999;  */
+font-size: inherit; 
+/* line-height: normal;  */
+/* vertical-align: middle;  */
+background-color: #fdfdfd; 
+cursor: pointer; 
+border: 1px solid #ebebeb; 
+/* border-bottom-color: #e2e2e2;  */
+/* border-radius: .25em;  */
+} 
+input.multipartFile[type="file"] { 
+/* 파일 필드 숨기기 */ 
+ position: absolute;   
+ width: 1px;   
+ height: 1px;  
+ padding: 0;  
+ margin: -1px;  
+ overflow: hidden;   
+ clip:rect(0,0,0,0);  
+ border: 0;  
+}
+
+div#conferenceInfo{
+	padding-top: 5%;
+	margin-bottom: 2%;
+}
+
 
 
 </style>

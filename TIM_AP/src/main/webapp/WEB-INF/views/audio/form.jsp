@@ -35,7 +35,7 @@ $(document).ready(function() {
 	
 	$('#addFile').click(function() {
 		var fileIndex = $('#fileListTable tr').children().length;      
-		$('#fileListTable').append('<tr><td>'+'<input type="file" name="multipartFile" required="required" />'+'</td></tr>');
+		$('#fileListTable').append('<tr><td>'+'<input type="file" name="multipartFile" required="required"/>'+'</td></tr>');
     });
     
     $('#holdConfbtn').click(function() {
@@ -192,7 +192,8 @@ $(document).ready(function() {
 		align-items: center;
 		height: 15vh;
 		width: 50vh;
-		margin: 0 0;
+/* 		margin: 0 0; */
+		margin: 1% auto;
 	}
 	canvas { 
 		display: inline-block; 
@@ -235,38 +236,42 @@ $(document).ready(function() {
 
 	</style>	
 
-<div id="content">
-	<form action="upload" method="post" enctype="multipart/form-data">
-	    <input id="addFile" type="button" value="파일추가" />&nbsp;&nbsp;<input type="submit" value="완료" /><input type="reset" value="취소"><br /><br />    
-	    <table id="fileListTable">
-        	<tr><td><input type="file" name="multipartFile" required="required" /></td></tr>        
-    	</table>
-	</form>
-</div>
-
-<div id="conferenceInfo">
-
-	회의명 : <input type="text" id="title" name="title">  날짜 : <input type="text" id="date" name="date" value="date" readonly><br />
-	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="button" id="holdConfbtn" value="회의개설">
-
-</div>
-
-
-<div id="voiceRecorder">
-녹음영역
-	<div id="viz">
-		<canvas id="analyser" width="300" height="200"></canvas>
-		<canvas id="wavedisplay" width="300" height="200"></canvas>
+<div class="mainDiv">
+	
+	<div id="conferenceInfo">
+		회의명 : <input type="text" id="title" name="title" class="memjoin form-control1 conferenceSelect">  날짜 : <input type="text" id="date" name="date" value="date" readonly class="memjoin form-control1 conferenceSelect">
 	</div>
-	<div id="controls">
-		<img id="record" src="/resources/images/mic1.png" onclick="toggleRecording(this);" width="50px" height="50px"> 
-		<a id="save" href="#">
-		<img src="/resources/images/save.svg" width="50px" height="50px">
-		</a>
+	<div id="content">
+		<form action="upload" method="post" enctype="multipart/form-data">
+		    <input id="addFile" type="button" value="파일추가" class="btn btn-default loginButton joinButton conferenceSelect"/>&nbsp;&nbsp;<input type="submit" value="완료" class="btn btn-default loginButton joinButton conferenceSelect"/><input type="reset" value="취소" class="btn btn-default loginButton joinButton conferenceSelect">    
+			<input type="button" id="holdConfbtn" value="회의개설" class="btn btn-default loginButton joinButton conferenceSelect">
+<!-- 		    <table id="fileListTable" > -->
+<!-- 	        	<tr> -->
+<!-- 	        		<td> -->
+<!-- <!-- 	        			<input type="file" name="multipartFile" required="required"/> --> 
+<!-- 	        			<label for="multipartFile" class="multipartFile1 btn btn-default loginButton joinButton conferenceSelect">업로드</label> <input type="file" id="multipartFile" name="multipartFile" class="multipartFile">  -->
+<!-- 	        		</td> -->
+<!-- 	        	</tr>         -->
+<!-- 	    	</table> -->
+		</form>
 	</div>
-	<input type="button" id="closeConf" value="회의종료">
+	
+	
+	<div id="voiceRecorder">
+	녹음영역
+		<div id="viz">
+			<canvas id="analyser" width="300" height="200"></canvas>
+			<canvas id="wavedisplay" width="300" height="200"></canvas>
+		</div>
+		<div id="controls">
+			<img id="record" src="/resources/images/mic1.png" onclick="toggleRecording(this);" width="50px" height="50px"> 
+			<a id="save" href="#">
+			<img src="/resources/images/save.svg" width="50px" height="50px">
+			</a>
+		</div>
+		<input type="button" id="closeConf" value="회의종료" class="btn btn-default loginButton joinButton conferenceSelect">
+	</div>
 </div>
-
 
 
 
