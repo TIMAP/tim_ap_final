@@ -72,12 +72,11 @@ public class MemberController {
 	public @ResponseBody ModelAndView login(Locale locale, MemberEntity member,HttpSession session) {
 		logger.info("/member/login", locale);
 		ModelAndView result = new ModelAndView();
-		System.out.println("로그인");
 		String yesOrNo = "";
 		MemberEntity mem = memberService.getMember(member.getId());
 		if(mem == null){
 			result.addObject("failed", "false");
-			result.addObject("msg", "가입하지 않은 사용자입니다.");
+			result.addObject("msg", "가입하지 않은 회원 입니다.");
 			result.setViewName("/member/login");
 		}else{
 			yesOrNo = mem.getDisabled()+"";
@@ -110,10 +109,6 @@ public class MemberController {
 						session.setAttribute("id", mem.getId());
 						session.setAttribute("name", name);
 						result.addObject("name", name);
-					}else{
-						result.addObject("failed", "false");
-						result.addObject("msg", "아이디 또는 비밀번호가 틀렸습니다.");
-						result.setViewName("/member/login");
 					}
 				}
 			}else{
