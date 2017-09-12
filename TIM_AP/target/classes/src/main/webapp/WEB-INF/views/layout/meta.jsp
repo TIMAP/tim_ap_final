@@ -238,8 +238,6 @@ div#conferenceInfo{
 	margin-bottom: 2%;
 }
 
-a,i {
-	color: black;
-}
+
 
 </style>
