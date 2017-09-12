@@ -72,51 +72,50 @@ public class MemberController {
 	public @ResponseBody ModelAndView login(Locale locale, MemberEntity member,HttpSession session) {
 		logger.info("/member/login", locale);
 		ModelAndView result = new ModelAndView();
-		System.out.println("로그인");
+		String yesOrNo = "";
 		MemberEntity mem = memberService.getMember(member.getId());
-		String yesOrNo = mem.getDisabled()+"";
-		System.out.println(member.getId());
-		System.out.println(member.getPw());
-		if(yesOrNo.equals("N")){
-			//sha알고리즘 형태로 변환시켜주는것.
-			try {
-	            MessageDigest md = MessageDigest.getInstance("SHA-512"); 
-	            md.update(member.getPw().getBytes()); 
-	            byte byteData[] = md.digest();
-	 
-	            StringBuffer sb = new StringBuffer(); 
-	            for(int i=0; i<byteData.length; i++) {
-	                sb.append(Integer.toString((byteData[i]&0xff) + 0x100, 16).substring(1));
-	            }
-	 
-	            String retVal = sb.toString();
-	            System.out.println(retVal); 
-	            member.setPw(retVal);
-	        } catch(NoSuchAlgorithmException e){
-	            e.printStackTrace(); 
-	        }
-			//
-			result.addObject("failed", "true");
-			if(mem != null){
-				//member는 로그인폼에서 받아온 값이고, mem은 DB에 저장된 값을 가져온것.
-				//비교후 넘어가거나 로그인이 안되있다면 다시 로그인창으로 보내는것.
-				if(member.getPw().equals(mem.getPw())){
-					result.setViewName("/member/main");
-					String name = mem.getName_first()+mem.getName_last();
-					session.setAttribute("id", mem.getId());
-					session.setAttribute("name", name);
-					result.addObject("name", name);
+		if(mem == null){
+			result.addObject("failed", "false");
+			result.addObject("msg", "가입하지 않은 회원 입니다.");
+			result.setViewName("/member/login");
+		}else{
+			yesOrNo = mem.getDisabled()+"";
+			if(yesOrNo.equals("N")){
+				//sha알고리즘 형태로 변환시켜주는것.
+				try {
+					MessageDigest md = MessageDigest.getInstance("SHA-512"); 
+					md.update(member.getPw().getBytes()); 
+					byte byteData[] = md.digest();
+					
+					StringBuffer sb = new StringBuffer(); 
+					for(int i=0; i<byteData.length; i++) {
+						sb.append(Integer.toString((byteData[i]&0xff) + 0x100, 16).substring(1));
+					}
+					
+					String retVal = sb.toString();
+					System.out.println(retVal); 
+					member.setPw(retVal);
+				} catch(NoSuchAlgorithmException e){
+					e.printStackTrace(); 
+				}
+				//
+				result.addObject("failed", "true");
+				if(mem != null){
+					//member는 로그인폼에서 받아온 값이고, mem은 DB에 저장된 값을 가져온것.
+					//비교후 넘어가거나 로그인이 안되있다면 다시 로그인창으로 보내는것.
+					if(member.getPw().equals(mem.getPw())){
+						result.setViewName("/member/main");
+						String name = mem.getName_first()+mem.getName_last();
+						session.setAttribute("id", mem.getId());
+						session.setAttribute("name", name);
+						result.addObject("name", name);
+					}
 				}
 			}else{
 				result.addObject("failed", "false");
-				result.addObject("msg", "아이디와 비밀번호를 입력해주세요.");
-//				result.setViewName("/member/login");
-				result.addObject("uri", "/member/login");
+				result.addObject("msg", "탈퇴한 회원입니다.");
+				result.setViewName("/member/login");
 			}
-		}else{
-			result.addObject("failed", "false");
-			result.addObject("msg", "탈퇴한 회원입니다.");
-			result.setViewName("/member/login");
 		}
 		return result;
 	}
