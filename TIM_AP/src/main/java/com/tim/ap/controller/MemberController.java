@@ -106,6 +106,7 @@ public class MemberController {
 					if(member.getPw().equals(mem.getPw())){
 						result.setViewName("/member/main");
 						String name = mem.getName_first()+mem.getName_last();
+						
 						session.setAttribute("id", mem.getId());
 						session.setAttribute("name", name);
 						result.addObject("name", name);

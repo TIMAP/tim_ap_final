@@ -259,6 +259,7 @@ th, tr, td  {
 		<td style="text-align:center; width:100px;">AD_TEXT</td>
 		<td style="text-align:center; width:100px;">AD_WAV_FILEPATH</td>
 		<td style="text-align:center; width:100px;">AD_DOWNLOAD_CNT</td>
+		<td style="text-align:center; width:100px;">다운로드</td>
 	</tr>
 
 	<c:forEach items="${result}" var="audioEntity">
@@ -271,6 +272,7 @@ th, tr, td  {
 			<td style="text-align:center;">${audioEntity.ad_text}</td>
 			<td style="text-align:center;">${audioEntity.ad_wav_filepath}</td>
 			<td style="text-align:center;">${audioEntity.ad_download_cnt}</td>
+			<td style="text-align:center;"><img src="/resources/images/save.svg"></td>
 		</tr>
 	</c:forEach>
 </table>

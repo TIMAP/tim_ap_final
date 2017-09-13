@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Locale;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
@@ -33,8 +34,10 @@ import com.tim.ap.CommendProcess;
 import com.tim.ap.OutputString;
 import com.tim.ap.entity.AudioEntity;
 import com.tim.ap.entity.ConferenceEntity;
+import com.tim.ap.entity.MemberEntity;
 import com.tim.ap.service.AudioService;
 import com.tim.ap.service.ConferenceService;
+import com.tim.ap.service.MemberService;
 import com.tim.ap.util.FileTool;
 import com.tim.ap.util.UniqueFileIdGenerator;
 
@@ -48,6 +51,9 @@ public class AudioController {
 
 	@Autowired
 	private ConferenceService conferenceService;
+	
+	@Autowired
+	private MemberService memberService;
 
 	// 서버 프로세스 구동에 필요한 변수
 	public String filetemppath = "/home/speech/20161012/2016Jul06_ASR_Package_8k_DNN_support/STT/converter/wavtemp";
@@ -70,7 +76,7 @@ public class AudioController {
 
 	@RequestMapping("/update")
 	public ModelAndView update(Locale locale, @RequestParam("multipartFile") List<MultipartFile> multipartFiles,
-			ConferenceEntity conferenceEntity) throws IOException, UnsupportedAudioFileException {
+			ConferenceEntity conferenceEntity, HttpSession session) throws IOException, UnsupportedAudioFileException {
 		logger.info("/audio/upload", locale);
 
 		File file = convert(multipartFiles.get(0));
@@ -139,7 +145,8 @@ public class AudioController {
 				String playTimeFormatter = String.format("%06d", playTime);
 
 				audioEntity.setC_id(conferenceId);
-				audioEntity.setM_email("sysadmin");
+				MemberEntity member = memberService.getMember((Integer)session.getAttribute("id"));
+				audioEntity.setM_email(member.getEmail());
 				// audioEntity.setM_email(uploadTempFileNameArray[uploadTempFileNameArray.length
 				// - 2]);
 				// audioEntity.setTime_beg(uploadTempFileNameArray[uploadTempFileNameArray.length
@@ -168,7 +175,7 @@ public class AudioController {
 
 	@RequestMapping("/upload")
 	public ModelAndView upload(Locale locale, @RequestParam("multipartFile") List<MultipartFile> multipartFiles,
-			ConferenceEntity conferenceEntity) throws IOException, UnsupportedAudioFileException {
+			ConferenceEntity conferenceEntity, HttpSession session) throws IOException, UnsupportedAudioFileException {
 		logger.info("/audio/upload", locale);
 
 		System.out.println(
@@ -242,9 +249,10 @@ public class AudioController {
 				AudioEntity audioEntity = new AudioEntity();
 
 				String playTimeFormatter = String.format("%06d", playTime);
-
 				audioEntity.setC_id(conferenceId);
-				audioEntity.setM_email("sysadmin");
+				MemberEntity member = memberService.getMember((Integer)session.getAttribute("id"));
+				System.out.println(member.getEmail());
+				audioEntity.setM_email(member.getEmail());
 				// audioEntity.setM_email(uploadTempFileNameArray[uploadTempFileNameArray.length
 				// - 2]);
 				// audioEntity.setTime_beg(uploadTempFileNameArray[uploadTempFileNameArray.length
