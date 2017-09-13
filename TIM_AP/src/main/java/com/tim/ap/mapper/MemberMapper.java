@@ -11,6 +11,8 @@ public interface MemberMapper {
 	    MemberEntity getMember(int id);
 	    void insertMember(MemberEntity memberEntity);
 	    void excelUpload(List<MemberEntity> memberList);
+	    void csvInsert(List<MemberEntity> memberList);
+	    ArrayList<MemberEntity> checkExist(List<MemberEntity> memberList);
 	    void updateMember(String id);
 	    void deleteMember(String id);
 	    

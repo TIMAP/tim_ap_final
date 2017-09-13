@@ -1,9 +1,12 @@
 package com.tim.ap.controller;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -13,24 +16,27 @@ import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.springframework.web.servlet.view.RedirectView;
 
+import com.opencsv.CSVReader;
 import com.tim.ap.entity.MemberEntity;
 import com.tim.ap.service.MemberService;
 
 @Controller
 @RequestMapping("/member")
-public class MemberController {
+public class MemberController implements ApplicationContextAware{
 	private static final Logger logger = LoggerFactory.getLogger(MemberController.class);
 
 	@Autowired
@@ -232,30 +238,124 @@ public class MemberController {
 		result.setViewName("/member/excel");
 		return result;
 	}
-
+	
+	/**
+	 * 엑셀 디비 인서트
+	 * @param request
+	 * @return
+	 * @throws Exception
+	 */
+	
 	@ResponseBody
     @RequestMapping(value = "/excelUploadAjax", method = RequestMethod.POST)
     public ModelAndView excelUploadAjax(MultipartHttpServletRequest request)  throws Exception{
         MultipartFile excelFile =request.getFile("excelFile");
-        System.out.println("엑셀 파일 업로드 컨트롤러");
         if(excelFile==null || excelFile.isEmpty()){
             throw new RuntimeException("엑셀파일을 선택 해 주세요.");
         }
         
         File destFile = new File("D:\\"+excelFile.getOriginalFilename());
-        try{
-            excelFile.transferTo(destFile);
-        }catch(IllegalStateException | IOException e){
-            throw new RuntimeException(e.getMessage(),e);
-        }
         
         memberService.excelUpload(destFile);
-        
         
         ModelAndView view = new ModelAndView();
         view.setViewName("/member/excel");
         return view;
     }
+	
+	
+	/**
+	 * 파일 업로드
+	 * @param multipartFile
+	 * @return 
+	 */
+	@RequestMapping(value = "/excelInsert", headers = ("content-type=multipart/*"), method = RequestMethod.POST)
+	public ModelAndView excelInsert(
+			@RequestParam("f") MultipartFile multipartFile) {
+		
+		ModelAndView view = new ModelAndView();
+		
+		String upload = "C:\\tim\\tim_ap_final\\TIM_AP\\src\\main\\webapp\\resources\\upload";
+
+		String str = multipartFile.getOriginalFilename();
+
+		if (!multipartFile.isEmpty()) {
+			File file = new File(upload, str);
+			try {
+				multipartFile.transferTo(file);
+			} catch (IllegalStateException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		view.setViewName("/member/main");
+		
+		return view;
+	}
+
+
+	@Override
+	public void setApplicationContext(ApplicationContext arg0)
+			throws BeansException {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	@RequestMapping(value="/excelDownload")
+    public ModelAndView download(){ // 가져올 파일이름을 넘겨받음.
+         
+    	//파일을 가져올 경로를 적어주고 + 가져올 파일 이름을 받아옴. 
+        String fullPath = "C:\\tim\\tim_ap_final\\TIM_AP\\src\\main\\webapp\\resources\\upload\\upload.xlsx";
+         
+        File file = new File(fullPath);
+         
+        return new ModelAndView("download", "downloadFile", file);
+    }
+	
+	
+	@ResponseBody
+	@RequestMapping(value="/csvInsert", method=RequestMethod.POST)
+	public ModelAndView csvInsert(@RequestParam("csvFile")MultipartFile multipartFile) throws Exception{
+		
+		ModelAndView result = new ModelAndView();
+		
+		String uploadPath = "D:\\"+multipartFile.getOriginalFilename();
+		
+		ArrayList<MemberEntity> memberList = new ArrayList<MemberEntity>();
+		
+		try{
+			InputStreamReader is = new InputStreamReader(new FileInputStream(uploadPath),"EUC-KR");
+			CSVReader reader = new CSVReader(is);
+			List<String[]> list = reader.readAll();
+			
+			for(String[] str: list){
+				MemberEntity member = new MemberEntity();
+				member.setId(Integer.parseInt(str[0]));
+				member.setEmail(str[1]);
+				member.setPw(str[2]);
+				member.setName_last(str[3]);
+				member.setName_first(str[4]);
+				member.setRole(str[5].charAt(0));
+				member.setAuth(str[6].charAt(0));
+				member.setDisabled(str[7].charAt(0));
+				
+				
+				memberList.add(member);
+			}
+			
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		
+		ArrayList<MemberEntity> checkList = memberService.checkExist(memberList);
+		
+			memberService.csvInsert(memberList);
+			
+		result.setViewName("/member/excel");
+		return result;
+	}
 	
 	
 }

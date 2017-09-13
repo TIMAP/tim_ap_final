@@ -101,10 +101,10 @@ public class MemberService implements MemberDao {
 		ExcelReadOption excelReadOption = new ExcelReadOption();
         excelReadOption.setFilePath(destFile.getAbsolutePath());
         excelReadOption.setOutputColumns("A","B","C","D","E","F","G","H");
-        excelReadOption.setStartRow(2);
+        excelReadOption.setStartRow(1);
         
         
-        List<Map<String, String>>excelContent =ExcelRead.read(excelReadOption);
+        List<Map<String, String>> excelContent =ExcelRead.read(excelReadOption);
         List<MemberEntity> memberList = new ArrayList<MemberEntity>();
         
         
@@ -122,10 +122,27 @@ public class MemberService implements MemberDao {
         	memberEntity.setDisabled(article.get("H").charAt(0));
         	
         	memberList.add(memberEntity);
-            System.out.println("여기 오세요 ?");
         }
         
         userMapper.excelUpload(memberList);
 
 }
+
+	@Override
+	public void csvInsert(List<MemberEntity> memberList) {
+		MemberMapper memberMapper = sqlSession.getMapper(MemberMapper.class);
+		
+		memberMapper.csvInsert(memberList);
+		
+	}
+
+	@Override
+	public ArrayList<MemberEntity> checkExist(List<MemberEntity> memberList) {
+		
+		MemberMapper memberMapper = sqlSession.getMapper(MemberMapper.class);
+		
+		ArrayList<MemberEntity> checkList = (ArrayList<MemberEntity>)memberMapper.checkExist(memberList);
+		
+		return checkList;
+	}
 }

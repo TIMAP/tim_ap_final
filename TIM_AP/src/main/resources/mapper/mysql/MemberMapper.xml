@@ -37,6 +37,29 @@
 		UPDATE MEMBER SET DISABLED = 'Y' WHERE ID = #{id}
 	</update>
 	
+	<insert id="excelUpload" parameterType="java.util.List">
+		INSERT INTO MEMBER(ID, EMAIL, PW, NAME_LAST, NAME_FIRST, ROLE , AUTH , DISABLE)
+		VALUES
+		<foreach item="item" index="index" collection="list" separator=",">
+		(#{item.id}, #{item.email}, #{item.pw}, #{item.name_last}, #{item.name_first}, #{item.role} , #{item.auth} , #{item.disable})
+		</foreach>
+	</insert>
+	
+	<insert id="csvInsert" parameterType="java.util.List">
+		INSERT INTO MEMBER(ID, EMAIL, PW, NAME_LAST, NAME_FIRST, ROLE , AUTH , DISABLED)
+		VALUES
+		<foreach item="item" index="index" collection="list" separator=",">
+		(#{item.id}, #{item.email}, #{item.pw}, #{item.name_last}, #{item.name_first}, #{item.role} , #{item.auth} , #{item.disabled})
+		</foreach>
+	</insert>
+
+	<select id="checkExist" parameterType="java.util.List" resultType="com.tim.ap.entity.MemberEntity">
+		SELECT ID FROM MEMBER
+		WHERE ID IN
+		<foreach collection="list" item="item" index="index" open="(" separator="," close=")">
+			#{item.id}
+		</foreach>
+	</select>
 <!-- 	<delete id="deleteMember"> -->
 <!-- 		DELETE FROM MEMBER WHERE ID = #{id} -->
 <!-- 	</delete> -->

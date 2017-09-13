@@ -2,8 +2,7 @@ package com.tim.ap.dao;
 
 import java.io.File;
 import java.util.ArrayList;
-
-import org.springframework.web.servlet.ModelAndView;
+import java.util.List;
 
 import com.tim.ap.entity.MemberEntity;
 
@@ -13,7 +12,8 @@ public interface MemberDao {
     //public void updateMember(MemberEntity member);
     //public void deleteMember(MemberEntity member);
     public void excelUpload(File destFile);
-
+    public void csvInsert(List<MemberEntity> memberList);
+    ArrayList<MemberEntity> checkExist(List<MemberEntity> memberList);
 	public MemberEntity getMember(int id);
 	public void deleteMember(MemberEntity member);
 	public void updateMember(MemberEntity member);
