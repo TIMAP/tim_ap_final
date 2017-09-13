@@ -109,6 +109,10 @@ public class MemberController {
 						session.setAttribute("id", mem.getId());
 						session.setAttribute("name", name);
 						result.addObject("name", name);
+					}else{
+						result.addObject("failed", "false");
+						result.addObject("msg", "아이디 또는 비밀번호가 틀렸습니다.");
+						result.setViewName("/member/login");
 					}
 				}
 			}else{
