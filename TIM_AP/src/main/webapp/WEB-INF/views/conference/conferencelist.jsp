@@ -30,20 +30,17 @@ th, tr, td {
 <div style="text-align: center; padding-top: 5%" class="mainDiv">
 	<div>
 		<form action="/conference/conferencelist">
-			<select name="index"
-				class="btn btn-default loginButton joinButton conferenceSelect">
+			<select name="index" class="btn btn-default loginButton joinButton conferenceSelect">
 				<option value="title" selected="selected">제목</option>
 				<option value="date">날짜</option>
-			</select> <input type="hidden" value="${select.index}"> <input
-				type="text" class="memjoin form-control1 conferenceSelect"
-				name="val" value="${select.val}"> <input type="submit"
-				class="btn btn-default loginButton joinButton conferenceSelect"
-				value="검색"> <input type="button"
-				class="btn btn-default loginButton joinButton conferenceSelect"
-				value="회의 추가" onclick="location.href='/audio/form' " class="btn">
-			<input type="button"
-				class="btn btn-default loginButton joinButton conferenceSelect"
-				value="뒤로 가기" onclick="history.back(-1);" class="btn">
+			</select> 
+			<input type="hidden" value="${select.index}"> 
+			<input type="text" class="memjoin form-control1 conferenceSelect" name="val" value="${select.val}"> 
+			<input type="submit" class="btn btn-default loginButton joinButton conferenceSelect" value="검색"> 
+			<input type="button" class="btn btn-default loginButton joinButton conferenceSelect" value="회의 추가" 
+			            onclick="location.href='/audio/form'" class="btn">
+			<input type="button" class="btn btn-default loginButton joinButton conferenceSelect" value="뒤로 가기" 
+			   	  	  	onclick="history.back(-1);" class="btn">
 		</form>
 	</div>
 	<table class="table table-bordered table-hover conferenceList"

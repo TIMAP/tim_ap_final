@@ -7,6 +7,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -33,6 +34,9 @@ import org.springframework.web.servlet.ModelAndView;
 import com.tim.ap.CommendProcess;
 import com.tim.ap.OutputString;
 import com.tim.ap.entity.AudioEntity;
+import com.tim.ap.entity.AudioListViewEntity;
+import com.tim.ap.entity.ConferListSelectEntity;
+import com.tim.ap.entity.ConferListViewEntity;
 import com.tim.ap.entity.ConferenceEntity;
 import com.tim.ap.entity.MemberEntity;
 import com.tim.ap.service.AudioService;
@@ -55,6 +59,9 @@ public class AudioController {
 	@Autowired
 	private MemberService memberService;
 
+	private static final int BOARD_COUNT_PER_PAGE = 3;//한번에 보여줄 갯수
+	private static final int PAGE_NUMBER_COUNT_PER_PAGE = 5; //번호의 갯수
+	
 	// 서버 프로세스 구동에 필요한 변수
 	public String filetemppath = "/home/speech/20161012/2016Jul06_ASR_Package_8k_DNN_support/STT/converter/wavtemp";
 	public String uploadpath = "/home/speech/20161012/2016Jul06_ASR_Package_8k_DNN_support/STT/converter/wavfile/";
@@ -371,23 +378,77 @@ public class AudioController {
 
 	// jsp로 만듬
 	@RequestMapping(value = "/list", produces = "text/plain;charset=UTF-8", method = RequestMethod.GET)
-	public @ResponseBody ModelAndView listPost(Locale locale, @RequestParam("c_id") int c_id) {
+	public @ResponseBody ModelAndView listPost(Locale locale, @RequestParam("c_id") int c_id,
+			@RequestParam(value="page",defaultValue="1")int pageNumber,	String val, String index) {
 		logger.info("/audio/list", locale);
 
 		AudioEntity audioEntity = new AudioEntity();
 		audioEntity.setC_id(c_id);
 
 		ModelAndView result = new ModelAndView();
-
-		List<AudioEntity> audioList = audioService.getAudioList(audioEntity);
-
-		result.addObject("result", audioList);
+//		List<AudioEntity> audioList = audioService.getAudioList(audioEntity);
+		ConferListSelectEntity select = new ConferListSelectEntity();//검색조건과 값을 가진 Entity
+		select.setC_id(c_id);
+		if(val!=null && !val.equals("")){// 처음 들어간 화면이 아닌 검색조건에 값을 입력한 경우 Entity에게 값을 넣어준다.
+			select.setIndex(index);
+			select.setVal(val);
+			select.setC_id(c_id);
+		}
+		AudioListViewEntity viewData = returnViewEntity(pageNumber, select);
+		if(viewData.getPageTotalCount()>0){
+			int beginPageNumber = (viewData.getCurrentPageNumber()-1)/PAGE_NUMBER_COUNT_PER_PAGE*PAGE_NUMBER_COUNT_PER_PAGE+1;
+			int endPageNumber = beginPageNumber+ PAGE_NUMBER_COUNT_PER_PAGE-1;
+			if(endPageNumber > viewData.getPageTotalCount()){
+				endPageNumber = viewData.getPageTotalCount();
+			}
+			result.addObject("perPage", PAGE_NUMBER_COUNT_PER_PAGE);	//페이지 번호의 갯수
+			result.addObject("end", viewData.getAudioList().size()-1);//마지막 페이지getBoardList
+			result.addObject("beginPage", beginPageNumber);	//보여줄 페이지 번호의 시작
+			result.addObject("endPage", endPageNumber);		//보여줄 페이지 번호의 끝
+		}
+		result.addObject("select", select);//그리고 값을 가진 것으 ㄹ넣어준다.
+		result.addObject("viewData", viewData);
+//		result.setViewName("/conference/conferencelist");
+		
+		
+//		result.addObject("result", audioList);
 		result.addObject("c_id", c_id);
 		result.setViewName("/audio/list");
 
 		return result;
 	}
 
+	/**
+	 * 게시판의 값을 반환해주는 메서드 
+	 */
+	public AudioListViewEntity returnViewEntity(int pageNumber, ConferListSelectEntity select){
+//		final int BOARD_COUNT_PER_PAGE = 3;
+		int currentPageNumber = pageNumber; //페이지의 넘버를 갖고 있는 아이
+
+		int selectConferenceTotalCount = audioService.selectAudioTotalCount(select); //총 갯수를 갖고 있는 아이
+		System.out.println(selectConferenceTotalCount+"총갯수");
+		System.out.println(select.getIndex());
+		System.out.println(select.getVal());
+		List<AudioEntity> audioList = null;
+		int firstRow = 0;
+		int endRow = 0;
+		if (selectConferenceTotalCount > 0) {
+			firstRow = (pageNumber - 1) * BOARD_COUNT_PER_PAGE + 1;
+			endRow = firstRow + BOARD_COUNT_PER_PAGE - 1;
+			audioList = audioService.selecAudiotList(firstRow, endRow, select);
+			System.out.println("첫번째이프문"+selectConferenceTotalCount);
+			if (select.getVal() != null && !select.getVal().equals("")) {
+				selectConferenceTotalCount = audioService.selectAudioListCount(select);
+				System.out.println("두번째이프문"+selectConferenceTotalCount);
+			}
+		} else {
+			currentPageNumber = 0;
+			audioList = Collections.emptyList();
+		}
+		return new AudioListViewEntity(audioList, selectConferenceTotalCount,
+				currentPageNumber, BOARD_COUNT_PER_PAGE, firstRow, endRow);
+	}
+	
 	/**
 	 * @RequestMapping(value = "/list", produces="text/plain;charset=UTF-8", method
 	 *                       = RequestMethod.GET) public @ResponseBody String

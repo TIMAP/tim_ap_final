@@ -4,6 +4,7 @@ public class ConferListSelectEntity {
 
 	private String index;
 	private String val;
+	private int c_id;
 	public String getIndex() {
 		return index;
 	}
@@ -16,6 +17,10 @@ public class ConferListSelectEntity {
 	public void setVal(String val) {
 		this.val = val;
 	}
-	
-	
+	public int getC_id() {
+		return c_id;
+	}
+	public void setC_id(int c_id) {
+		this.c_id = c_id;
+	}
 }
