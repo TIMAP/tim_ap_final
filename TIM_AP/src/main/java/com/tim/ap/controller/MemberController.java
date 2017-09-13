@@ -14,6 +14,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
@@ -349,11 +350,27 @@ public class MemberController implements ApplicationContextAware{
 				e.printStackTrace();
 			}
 		
-		ArrayList<MemberEntity> checkList = memberService.checkExist(memberList);
-		
+			ArrayList<MemberEntity> checkList = memberService.checkExist(memberList);
+			
+			String checkId = "";
+			
+			for (int i = 0; i < checkList.size(); i++) {
+				int id = checkList.get(i).getId();
+				if(checkList.size()-1 == i ){
+					checkId += id +"";
+				}else{
+					checkId += id + ",";
+				}
+			}
+			
 			memberService.csvInsert(memberList);
 			
-		result.setViewName("/member/excel");
+			JSONObject jso = new JSONObject();
+			jso.put("id", checkId);
+		
+			result.addObject("failed",checkId);	
+			result.setViewName("/member/excel");
+			
 		return result;
 	}
 	

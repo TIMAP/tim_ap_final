@@ -15,7 +15,8 @@ function check() {
                 alert("모든 데이터가 업로드 되었습니다.");
             },
             type : "POST",
-            error:function(){
+            dataType:"json",
+            error:function(data){
             	alert("이미 등록된 사용자가 존재합니다");
             }
         };
@@ -40,7 +41,8 @@ function checkCsv() {
 
             },
             type : "POST",
-            error:function(){
+            dataType:"json",
+            error:function(data){
             	alert("이미 등록된 사용자가 존재합니다");
             }
         };
