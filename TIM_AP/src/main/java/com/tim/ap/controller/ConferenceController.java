@@ -122,4 +122,7 @@ public class ConferenceController {
 				currentPageNumber, BOARD_COUNT_PER_PAGE, firstRow, endRow);
 	}
 	
+	
+	
+	
 }
