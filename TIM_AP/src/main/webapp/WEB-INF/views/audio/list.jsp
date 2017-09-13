@@ -25,7 +25,6 @@ function getFormatDate(date){
 var datePattern = /[0-9]{4}-[0-9]{2}-[0-9]{2}/;
 
 
-
 $(document).ready(function() {
 	
 	//날짜 정보 입력
@@ -54,7 +53,10 @@ $(document).ready(function() {
     	$('#title').val("");
     	location.reload();
     });
-    
+   
+    $('#hideConfbtn').click(function(){
+    	$('#voiceRecorder').hide();
+    });
 });
 	//작성자 : 홍기훈 오디오 녹음을 위한객체
 	
@@ -250,36 +252,93 @@ th, tr, td  {
 }
 </style>
 <div class="mainDiv">
-<table>
-	<tr>
-		<td style="text-align:center; width:100px;">ID</td>
-		<td style="text-align:center; width:100px;">C_ID</td>
-		<td style="text-align:center; width:100px;">M_EMAIL</td>
-		<td style="text-align:center; width:100px;">TIME_BEG</td>
-		<td style="text-align:center; width:100px;">TIME_END</td>
-		<td style="text-align:center; width:100px;">AD_TEXT</td>
-		<td style="text-align:center; width:100px;">AD_WAV_FILEPATH</td>
-		<td style="text-align:center; width:100px;">AD_DOWNLOAD_CNT</td>
-		<td style="text-align:center; width:100px;">다운로드</td>
-	</tr>
+	<div id="conferenceInfo">
+		<form action="/audio/list">
+			<select name="index" class="btn btn-default loginButton joinButton conferenceSelect">
+				<option value="M_EMAIL" selected="selected">Email</option>
+				<option value="AD_TEXT">내용</option>
+				<option value="AD_WAV_FILEPATH">경로</option>
+			</select> 
+			<input type="hidden" value="${select.index}"> 
+			<input type="hidden" name="c_id" value="${c_id}"> 
+			<input type="text" class="memjoin form-control1 conferenceSelect" name="val" value="${select.val}"> 
+			<input type="submit" class="btn btn-default loginButton joinButton conferenceSelect" value="검색"> 
+			<input type="button" id="holdConfbtn" value="회의추가" class="btn btn-default loginButton joinButton conferenceSelect">
+			<input type="button" id="hideConfbtn" value="추가취소" class="btn btn-default loginButton joinButton conferenceSelect">
+		</form>
+	</div>
 
-	<c:forEach items="${result}" var="audioEntity">
-		<tr>
-			<td style="text-align:center;">${audioEntity.id}</td>
-			<td style="text-align:center;">${audioEntity.c_id}</td>
-			<td style="text-align:center;">${audioEntity.m_email}</td>
-			<td style="text-align:center;">${audioEntity.time_beg}</td>
-			<td style="text-align:center;">${audioEntity.time_end}</td>
-			<td style="text-align:center;">${audioEntity.ad_text}</td>
-			<td style="text-align:center;">${audioEntity.ad_wav_filepath}</td>
-			<td style="text-align:center;">${audioEntity.ad_download_cnt}</td>
-			<td style="text-align:center;"><img src="/resources/images/save.svg"></td>
-		</tr>
+	<div style="margin: 0 auto;">
+		<table  style="margin: 0 auto; background: white;" class="table table-bordered table-hover conferenceList">
+			<tr>
+				<th style="text-align:center; width:100px;">ID</th> <!-- (오디오ID) -->
+				<th style="text-align:center; width:100px;">C_ID</th> <!-- (회의번호) -->
+				<th style="text-align:center; width:100px;">M_EMAIL</th><!-- (작성자 이메일) -->
+				<th style="text-align:center; width:100px;">TIME_BEG</th><!--  -->
+				<th style="text-align:center; width:100px;">TIME_END</th><!--  -->
+				<th style="text-align:center; width:100px;">AD_TEXT</th><!-- (텍스트로변환된것) -->
+				<th style="text-align:center; width:100px;">AD_WAV_FILEPATH</th><!-- (경로) -->
+				<th style="text-align:center; width:100px;">AD_DOWNLOAD_CNT</th><!-- (횟수) -->
+				<th style="text-align:center; width:100px;">다운로드</th><!--  -->
+			</tr>
+		
+			<c:forEach items="${viewData.audioList}" var="audioEntity">
+				<tr>
+					<td style="text-align:center;">${audioEntity.id}</td>
+					<td style="text-align:center;">${audioEntity.c_id}</td>
+					<td style="text-align:center;">${audioEntity.m_email}</td>
+					<td style="text-align:center;">${audioEntity.time_beg}</td>
+					<td style="text-align:center;">${audioEntity.time_end}</td>
+					<td style="text-align:center;"><textarea rows="3" cols="30" style="resize:none; border: 0;" readonly>${audioEntity.ad_text}</textarea></td>
+					<td style="text-align:center;"><textarea rows="3" cols="30" style="resize:none; border: 0;" readonly>${audioEntity.ad_wav_filepath}</textarea></td>
+					<td style="text-align:center;">${audioEntity.ad_download_cnt}</td>
+					<td style="text-align:center;"><img src="/resources/images/save.svg" style="cursor:pointer"></td>
+				</tr>
+			</c:forEach>
+		</table>
+		<div id="pageNum">
+			<c:if test="${beginPage > perPage}">
+				<a
+					href="<c:url value="/audio/list?page=${beginPage-1}&index=${select.index}&val=${select.val}&c_id=${c_id}"/>">이전</a>
+			</c:if>
+			<c:forEach var="pno" begin="${beginPage}" end="${endPage}">
+				<a
+					href="<c:url value="/audio/list?page=${pno}&index=${select.index}&val=${select.val}&c_id=${c_id}" />">[${pno}]</a>
+			</c:forEach>
+			<c:if test="${endPage < viewData.getPageTotalCount()}">
+				<a
+					href="<c:url value="/audio/list?page=${endPage + 1}&index=${select.index}&val=${select.val}&c_id=${c_id}"/>">다음</a>
+			</c:if>
+		</div>
+<!-- 		<table  style="margin: 0 auto; background: white;" class="table table-bordered table-hover conferenceList"> -->
+<!-- 			<tr> -->
+<!-- 				<th style="text-align:center; width:100px;">ID</th> (오디오ID) -->
+<!-- 				<th style="text-align:center; width:100px;">C_ID</th> (회의번호) -->
+<!-- 				<th style="text-align:center; width:100px;">M_EMAIL</th>(작성자 이메일) -->
+<!-- 				<th style="text-align:center; width:100px;">TIME_BEG</th> -->
+<!-- 				<th style="text-align:center; width:100px;">TIME_END</th> -->
+<!-- 				<th style="text-align:center; width:100px;">AD_TEXT</th>(텍스트로변환된것) -->
+<!-- 				<th style="text-align:center; width:100px;">AD_WAV_FILEPATH</th>(경로) -->
+<!-- 				<th style="text-align:center; width:100px;">AD_DOWNLOAD_CNT</th>(횟수) -->
+<!-- 				<th style="text-align:center; width:100px;">다운로드</th> -->
+<!-- 			</tr> -->
+		
+<%-- 			<c:forEach items="${result}" var="audioEntity"> --%>
+<!-- 				<tr> -->
+<%-- 					<td style="text-align:center;">${audioEntity.id}</td> --%>
+<%-- 					<td style="text-align:center;">${audioEntity.c_id}</td> --%>
+<%-- 					<td style="text-align:center;">${audioEntity.m_email}</td> --%>
+<%-- 					<td style="text-align:center;">${audioEntity.time_beg}</td> --%>
+<%-- 					<td style="text-align:center;">${audioEntity.time_end}</td> --%>
+<%-- 					<td style="text-align:center;"><textarea rows="3" cols="30" style="resize:none; border: 0;" readonly>${audioEntity.ad_text}</textarea></td> --%>
+<%-- 					<td style="text-align:center;"><textarea rows="3" cols="30" style="resize:none; border: 0;" readonly>${audioEntity.ad_wav_filepath}</textarea></td> --%>
+<%-- 					<td style="text-align:center;">${audioEntity.ad_download_cnt}</td> --%>
+<!-- 					<td style="text-align:center;"><img src="/resources/images/save.svg" style="cursor:pointer"></td> -->
+<!-- 				</tr> -->
+<%-- 			</c:forEach> --%>
+<!-- 		</table> -->
+	</div>
 	
-		</c:forEach>
-	</table>
-	<input type="button" id="holdConfbtn" value="회의추가" class="btn btn-default loginButton joinButton conferenceSelect">
-
 	<div id="voiceRecorder">
 		<div id="conferenceInfo">
 			회의명 : <input type="text" id="title" name="title" class="memjoin form-control1 conferenceSelect placeholder" value="${c_id }"> 
@@ -298,5 +357,4 @@ th, tr, td  {
 		</div>
 		<input type="button" id="closeConf" value="회의종료" class="btn btn-default loginButton joinButton conferenceSelect">
 	</div>
-	
 </div>

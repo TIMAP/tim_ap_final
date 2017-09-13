@@ -41,4 +41,47 @@
 			WHERE
 				ID = #{id}
 	</update>
+	
+	
+	<!-- 	김병현 -->
+<!-- 	리스트의 전체 갯수를 반환하는 쿼리-->
+	<select id="selectAudioTotalCount" resultType="java.lang.Integer" parameterType="com.tim.ap.entity.ConferListSelectEntity">
+		select count(*) from audio where c_id = #{c_id}
+	</select>
+	
+<!-- 	검색될 리스트를 반환하는 쿼리 -->
+	<select id="selecAudiotList" parameterType="com.tim.ap.entity.ConferListSelectEntity" resultType="com.tim.ap.entity.AudioEntity">
+			select * from audio where 1 = 1 
+			and  c_id = #{c_id}
+		<choose>
+<!-- 			index는 날짜로 검색할 것인지, 제목으로 검색할 것인지 담겨있는 String 이며
+				담겨있는값이 뭐냐에 따라 검색이 된다.-->
+		    <when test='index == "M_EMAIL"'>
+		    	AND M_EMAIL like CONCAT('%', #{val}, '%')
+		    </when>
+		    <when test='index == "AD_TEXT"'>
+		    	AND M_EMAIL like CONCAT('%', #{val}, '%')
+		    </when>
+		    <when test='index == "AD_WAV_FILEPATH"'>
+		    	AND AD_WAV_FILEPATH like CONCAT('%', #{val}, '%')
+		    </when>
+	  	</choose>
+		    	order by 1 desc
+	</select>
+	
+<!-- 	검색된 리스트의 갯수를 반환하는 쿼리 -->
+	<select id="selectAudioListCount" resultType="java.lang.Integer" parameterType="com.tim.ap.entity.ConferListSelectEntity">
+		select count(*) from audio where c_id = #{c_id}
+		<choose>
+		    <when test='index == "M_EMAIL"'>
+		    	AND M_EMAIL like CONCAT('%', #{val}, '%')
+		    </when>
+		    <when test='index == "AD_TEXT"'>
+		    	AND M_EMAIL like CONCAT('%', #{val}, '%')
+		    </when>
+		    <when test='index == "AD_WAV_FILEPATH"'>
+		    	AND AD_WAV_FILEPATH like CONCAT('%', #{val}, '%')
+		    </when>
+	  	</choose>
+	</select>
 </mapper>
