@@ -242,4 +242,9 @@ a,i {
 	color: black;
 }
 
+textarea:focus{
+    outline: none;
+}
+
+
 </style>

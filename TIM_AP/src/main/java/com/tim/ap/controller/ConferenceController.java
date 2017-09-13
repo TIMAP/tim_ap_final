@@ -27,8 +27,8 @@ public class ConferenceController {
 	@Autowired
 	private ConferenceService conferenceService;
 
-	private static final int BOARD_COUNT_PER_PAGE = 3;
-	private static final int PAGE_NUMBER_COUNT_PER_PAGE = 5;
+	private static final int BOARD_COUNT_PER_PAGE = 5;//뿌려질 리스트갯수
+	private static final int PAGE_NUMBER_COUNT_PER_PAGE = 5; //뿌려질 번호의 갯수
 	
 	@RequestMapping(value = "/join")
 	public String loginForm() {
@@ -121,5 +121,8 @@ public class ConferenceController {
 		return new ConferListViewEntity(boardList, selectConferenceTotalCount,
 				currentPageNumber, BOARD_COUNT_PER_PAGE, firstRow, endRow);
 	}
+	
+	
+	
 	
 }
