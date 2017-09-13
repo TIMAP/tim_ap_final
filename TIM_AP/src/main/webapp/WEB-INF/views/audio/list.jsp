@@ -249,6 +249,7 @@ th, tr, td  {
 	padding: 10px;
 }
 </style>
+<div class="mainDiv">
 <table>
 	<tr>
 		<td style="text-align:center; width:100px;">ID</td>
@@ -274,26 +275,28 @@ th, tr, td  {
 			<td style="text-align:center;">${audioEntity.ad_download_cnt}</td>
 			<td style="text-align:center;"><img src="/resources/images/save.svg"></td>
 		</tr>
-	</c:forEach>
-</table>
-<input type="button" id="holdConfbtn" value="회의추가" class="btn btn-default loginButton joinButton conferenceSelect">
-
-<div id="voiceRecorder">
-	<div id="conferenceInfo">
-		회의명 : <input type="text" id="title" name="title" class="memjoin form-control1 conferenceSelect placeholder" value="${c_id }">  날짜 : <input type="text" id="date" name="date" value="date" readonly class="memjoin form-control1 conferenceSelect">
-	</div>
-	<br>
-	녹음영역
 	
-		<div id="viz">
-			<canvas id="analyser" width="300" height="200"></canvas>
-			<canvas id="wavedisplay" width="300" height="200"></canvas>
+		</c:forEach>
+	</table>
+	<input type="button" id="holdConfbtn" value="회의추가" class="btn btn-default loginButton joinButton conferenceSelect">
+	
+	<div id="voiceRecorder">
+		<div id="conferenceInfo">
+			회의명 : <input type="text" id="title" name="title" class="memjoin form-control1 conferenceSelect placeholder" value="${c_id }">  날짜 : <input type="text" id="date" name="date" value="date" readonly class="memjoin form-control1 conferenceSelect">
 		</div>
-		<div id="controls">
-			<img id="record" src="/resources/images/mic1.png" onclick="toggleRecording(this);" width="50px" height="50px"> 
-			<a id="save" href="#">
-			<img src="/resources/images/save.svg" width="50px" height="50px">
-			</a>
+		<br>
+		녹음영역
+		
+			<div id="viz">
+				<canvas id="analyser" width="300" height="200"></canvas>
+				<canvas id="wavedisplay" width="300" height="200"></canvas>
+			</div>
+			<div id="controls">
+				<img id="record" src="/resources/images/mic1.png" onclick="toggleRecording(this);" width="50px" height="50px"> 
+				<a id="save" href="#">
+				<img src="/resources/images/save.svg" width="50px" height="50px">
+				</a>
+			</div>
+			<input type="button" id="closeConf" value="회의종료" class="btn btn-default loginButton joinButton conferenceSelect">
 		</div>
-		<input type="button" id="closeConf" value="회의종료" class="btn btn-default loginButton joinButton conferenceSelect">
-	</div>
+</div>
