@@ -316,7 +316,6 @@ public class MemberController implements ApplicationContextAware{
     }
 	
 	
-	@ResponseBody
 	@RequestMapping(value="/csvInsert", method=RequestMethod.POST)
 	public ModelAndView csvInsert(@RequestParam("csvFile")MultipartFile multipartFile) throws Exception{
 		
@@ -362,14 +361,20 @@ public class MemberController implements ApplicationContextAware{
 					checkId += id + ",";
 				}
 			}
+			checkId += "는 이미 등록된 회원입니다."; 
 			
-			memberService.csvInsert(memberList);
 			
-			JSONObject jso = new JSONObject();
-			jso.put("id", checkId);
-		
-			result.addObject("failed",checkId);	
-			result.setViewName("/member/excel");
+			if(checkList.size()==0){
+				memberService.csvInsert(memberList);
+				result.addObject("result",true);
+				result.addObject("msg","모든 데이터가 업로드 되었습니다");
+				result.setViewName("/member/list");
+			}else{
+				result.addObject("result",false);
+				result.addObject("checkId",checkId);
+				result.setViewName("/member/excel");
+			}
+			
 			
 		return result;
 	}

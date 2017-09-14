@@ -7,25 +7,21 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <script src="http://malsup.github.com/jquery.form.js"></script>
 <script src="/resources/js/member/member.js"></script>
-
-<%
-	if(request.getAttribute("failed")!=null){
-		ArrayList<MemberEntity> checkList = (ArrayList<MemberEntity>)request.getAttribute("failed");
-		String a = "";
-		int id = 0 ;
-		
-		for(int i = 0 ; i < checkList.size() ; i++){
-				 id = checkList.get(i).getId();
-			if(checkList.size()-1 == i){
-				a += id+"";
-			}else{
-				a +=id+",";
-			}
-		}
-	}
-%>
 <script type="text/javascript">
-	alert(a);
+$(function(){
+	var result = ${result};
+	var msg = "";
+	if(result == false){
+		msg = "${checkId}";
+		alert(msg);
+		msg = "";
+		result = true;
+	}else if(result == true){
+		msg = "${msg}";
+		alert(msg);
+		msg="";
+	}
+})
 </script>
 <title>Insert title here</title>
 </head>
@@ -60,8 +56,7 @@
 	<a href="${pageContext.request.contextPath}/member/excelDownload">양식 다운로드</a>
 </div>
 
-	<form id="csvInsert" name="csvInsert" enctype="multipart/form-data" method="post" 
-						action = "${pageContext.request.contextPath}/member/csvInsert">
+	<form id="csvInsertForm" name="csvInsertForm" enctype="multipart/form-data" method="post">
 		<input id="csvFile" type="file" name="csvFile"/>
 		<button type="button" id="addCsvInsertBtn" onclick="checkCsv()"><span>추가</span></button>
 	</form>
