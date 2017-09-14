@@ -34,6 +34,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.opencsv.CSVReader;
 import com.tim.ap.entity.MemberEntity;
 import com.tim.ap.service.MemberService;
+import com.tim.ap.util.ExcelRead;
+import com.tim.ap.util.ExcelReadOption;
 
 @Controller
 @RequestMapping("/member")
@@ -257,7 +259,48 @@ public class MemberController implements ApplicationContextAware{
         
         File destFile = new File("D:\\"+excelFile.getOriginalFilename());
         
-        memberService.excelUpload(destFile);
+        ExcelReadOption excelReadOption = new ExcelReadOption();
+        excelReadOption.setFilePath(destFile.getAbsolutePath());
+        excelReadOption.setOutputColumns("A","B","C","D","E","F","G","H");
+        excelReadOption.setStartRow(1);
+        
+        
+        List<Map<String, String>> excelContent =ExcelRead.read(excelReadOption);
+        List<MemberEntity> memberList = new ArrayList<MemberEntity>();
+        
+        
+        for(Map<String, String> article: excelContent){
+        	
+        	MemberEntity memberEntity = new MemberEntity();
+        	
+        	memberEntity.setId(Integer.parseInt(article.get("A")));
+        	memberEntity.setEmail(article.get("B"));
+        	try {
+				MessageDigest md = MessageDigest.getInstance("SHA-512"); 
+				md.update(article.get("C").getBytes()); 
+				byte byteData[] = md.digest();
+				
+				StringBuffer sb = new StringBuffer(); 
+				for(int i=0; i<byteData.length; i++) {
+					sb.append(Integer.toString((byteData[i]&0xff) + 0x100, 16).substring(1));
+				}
+				
+				String retVal = sb.toString();
+				memberEntity.setPw(retVal);
+			} catch(NoSuchAlgorithmException e){
+				e.printStackTrace(); 
+			}
+        	memberEntity.setName_last(article.get("D"));
+        	memberEntity.setName_first(article.get("E"));
+        	memberEntity.setRole(article.get("F").charAt(0));
+        	memberEntity.setAuth(article.get("G").charAt(0));
+        	memberEntity.setDisabled(article.get("H").charAt(0));
+        	
+        	memberList.add(memberEntity);
+        }
+        
+        
+        memberService.excelUpload(memberList);
         
         ModelAndView view = new ModelAndView();
         view.setViewName("/member/excel");
@@ -334,7 +377,21 @@ public class MemberController implements ApplicationContextAware{
 				MemberEntity member = new MemberEntity();
 				member.setId(Integer.parseInt(str[0]));
 				member.setEmail(str[1]);
-				member.setPw(str[2]);
+				try {
+					MessageDigest md = MessageDigest.getInstance("SHA-512"); 
+					md.update(str[2].getBytes()); 
+					byte byteData[] = md.digest();
+					
+					StringBuffer sb = new StringBuffer(); 
+					for(int i=0; i<byteData.length; i++) {
+						sb.append(Integer.toString((byteData[i]&0xff) + 0x100, 16).substring(1));
+					}
+					
+					String retVal = sb.toString();
+					member.setPw(retVal);
+				} catch(NoSuchAlgorithmException e){
+					e.printStackTrace(); 
+				}
 				member.setName_last(str[3]);
 				member.setName_first(str[4]);
 				member.setRole(str[5].charAt(0));
