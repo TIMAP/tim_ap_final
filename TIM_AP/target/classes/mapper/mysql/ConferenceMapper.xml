@@ -148,6 +148,9 @@
 <!-- 		</foreach> -->
 	</update>
 	
+	<select id="conferenceFind" parameterType="java.lang.String" resultType="com.tim.ap.entity.ConferenceEntity">
+		SELECT * FROM CONFERENCE WHERE ID = #{c_id}
+	</select>
 	
 	
 	
