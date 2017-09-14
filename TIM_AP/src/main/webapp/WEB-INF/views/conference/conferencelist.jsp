@@ -6,11 +6,43 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <script>
-	var a = $
-	{
-		aaa
-	};
-	alert(a);
+// 	var a = $
+// 	{
+// 		aaa
+// 	};
+// 	alert(a);
+	
+	$(function(){ //전체선택 체크박스 클릭
+		$("#allCheck").click(function() {
+				//만약 전체 선택 체크박스가 체크된상태일경우 
+				if ($("#allCheck").prop("checked")) {
+					//해당화면에 전체 checkbox들을 체크해준다 
+					$("input[type=checkbox]").prop("checked", true);
+					// 전체선택 체크박스가 해제된 경우
+				} else {
+					//해당화면에 모든 checkbox들의 체크를해제시킨다. 
+					$("input[type=checkbox]").prop("checked", false);
+				}
+			})
+	})
+
+	function conferUpdate() {
+		var items=[];
+		$('input[name="confer_chk"]:checkbox:checked').each(function(){items.push($(this).val());});
+		alert(items);
+		$.ajax({
+			url : '/conference/conferenceUpdate',
+			type : 'post',
+			data :  {'confer_chk': items},
+			success : function(result) {
+				location.href=result.uri;
+			},
+			error : function() {
+				
+			},
+			dataType : 'json'
+		})
+	}
 </script>
 <style>
 table {
@@ -41,11 +73,14 @@ th, tr, td {
 			            onclick="location.href='/audio/form'" class="btn">
 			<input type="button" class="btn btn-default loginButton joinButton conferenceSelect" value="뒤로 가기" 
 			   	  	  	onclick="history.back(-1);" class="btn">
+			<input type="button" class="btn btn-default loginButton joinButton conferenceSelect" value="상태변경"
+						onclick="conferUpdate();">
 		</form>
 	</div>
 	<table class="table table-bordered table-hover conferenceList"
 		style="margin: 1% auto 1% auto;">
 		<tr>
+			<th><input type="checkbox" id="allCheck" value="1"></th>
 			<th>No.</th>
 			<th>제목</th>
 			<th>등록일</th>
@@ -54,17 +89,25 @@ th, tr, td {
 		</tr>
 		<c:choose>
 			<c:when test="${viewData.boardTotalCount > 0 }">
-				<c:forEach items="${viewData.conferList }" var="confer"
-					varStatus="i">
+				<c:forEach items="${viewData.conferList }" var="confer" varStatus="i">
 					<tr>
+						<td><input type="checkbox" name="confer_chk" value="${confer.id}/${confer.closed}"></td>
 						<td>${confer.id }</td>
-						<td><a href="/audio/list?c_id=${confer.id }">${confer.title }</a></td>
+						<td>
+							<c:choose>
+								<c:when test="${confer.closed eq 'N' }">
+									<a href="/audio/list?c_id=${confer.id }" style="background: yellow; color: black;">${confer.title }</a>
+								</c:when>
+								<c:otherwise>
+									<a style="background: red; color: white;">${confer.title} - (회의 보류)</a>
+								</c:otherwise>
+							</c:choose>
+						</td>
 						<td>${confer.date}</td>
 						<td>${confer.role }</td>
 						<td>${confer.entry }</td>
 					</tr>
 				</c:forEach>
-
 			</c:when>
 			<c:otherwise>
 				<tr>
