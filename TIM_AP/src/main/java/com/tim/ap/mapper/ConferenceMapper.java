@@ -17,4 +17,6 @@ public interface ConferenceMapper {
 	    List<ConferenceEntity> selectConferenceList(int firstRow, int endRow,
 				ConferListSelectEntity select);
 	    int selectListCount(ConferListSelectEntity select);
+	    ////정보변경을 위한 메서드
+		void conferenceInfoUpdate(ConferenceEntity conferenceEntity);
 }

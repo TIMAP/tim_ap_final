@@ -186,6 +186,7 @@ $(document).ready(function() {
 		  
 	
 	</script>
+
 	<style>
 	
 	html { overflow: hidden; }
@@ -358,3 +359,22 @@ th, tr, td  {
 		<input type="button" id="closeConf" value="회의종료" class="btn btn-default loginButton joinButton conferenceSelect">
 	</div>
 </div>
+
+<script>
+	$("#record").click(function() {
+		var c_id = '${c_id}';
+		alert(c_id);
+		$.ajax({
+				url : '/conference/conferenceUpdate',
+				type : 'post',
+				data :   c_id ,
+				success : function(result) {
+					alert("성공");
+				},
+				error : function() {
+					alert("실패");
+				},
+				dataType : 'json'
+		});
+	});
+</script>

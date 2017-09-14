@@ -82,6 +82,14 @@ public class ConferenceService implements ConferenceDao {
 	public int selectListCount(ConferListSelectEntity select) {
 		return sqlSession.selectOne("selectListCount",select);
 	}
+
+	@Override
+	public void conferenceInfoUpdate(List<ConferenceEntity> conferList) {
+		ConferenceMapper conferenceMapper = sqlSession.getMapper(ConferenceMapper.class);
+		for(int i = 0; i < conferList.size(); i++){
+			conferenceMapper.conferenceInfoUpdate(conferList.get(i));
+		}
+	}
 	
 	
 }
