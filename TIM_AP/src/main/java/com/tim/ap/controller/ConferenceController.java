@@ -1,8 +1,11 @@
 package com.tim.ap.controller;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -122,4 +125,39 @@ public class ConferenceController {
 				currentPageNumber, BOARD_COUNT_PER_PAGE, firstRow, endRow);
 	}
 	
+	@RequestMapping("/conferenceUpdate")
+	public @ResponseBody Map<String,Object> conferenceUpdate(@RequestParam(value="confer_chk[]")List<String> confer_chk){
+		Map<String,Object> map = new HashMap<String,Object>();
+		List<ConferenceEntity> conferenceList = new ArrayList<ConferenceEntity>();
+		String[] value = null;
+		for(int i = 0; i < confer_chk.size(); i++){
+			ConferenceEntity confer = new ConferenceEntity();
+			value = confer_chk.get(i).split("/");
+			for(int j = 0; j < value.length; j++){
+				System.out.println(value[j]);
+				if(j%2 == 0){
+					confer.setId(Integer.parseInt(value[j]));
+					if(value[j+1].equals("N")){
+						confer.setClosed("Y");
+					}else{
+						confer.setClosed("N");
+					}
+				}
+			}
+			conferenceList.add(confer);
+		}
+		for(int i = 0; i < conferenceList.size(); i++){
+			System.out.println(conferenceList.size());
+			System.out.println(conferenceList.get(i).getId()+"리스트에온 아이디");
+			System.out.println(conferenceList.get(i).getClosed()+"리스트에온 상태");
+		}
+		conferenceService.conferenceInfoUpdate(conferenceList);
+		map.put("uri", "/conference/conferencelist");
+		return map;
+	}
+	
+	@RequestMapping("/conferClosedUpdate")
+	public void conferClosedUpdate(@RequestParam(value="c_id")String c_id){
+		System.out.println(c_id+"값이들어오나?");
+	}
 }

@@ -110,4 +110,45 @@
 		    </when>
 	  	</choose>
 	</select>
+	
+<!-- 	회의 상태 변경 -->
+	<update id="conferenceInfoUpdate" parameterType="com.tim.ap.entity.ConferenceEntity">
+<!-- 	<foreach collection="list" item="item" index="index" separator="," open="(" close=")"> -->
+        update conference set closed = #{closed} where id = #{id}
+<!--     </foreach> -->
+    
+<!-- 		UPDATE conference  -->
+<!-- 	        SET closed = -->
+<!-- 		<foreach collection="list" item="item" index="index" separator="," open="(" close=")"> -->
+<!-- 			#{item.closed} -->
+<!-- 		</foreach> -->
+<!-- 		WHERE id = -->
+<!-- 		<foreach collection="list" item="item" open="(" close=")" separator=", "> -->
+<!-- 			#{item.id} -->
+<!-- 		</foreach> -->
+
+<!-- 			UPDATE conference SET -->
+<!-- 			CLOSED = -->
+<!-- 		<foreach collection="list" item="item" open="(" close=")" separator=","> -->
+<!-- 			 #{item.closed} -->
+<!-- 		</foreach> -->
+<!-- 			where -->
+<!-- 			ID = -->
+<!-- 		<foreach collection="list" item="item" open="(" close=")" separator=","> -->
+<!-- 			 #{item.id} -->
+<!-- 		</foreach> -->
+
+
+<!-- 		<foreach collection="list" item="item" separator=","> -->
+<!-- 			CLOSED = #{item.closed} -->
+<!-- 		</foreach> -->
+<!-- 			WHERE -->
+<!-- 		<foreach collection="list" item="item" separator="and" index="index" > -->
+<!-- 			ID = #{item.id} -->
+<!-- 		</foreach> -->
+	</update>
+	
+	
+	
+	
 </mapper>
