@@ -292,7 +292,7 @@ th, tr, td  {
 					<td style="text-align:center;"><textarea rows="3" cols="30" style="resize:none; border: 0;" readonly>${audioEntity.ad_text}</textarea></td>
 					<td style="text-align:center;"><textarea rows="3" cols="30" style="resize:none; border: 0;" readonly>${audioEntity.ad_wav_filepath}</textarea></td>
 					<td style="text-align:center;">${audioEntity.ad_download_cnt}</td>
-					<td style="text-align:center;"><img src="/resources/images/save.svg" style="cursor:pointer"></td>
+					<td style="text-align:center;"><a href="/audio/download?id=${audioEntity.id}"><img src="/resources/images/save.svg" style="cursor:pointer"></a></td>
 				</tr>
 			</c:forEach>
 		</table>
