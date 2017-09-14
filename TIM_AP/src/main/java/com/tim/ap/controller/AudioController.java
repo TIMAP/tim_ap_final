@@ -116,7 +116,7 @@ public class AudioController {
 				String uploadTempFilePath = uploadTempRootPath + File.separator
 						+ UniqueFileIdGenerator.getUniqueFileId();
 				FileTool.makeDirectory(uploadTempFilePath);
-
+				String lastPath ="";
 				for (int i = 0; i < multipartFiles.size(); i++) {
 					MultipartFile multipartFile = multipartFiles.get(i);
 
@@ -134,6 +134,7 @@ public class AudioController {
 						// dateMaker() + ".wav" ;
 
 						File uploadFile = new File(uploadTempFilePath + File.separator + tempFileName);
+						lastPath = uploadTempFilePath + File.separator + tempFileName;
 						// File uploadFile = new File(uploadTempFilePath + File.separator +
 						// multipartFile.getOriginalFilename());
 						BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(uploadFile));
@@ -163,7 +164,7 @@ public class AudioController {
 				// - 1].split("-")[1]);
 				audioEntity.setTime_end(playTimeFormatter);
 				audioEntity.setAd_text("리눅스안들리고 그냥 셈플로 너어놈");
-				audioEntity.setAd_wav_filepath(uploadTempRootPath);
+				audioEntity.setAd_wav_filepath(lastPath);
 				audioEntity.setAd_download_cnt(0);
 
 				audioService.insertAudio(audioEntity);
@@ -221,7 +222,7 @@ public class AudioController {
 				String uploadTempFilePath = uploadTempRootPath + File.separator
 						+ UniqueFileIdGenerator.getUniqueFileId();
 				FileTool.makeDirectory(uploadTempFilePath);
-
+				String lastPath ="";
 				for (int i = 0; i < multipartFiles.size(); i++) {
 					MultipartFile multipartFile = multipartFiles.get(i);
 
@@ -239,6 +240,7 @@ public class AudioController {
 						// dateMaker() + ".wav" ;
 
 						File uploadFile = new File(uploadTempFilePath + File.separator + tempFileName);
+						lastPath = uploadTempFilePath + File.separator + tempFileName;
 						// File uploadFile = new File(uploadTempFilePath + File.separator +
 						// multipartFile.getOriginalFilename());
 						BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(uploadFile));
@@ -269,8 +271,7 @@ public class AudioController {
 				// - 1].split("-")[1]);
 				audioEntity.setTime_end(playTimeFormatter);
 				audioEntity.setAd_text("리눅스안들리고 그냥 셈플로 너어놈");
-				audioEntity.setAd_wav_filepath(uploadTempRootPath + File.separator
-						+ UniqueFileIdGenerator.getUniqueFileId());
+				audioEntity.setAd_wav_filepath(lastPath);
 				audioEntity.setAd_download_cnt(0);
 
 				audioService.insertAudio(audioEntity);
@@ -472,7 +473,6 @@ public class AudioController {
 		audioEntity.setId(id);
 
 		List<AudioEntity> audioList = audioService.getAudioList(audioEntity);
-
 		audioEntity = audioList.get(0);
 		audioEntity.setAd_download_cnt(1);
 
@@ -486,7 +486,8 @@ public class AudioController {
 
 		OutputStream outPutStream = response.getOutputStream();
 		FileInputStream fileInputStream = new FileInputStream(
-				filePath + File.separator + audioEntity.getAd_wav_filepath());
+				//filePath + 
+				File.separator + audioEntity.getAd_wav_filepath());
 
 		int n = 0;
 		byte[] b = new byte[512];
