@@ -70,7 +70,6 @@ public class ConferenceController {
 	public @ResponseBody ModelAndView conferencelist(@RequestParam(value="page",defaultValue="1")int pageNumber,
 			String val, String index) {
 		ModelAndView result = new ModelAndView();
-//		List<ConferenceEntity> conferenceList = conferenceService.getConferenceList();
 		
 		ConferListSelectEntity select = new ConferListSelectEntity();//검색조건과 값을 가진 Entity
 		if(val!=null && !val.equals("")){// 처음 들어간 화면이 아닌 검색조건에 값을 입력한 경우 Entity에게 값을 넣어준다.
@@ -99,7 +98,6 @@ public class ConferenceController {
 	 * 게시판의 값을 반환해주는 메서드 
 	 */
 	public ConferListViewEntity returnViewEntity(int pageNumber, ConferListSelectEntity select){
-//		final int BOARD_COUNT_PER_PAGE = 3;
 		int currentPageNumber = pageNumber; //페이지의 넘버를 갖고 있는 아이
 
 		int selectConferenceTotalCount = conferenceService.selectConferenceTotalCount(); //총 갯수를 갖고 있는 아이

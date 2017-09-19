@@ -55,13 +55,13 @@ public class AudioController {
 
 	@Autowired
 	private ConferenceService conferenceService;
-	
+
 	@Autowired
 	private MemberService memberService;
 
-	private static final int BOARD_COUNT_PER_PAGE = 3;//한번에 보여줄 갯수
-	private static final int PAGE_NUMBER_COUNT_PER_PAGE = 5; //번호의 갯수
-	
+	private static final int BOARD_COUNT_PER_PAGE = 3;// 한번에 보여줄 갯수
+	private static final int PAGE_NUMBER_COUNT_PER_PAGE = 5; // 번호의 갯수
+
 	// 서버 프로세스 구동에 필요한 변수
 	public String filetemppath = "/home/speech/20161012/2016Jul06_ASR_Package_8k_DNN_support/STT/converter/wavtemp";
 	public String uploadpath = "/home/speech/20161012/2016Jul06_ASR_Package_8k_DNN_support/STT/converter/wavfile/";
@@ -101,12 +101,8 @@ public class AudioController {
 
 		try {
 			if (multipartFiles != null && multipartFiles.size() != 0) {
-				// get information - audio.properties
-
 				// 경로 설정을 직접 정해 주었습니다.
 				String uploadTempRootPath = "C:/tim/tim_ap_final/TIM_AP/src/main/webapp/resources/audio";
-				// String uploadTempRootPath = System.getProperty("catalina.home") +
-				// File.separator + "audio_temp";
 				System.out.println(uploadTempRootPath);
 
 				if (!FileTool.isExistsDirectory(uploadTempRootPath)) {
@@ -116,7 +112,7 @@ public class AudioController {
 				String uploadTempFilePath = uploadTempRootPath + File.separator
 						+ UniqueFileIdGenerator.getUniqueFileId();
 				FileTool.makeDirectory(uploadTempFilePath);
-				String lastPath ="";
+				String lastPath = "";
 				for (int i = 0; i < multipartFiles.size(); i++) {
 					MultipartFile multipartFile = multipartFiles.get(i);
 
@@ -130,13 +126,9 @@ public class AudioController {
 						// tepFileName을 회의 아이디와 날짜로 저장
 						String tempFileName = conferenceId + " " + dateMaker() + " "
 								+ UniqueFileIdGenerator.getUniqueFileId() + ".wav";
-						// String tempFileName = UniqueFileIdGenerator.getUniqueFileId() +"_"+
-						// dateMaker() + ".wav" ;
 
 						File uploadFile = new File(uploadTempFilePath + File.separator + tempFileName);
 						lastPath = uploadTempFilePath + File.separator + tempFileName;
-						// File uploadFile = new File(uploadTempFilePath + File.separator +
-						// multipartFile.getOriginalFilename());
 						BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(uploadFile));
 
 						stream.write(bytes);
@@ -153,15 +145,9 @@ public class AudioController {
 				String playTimeFormatter = String.format("%06d", playTime);
 
 				audioEntity.setC_id(conferenceId);
-				MemberEntity member = memberService.getMember((Integer)session.getAttribute("id"));
+				MemberEntity member = memberService.getMember((Integer) session.getAttribute("id"));
 				audioEntity.setM_email(member.getEmail());
-				// audioEntity.setM_email(uploadTempFileNameArray[uploadTempFileNameArray.length
-				// - 2]);
-				// audioEntity.setTime_beg(uploadTempFileNameArray[uploadTempFileNameArray.length
-				// - 1].split("-")[0]);
 				audioEntity.setTime_beg("000000");
-				// audioEntity.setTime_end(uploadTempFileNameArray[uploadTempFileNameArray.length
-				// - 1].split("-")[1]);
 				audioEntity.setTime_end(playTimeFormatter);
 				audioEntity.setAd_text("리눅스안들리고 그냥 셈플로 너어놈");
 				audioEntity.setAd_wav_filepath(lastPath);
@@ -207,12 +193,9 @@ public class AudioController {
 
 		try {
 			if (multipartFiles != null && multipartFiles.size() != 0) {
-				// get information - audio.properties
 
 				// 경로 설정을 직접 정해 주었습니다.
 				String uploadTempRootPath = "C:/tim/tim_ap_final/TIM_AP/src/main/webapp/resources/audio";
-				// String uploadTempRootPath = System.getProperty("catalina.home") +
-				// File.separator + "audio_temp";
 				System.out.println(uploadTempRootPath);
 
 				if (!FileTool.isExistsDirectory(uploadTempRootPath)) {
@@ -222,7 +205,7 @@ public class AudioController {
 				String uploadTempFilePath = uploadTempRootPath + File.separator
 						+ UniqueFileIdGenerator.getUniqueFileId();
 				FileTool.makeDirectory(uploadTempFilePath);
-				String lastPath ="";
+				String lastPath = "";
 				for (int i = 0; i < multipartFiles.size(); i++) {
 					MultipartFile multipartFile = multipartFiles.get(i);
 
@@ -236,13 +219,9 @@ public class AudioController {
 						// tepFileName을 회의 아이디와 날짜로 저장
 						String tempFileName = conferenceId + " " + dateMaker() + " "
 								+ UniqueFileIdGenerator.getUniqueFileId() + ".wav";
-						// String tempFileName = UniqueFileIdGenerator.getUniqueFileId() +"_"+
-						// dateMaker() + ".wav" ;
 
 						File uploadFile = new File(uploadTempFilePath + File.separator + tempFileName);
 						lastPath = uploadTempFilePath + File.separator + tempFileName;
-						// File uploadFile = new File(uploadTempFilePath + File.separator +
-						// multipartFile.getOriginalFilename());
 						BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(uploadFile));
 
 						stream.write(bytes);
@@ -259,16 +238,10 @@ public class AudioController {
 
 				String playTimeFormatter = String.format("%06d", playTime);
 				audioEntity.setC_id(conferenceId);
-				MemberEntity member = memberService.getMember((Integer)session.getAttribute("id"));
+				MemberEntity member = memberService.getMember((Integer) session.getAttribute("id"));
 				System.out.println(member.getEmail());
 				audioEntity.setM_email(member.getEmail());
-				// audioEntity.setM_email(uploadTempFileNameArray[uploadTempFileNameArray.length
-				// - 2]);
-				// audioEntity.setTime_beg(uploadTempFileNameArray[uploadTempFileNameArray.length
-				// - 1].split("-")[0]);
 				audioEntity.setTime_beg("000000");
-				// audioEntity.setTime_end(uploadTempFileNameArray[uploadTempFileNameArray.length
-				// - 1].split("-")[1]);
 				audioEntity.setTime_end(playTimeFormatter);
 				audioEntity.setAd_text("리눅스안들리고 그냥 셈플로 너어놈");
 				audioEntity.setAd_wav_filepath(lastPath);
@@ -284,11 +257,7 @@ public class AudioController {
 					throw new FileUploadException();
 				}
 
-				// get information - audio.properties
 				String uploadRealRootPath = "/usr/local/ap/data/";
-				// String uploadRealRootPath =
-				// "/home/speech/20161012/2016Jul06_ASR_Package_8k_DNN_support/STT/converter/wavInfo/";
-				// String uploadRealRootPath = "d:/temp/";
 
 				File[] uploadTempFileList = uploadTempDirectory.listFiles();
 
@@ -331,20 +300,9 @@ public class AudioController {
 
 						System.out.println(output);
 
-						// test data
-						// AudioEntity audioEntity = new AudioEntity();
-
-						// String playTimeFormatter = String.format("%06d", playTime);
-
 						audioEntity.setC_id(conferenceId);
 						audioEntity.setM_email("sysadmin");
-						// audioEntity.setM_email(uploadTempFileNameArray[uploadTempFileNameArray.length
-						// - 2]);
-						// audioEntity.setTime_beg(uploadTempFileNameArray[uploadTempFileNameArray.length
-						// - 1].split("-")[0]);
 						audioEntity.setTime_beg("000000");
-						// audioEntity.setTime_end(uploadTempFileNameArray[uploadTempFileNameArray.length
-						// - 1].split("-")[1]);
 						audioEntity.setTime_end(playTimeFormatter);
 						audioEntity.setAd_text(output);
 						audioEntity.setAd_wav_filepath(uploadTempFile.getName());
@@ -380,39 +338,36 @@ public class AudioController {
 	// jsp로 만듬
 	@RequestMapping(value = "/list", produces = "text/plain;charset=UTF-8", method = RequestMethod.GET)
 	public @ResponseBody ModelAndView listPost(Locale locale, @RequestParam("c_id") int c_id,
-			@RequestParam(value="page",defaultValue="1")int pageNumber,	String val, String index) {
+			@RequestParam(value = "page", defaultValue = "1") int pageNumber, String val, String index) {
 		logger.info("/audio/list", locale);
 
 		AudioEntity audioEntity = new AudioEntity();
 		audioEntity.setC_id(c_id);
 
 		ModelAndView result = new ModelAndView();
-//		List<AudioEntity> audioList = audioService.getAudioList(audioEntity);
-		ConferListSelectEntity select = new ConferListSelectEntity();//검색조건과 값을 가진 Entity
+		ConferListSelectEntity select = new ConferListSelectEntity();// 검색조건과 값을 가진 Entity
 		select.setC_id(c_id);
-		if(val!=null && !val.equals("")){// 처음 들어간 화면이 아닌 검색조건에 값을 입력한 경우 Entity에게 값을 넣어준다.
+		if (val != null && !val.equals("")) {// 처음 들어간 화면이 아닌 검색조건에 값을 입력한 경우 Entity에게 값을 넣어준다.
 			select.setIndex(index);
 			select.setVal(val);
 			select.setC_id(c_id);
 		}
 		AudioListViewEntity viewData = returnViewEntity(pageNumber, select);
-		if(viewData.getPageTotalCount()>0){
-			int beginPageNumber = (viewData.getCurrentPageNumber()-1)/PAGE_NUMBER_COUNT_PER_PAGE*PAGE_NUMBER_COUNT_PER_PAGE+1;
-			int endPageNumber = beginPageNumber+ PAGE_NUMBER_COUNT_PER_PAGE-1;
-			if(endPageNumber > viewData.getPageTotalCount()){
+		if (viewData.getPageTotalCount() > 0) {
+			int beginPageNumber = (viewData.getCurrentPageNumber() - 1) / PAGE_NUMBER_COUNT_PER_PAGE
+					* PAGE_NUMBER_COUNT_PER_PAGE + 1;
+			int endPageNumber = beginPageNumber + PAGE_NUMBER_COUNT_PER_PAGE - 1;
+			if (endPageNumber > viewData.getPageTotalCount()) {
 				endPageNumber = viewData.getPageTotalCount();
 			}
-			result.addObject("perPage", PAGE_NUMBER_COUNT_PER_PAGE);	//페이지 번호의 갯수
-			result.addObject("end", viewData.getAudioList().size()-1);//마지막 페이지getBoardList
-			result.addObject("beginPage", beginPageNumber);	//보여줄 페이지 번호의 시작
-			result.addObject("endPage", endPageNumber);		//보여줄 페이지 번호의 끝
+			result.addObject("perPage", PAGE_NUMBER_COUNT_PER_PAGE); // 페이지 번호의 갯수
+			result.addObject("end", viewData.getAudioList().size() - 1);// 마지막 페이지getBoardList
+			result.addObject("beginPage", beginPageNumber); // 보여줄 페이지 번호의 시작
+			result.addObject("endPage", endPageNumber); // 보여줄 페이지 번호의 끝
 		}
-		result.addObject("select", select);//그리고 값을 가진 것으 ㄹ넣어준다.
+		result.addObject("select", select);// 그리고 값을 가진 것으 ㄹ넣어준다.
 		result.addObject("viewData", viewData);
-//		result.setViewName("/conference/conferencelist");
-		
-		
-//		result.addObject("result", audioList);
+
 		result.addObject("c_id", c_id);
 		result.setViewName("/audio/list");
 
@@ -420,16 +375,12 @@ public class AudioController {
 	}
 
 	/**
-	 * 게시판의 값을 반환해주는 메서드 
+	 * 게시판의 값을 반환해주는 메서드
 	 */
-	public AudioListViewEntity returnViewEntity(int pageNumber, ConferListSelectEntity select){
-//		final int BOARD_COUNT_PER_PAGE = 3;
-		int currentPageNumber = pageNumber; //페이지의 넘버를 갖고 있는 아이
+	public AudioListViewEntity returnViewEntity(int pageNumber, ConferListSelectEntity select) {
+		int currentPageNumber = pageNumber; // 페이지의 넘버를 갖고 있는 아이
 
-		int selectConferenceTotalCount = audioService.selectAudioTotalCount(select); //총 갯수를 갖고 있는 아이
-		System.out.println(selectConferenceTotalCount+"총갯수");
-		System.out.println(select.getIndex());
-		System.out.println(select.getVal());
+		int selectConferenceTotalCount = audioService.selectAudioTotalCount(select); // 총 갯수를 갖고 있는 아이
 		List<AudioEntity> audioList = null;
 		int firstRow = 0;
 		int endRow = 0;
@@ -437,33 +388,17 @@ public class AudioController {
 			firstRow = (pageNumber - 1) * BOARD_COUNT_PER_PAGE + 1;
 			endRow = firstRow + BOARD_COUNT_PER_PAGE - 1;
 			audioList = audioService.selecAudiotList(firstRow, endRow, select);
-			System.out.println("첫번째이프문"+selectConferenceTotalCount);
 			if (select.getVal() != null && !select.getVal().equals("")) {
 				selectConferenceTotalCount = audioService.selectAudioListCount(select);
-				System.out.println("두번째이프문"+selectConferenceTotalCount);
 			}
 		} else {
 			currentPageNumber = 0;
 			audioList = Collections.emptyList();
 		}
-		return new AudioListViewEntity(audioList, selectConferenceTotalCount,
-				currentPageNumber, BOARD_COUNT_PER_PAGE, firstRow, endRow);
+		return new AudioListViewEntity(audioList, selectConferenceTotalCount, currentPageNumber, BOARD_COUNT_PER_PAGE,
+				firstRow, endRow);
 	}
-	
-	/**
-	 * @RequestMapping(value = "/list", produces="text/plain;charset=UTF-8", method
-	 *                       = RequestMethod.GET) public @ResponseBody String
-	 *                       listGet(Locale locale, @RequestParam("c_id") int c_id)
-	 *                       { logger.info("/audio/list", locale);
-	 * 
-	 *                       AudioEntity audioEntity = new AudioEntity();
-	 *                       audioEntity.setC_id(c_id);
-	 * 
-	 *                       List<AudioEntity> audioList =
-	 *                       audioService.getAudioList(audioEntity);
-	 * 
-	 *                       return new com.google.gson.Gson().toJson(audioList); }
-	 */
+
 
 	@RequestMapping(value = "/download", method = RequestMethod.GET)
 	public void download(Locale locale, HttpServletResponse response, @RequestParam("id") int id) throws IOException {
@@ -486,7 +421,7 @@ public class AudioController {
 
 		OutputStream outPutStream = response.getOutputStream();
 		FileInputStream fileInputStream = new FileInputStream(
-				//filePath + 
+				// filePath + << 리눅스안들리기에 빼놓았습니다.
 				File.separator + audioEntity.getAd_wav_filepath());
 
 		int n = 0;
