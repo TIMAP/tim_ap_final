@@ -38,7 +38,7 @@
 
 	<beans:bean id="multipartResolver"
 		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
-		<beans:property name="maxUploadSize" value="100000"/>
+<!-- 		<beans:property name="maxUploadSize" value="100000"/> -->
 	</beans:bean>
 
 <!-- 인터셉터를 이용해서 로그인과 회원가입페이지 제외하고 다른url 입력시 로그인페이지로 가게했음 -->
@@ -52,6 +52,7 @@
 			<exclude-mapping path="/admin/loginForm"/>
 			<exclude-mapping path="/admin/adminlogin"/>
 			<exclude-mapping path="/resources/js/**"/>
+			<exclude-mapping path="/resources/images/**"/>
 			<beans:bean class="com.tim.ap.controller.loginCheck">
 			</beans:bean>
 		</interceptor>

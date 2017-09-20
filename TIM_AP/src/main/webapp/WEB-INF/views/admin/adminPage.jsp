@@ -3,6 +3,7 @@
 
 <div class="mainDiv">
 		<button type="button" class="btn btn-default loginButton" onclick="memberList();">회원 리스트</button>
+		<button type="button" class="btn btn-default loginButton" onclick="conferList();">회의 리스트</button>
 </div>
 
 <script>
@@ -10,4 +11,9 @@
 	function memberList(){
 		location.href="/admin/memList"
 	}
+// 	회의
+	function conferList() {
+		location.href="/conference/conferencelist";
+	}
+	
 </script>

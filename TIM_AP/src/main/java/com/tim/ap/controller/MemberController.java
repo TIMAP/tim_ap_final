@@ -120,6 +120,7 @@ public class MemberController implements ApplicationContextAware{
 						String name = mem.getName_first()+mem.getName_last();
 						
 						session.setAttribute("id", mem.getId());
+						session.setAttribute("email", mem.getEmail());
 						session.setAttribute("name", name);
 						result.addObject("name", name);
 					}else{

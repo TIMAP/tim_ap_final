@@ -281,6 +281,7 @@ th, tr, td  {
 				<th style="text-align:center; width:100px;">AD_WAV_FILEPATH</th><!-- (경로) -->
 				<th style="text-align:center; width:100px;">AD_DOWNLOAD_CNT</th><!-- (횟수) -->
 				<th style="text-align:center; width:100px;">다운로드</th><!--  -->
+				<th style="text-align:center; width:100px;">권한</th><!--  -->
 			</tr>
 		
 			<c:forEach items="${viewData.audioList}" var="audioEntity">
@@ -294,6 +295,12 @@ th, tr, td  {
 					<td style="text-align:center;"><textarea rows="3" cols="30" style="resize:none; border: 0;" readonly>${audioEntity.ad_wav_filepath}</textarea></td>
 					<td style="text-align:center;">${audioEntity.ad_download_cnt}</td>
 					<td style="text-align:center;"><a href="/audio/download?id=${audioEntity.id}"><img src="/resources/images/save.svg" style="cursor:pointer"></a></td>
+					<td style="text-align:center;">
+						<c:if test="${sessionScope.email == audioEntity.m_email}">
+        					<button type="button" id="btnUpdete" class="btn btn-default loginButton joinButton conferenceSelect">수정</button>
+        					<button type="button" id="btnDelete" class="btn btn-default loginButton joinButton conferenceSelect">삭제</button>
+    					</c:if>
+					</td>
 				</tr>
 			</c:forEach>
 		</table>
