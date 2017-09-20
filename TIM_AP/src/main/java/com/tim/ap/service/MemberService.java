@@ -122,4 +122,27 @@ public class MemberService implements MemberDao {
 		
 		return checkList;
 	}
+
+	@Override
+	public void managementMember(MemberEntity member) {
+		MemberMapper memberMapper = sqlSession.getMapper(MemberMapper.class);
+		
+			try {
+				//sha알고리즘 형태로 변환시켜주는것.
+	            MessageDigest md = MessageDigest.getInstance("SHA-512"); 
+	            md.update(member.getPw().getBytes()); 
+	            byte byteData[] = md.digest();
+	 
+	            StringBuffer sb = new StringBuffer(); 
+	            for(int i=0; i<byteData.length; i++) {
+	                sb.append(Integer.toString((byteData[i]&0xff) + 0x100, 16).substring(1));
+	            }
+	 
+	            String retVal = sb.toString();
+	            member.setPw(retVal);
+	        } catch(NoSuchAlgorithmException e){
+	            e.printStackTrace(); 
+	        }
+			memberMapper.managementMember(member);
+	}
 }

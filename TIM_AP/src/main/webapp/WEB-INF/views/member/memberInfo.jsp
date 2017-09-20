@@ -18,6 +18,7 @@
 	          });
 	      }
 	}
+	
 	function memberUpdate() {
 		var pw = $('#pw').val().trim();
 		var pwPattern = /^[0-9a-zA-Z!@#$%^*+=-]{8,16}$/; //비밀번호패턴
@@ -50,9 +51,10 @@
 			<li>
 				<label class="joinlabel">이름&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</label><input type = "text" name = "name_last" class="memjoin form-control1" value="${mem.name_last}" readonly>
 			</li>
+			
 		</ul>
 	<input type="button" value="뒤로가기" onclick="history.back(-1);" class="btn btn-default loginButton joinButton"> 
-	<input type="button" onclick="memberUpdate();" value="수정" class="btn btn-default loginButton joinButton">
+	<input type="button" onclick="memberMg();" value="수정" class="btn btn-default loginButton joinButton">
 	<input type="reset" value="초기화" class="btn btn-default loginButton joinButton">
 	<input type="button" value="회원탈퇴" class="btn btn-default loginButton joinButton" onclick="memberDelete(${mem.id});">
 	</form>

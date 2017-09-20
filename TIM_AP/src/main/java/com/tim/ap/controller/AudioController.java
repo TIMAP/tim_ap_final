@@ -81,11 +81,12 @@ public class AudioController {
 		return result;
 	}
 
+	//원래 만들어져있는 회의에 녹음 추가할시
 	@RequestMapping("/update")
 	public ModelAndView update(Locale locale, @RequestParam("multipartFile") List<MultipartFile> multipartFiles,
 			ConferenceEntity conferenceEntity, HttpSession session) throws IOException, UnsupportedAudioFileException {
 		logger.info("/audio/upload", locale);
-
+		
 		File file = convert(multipartFiles.get(0));
 
 		AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(file);
@@ -96,21 +97,23 @@ public class AudioController {
 		float durationInSeconds = (audioFileLength / (frameSize * frameRate));
 		int playTime = (int) durationInSeconds;
 		System.out.println("몇초? ->" + playTime + "초");
-
+		
+		//회의의 아이디 가져오는 것
 		int conferenceId = conferenceService.selectConference().getId();
 
 		try {
 			if (multipartFiles != null && multipartFiles.size() != 0) {
-				// 경로 설정을 직접 정해 주었습니다.
+				// 저장 경로 설정을 직접 정해 주었습니다.
 				String uploadTempRootPath = "C:/tim/tim_ap_final/TIM_AP/src/main/webapp/resources/audio";
 				System.out.println(uploadTempRootPath);
 
 				if (!FileTool.isExistsDirectory(uploadTempRootPath)) {
 					FileTool.makeDirectory(uploadTempRootPath);
 				}
-
+				//업로드 할때 파일(폴더)이름정해주는 것(유니크파일 제너레이터 유틸에 가보면 있음)
 				String uploadTempFilePath = uploadTempRootPath + File.separator
 						+ UniqueFileIdGenerator.getUniqueFileId();
+				//폴더만들어주고
 				FileTool.makeDirectory(uploadTempFilePath);
 				String lastPath = "";
 				for (int i = 0; i < multipartFiles.size(); i++) {
@@ -139,6 +142,7 @@ public class AudioController {
 						throw new FileUploadException();
 					}
 				}
+				
 				// 오디오 파일 업로드
 				AudioEntity audioEntity = new AudioEntity();
 
@@ -149,7 +153,7 @@ public class AudioController {
 				audioEntity.setM_email(member.getEmail());
 				audioEntity.setTime_beg("000000");
 				audioEntity.setTime_end(playTimeFormatter);
-				audioEntity.setAd_text("리눅스안들리고 그냥 셈플로 너어놈");
+				audioEntity.setAd_text("서버에서 쉘파일 들리는거 여쭈어볼것");
 				audioEntity.setAd_wav_filepath(lastPath);
 				audioEntity.setAd_download_cnt(0);
 
@@ -167,6 +171,7 @@ public class AudioController {
 		return done(locale);
 	}
 
+	// 회의를 처음 개설할때 회의와 오디오 추가
 	@RequestMapping("/upload")
 	public ModelAndView upload(Locale locale, @RequestParam("multipartFile") List<MultipartFile> multipartFiles,
 			ConferenceEntity conferenceEntity, HttpSession session) throws IOException, UnsupportedAudioFileException {
@@ -187,6 +192,7 @@ public class AudioController {
 		int playTime = (int) durationInSeconds;
 		System.out.println("몇초? ->" + playTime + "초");
 
+		//회의 추가
 		conferenceService.insertConference(conferenceEntity);
 
 		int conferenceId = conferenceService.selectConference().getId();
@@ -194,7 +200,7 @@ public class AudioController {
 		try {
 			if (multipartFiles != null && multipartFiles.size() != 0) {
 
-				// 경로 설정을 직접 정해 주었습니다.
+				// 저장 경로 설정을 직접 정해 주었습니다.
 				String uploadTempRootPath = "C:/tim/tim_ap_final/TIM_AP/src/main/webapp/resources/audio";
 				System.out.println(uploadTempRootPath);
 
@@ -243,14 +249,14 @@ public class AudioController {
 				audioEntity.setM_email(member.getEmail());
 				audioEntity.setTime_beg("000000");
 				audioEntity.setTime_end(playTimeFormatter);
-				audioEntity.setAd_text("리눅스안들리고 그냥 셈플로 너어놈");
+				audioEntity.setAd_text("서버에서 쉘파일 들리는거 여쭈어볼것");
 				audioEntity.setAd_wav_filepath(lastPath);
 				audioEntity.setAd_download_cnt(0);
 
 				audioService.insertAudio(audioEntity);
 				System.out.println(file.lastModified());
 				// ==============================test=======================
-
+				
 				File uploadTempDirectory = new File(uploadTempFilePath);
 
 				if (!uploadTempDirectory.isDirectory()) {
@@ -335,7 +341,8 @@ public class AudioController {
 		return result;
 	}
 
-	// jsp로 만듬
+	// json데이터로 나오던거 jsp로 만듬 conference/list 로 유알엘 치면 제이슨데이터로 나옴
+	
 	@RequestMapping(value = "/list", produces = "text/plain;charset=UTF-8", method = RequestMethod.GET)
 	public @ResponseBody ModelAndView listPost(Locale locale, @RequestParam(value="c_id" ,defaultValue="0") int c_id,
 			@RequestParam(value = "page", defaultValue = "1") int pageNumber, String val, String index) {
@@ -400,6 +407,7 @@ public class AudioController {
 	}
 
 
+	//회의 안에 녹음파일 다운로드
 	@RequestMapping(value = "/download", method = RequestMethod.GET)
 	public void download(Locale locale, HttpServletResponse response, @RequestParam("id") int id) throws IOException {
 		logger.info("/audio/download", locale);
@@ -422,6 +430,7 @@ public class AudioController {
 		OutputStream outPutStream = response.getOutputStream();
 		FileInputStream fileInputStream = new FileInputStream(
 				// filePath + << 리눅스안들리기에 빼놓았습니다.
+				// 파일패스에 있는 주소값 가져옴
 				File.separator + audioEntity.getAd_wav_filepath());
 
 		int n = 0;

@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.PrintWriter;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
@@ -121,6 +120,7 @@ public class MemberController implements ApplicationContextAware{
 						String name = mem.getName_first()+mem.getName_last();
 						
 						session.setAttribute("id", mem.getId());
+						session.setAttribute("email", mem.getEmail());
 						session.setAttribute("name", name);
 						result.addObject("name", name);
 					}else{
@@ -234,16 +234,6 @@ public class MemberController implements ApplicationContextAware{
 		boolean deleteResult = true;
 		resultMap.put("uri", "/member/loginform?deleteResult="+deleteResult);
 		return resultMap;
-	}
-	
-	
-	@RequestMapping("/excel")
-	public ModelAndView excelForm() {
-		
-		ModelAndView result = new ModelAndView();
-		
-		result.setViewName("/member/excel");
-		return result;
 	}
 	
 	/**
@@ -364,8 +354,6 @@ public class MemberController implements ApplicationContextAware{
 	@Override
 	public void setApplicationContext(ApplicationContext arg0)
 			throws BeansException {
-		// TODO Auto-generated method stub
-		
 	}
 	
 	@RequestMapping(value="/excelDownload")

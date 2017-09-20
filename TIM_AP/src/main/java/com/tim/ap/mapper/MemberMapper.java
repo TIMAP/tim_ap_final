@@ -15,6 +15,7 @@ public interface MemberMapper {
 	    void csvInsert(List<MemberEntity> memberList);
 	    ArrayList<MemberEntity> checkExist(List<MemberEntity> memberList);
 	    void updateMember(String id);
+	    void managementMember(MemberEntity member);
 	    void deleteMember(String id);
 	    
 	    

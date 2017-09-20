@@ -246,14 +246,6 @@ $(document).ready(function() {
 		    <input id="addFile" type="button" value="파일추가" class="btn btn-default loginButton joinButton conferenceSelect"/>&nbsp;&nbsp;
 		    <input type="button" value="완료" class="btn btn-default loginButton joinButton conferenceSelect" onclick="location.href='/conference/conferencelist'"/>
 			<input type="button" id="holdConfbtn" value="회의개설" class="btn btn-default loginButton joinButton conferenceSelect">
-<!-- 		    <table id="fileListTable" > -->
-<!-- 	        	<tr> -->
-<!-- 	        		<td> -->
-<!-- <!-- 	        			<input type="file" name="multipartFile" required="required"/> --> 
-<!-- 	        			<label for="multipartFile" class="multipartFile1 btn btn-default loginButton joinButton conferenceSelect">업로드</label> <input type="file" id="multipartFile" name="multipartFile" class="multipartFile">  -->
-<!-- 	        		</td> -->
-<!-- 	        	</tr>         -->
-<!-- 	    	</table> -->
 		</form>
 	</div>
 	
