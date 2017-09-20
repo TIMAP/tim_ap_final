@@ -26,8 +26,8 @@ $(function(){
 <title>Insert title here</title>
 </head>
 <body>
-	<form id="excelUploadForm" name="excelUploadForm" enctype="multipart/form-data" method="post" 
-                                action= "${pageContext.request.contextPath}/member/excelUploadAjax">
+	<form id="excelInsertForm" name="excelInsertForm" enctype="multipart/form-data" method="post" 
+                                action= "${pageContext.request.contextPath}/member/excelInsertMember">
 	    <div class="contents">
 	        <div>첨부파일은 한개만 등록 가능합니다.</div>
 	 
@@ -42,8 +42,8 @@ $(function(){
 	    </div>
 	</form> 
 
-<form id="excelInsertForm" name="excelInsertForm" enctype="multipart/form-data" method="post"
-							 action="${pageContext.request.contextPath}/member/excelInsert" >
+<form id="excelUploadForm" name="excelUploadForm" enctype="multipart/form-data" method="post"
+							 action="${pageContext.request.contextPath}/member/excelUpload" >
 				<div>
 					<p>양식 업로드</p>
 					<input type="file" name="f"	>
@@ -56,7 +56,8 @@ $(function(){
 	<a href="${pageContext.request.contextPath}/member/excelDownload">양식 다운로드</a>
 </div>
 
-	<form id="csvInsertForm" name="csvInsertForm" enctype="multipart/form-data" method="post">
+	<form id="csvInsertForm" name="csvInsertForm" enctype="multipart/form-data" method="post"
+									action="${pageContext.request.contextPath}/member/csvInsertMember">
 		<input id="csvFile" type="file" name="csvFile"/>
 		<button type="button" id="addCsvInsertBtn" onclick="checkCsv()"><span>추가</span></button>
 	</form>

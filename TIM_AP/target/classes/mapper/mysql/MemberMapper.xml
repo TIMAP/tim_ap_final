@@ -14,9 +14,57 @@
 		<result property="disabled" column="DISABLED" />
 	</resultMap>
 
-	<select id="getMemberList" resultType="com.tim.ap.entity.MemberEntity">
-		SELECT ID, EMAIL, PW, NAME_LAST, NAME_FIRST, ROLE, AUTH
-			FROM MEMBER
+	<sql id="searchFrag">
+			<if test="searchType != null">
+			<choose>
+		    <when test='searchType == "mail"'>
+		    	AND EMAIL LIKE CONCAT('%', #{searchWord}, '%')
+		    </when>
+		    <when test='searchType == "namelast"'>
+		    	AND NAME_LAST LIKE CONCAT('%', #{searchWord}, '%')
+		    </when>
+		    <when test='searchType == "namefirst"'>
+		    	AND NAME_FIRST LIKE CONCAT('%', #{searchWord}, '%')
+		    </when>
+		    <when test='searchType == "role"'>
+		    	AND ROLE LIKE CONCAT('%', #{searchWord}, '%')
+		    </when>
+		    <when test='searchType == "auth"'>
+		    	AND AUTH LIKE CONCAT('%', #{searchWord}, '%')
+		    </when>
+	</choose>
+	</if>
+	</sql>
+	<select id="getMemberList" parameterType="com.tim.ap.entity.PaginationInfoEntity" resultType="com.tim.ap.entity.MemberEntity">
+		SELECT B.*
+		FROM (
+		SELECT A.*,@ROWNUM := @ROWNUM + 1 AS RNUM
+	
+		FROM (
+		SELECT 
+			ID,
+			EMAIL,
+			PW,
+			NAME_LAST,
+			NAME_FIRST,
+			ROLE,
+			AUTH
+		FROM MEMBER
+		WHERE (@ROWNUM :=0)=0
+		AND ROLE = "N"
+		<include refid="searchFrag"/>
+		)AS A
+		)AS B
+		 <![CDATA[
+			WHERE RNUM >= #{startRow} AND RNUM <= #{endRow}
+			]]>
+	</select>
+
+	<select id="selectMemberListTotalCount" resultType="java.lang.Integer" parameterType="com.tim.ap.entity.PaginationInfoEntity">
+		SELECT COUNT(*) FROM MEMBER
+		WHERE 1=1
+		AND ROLE = "N"
+			<include refid="searchFrag"/>
 	</select>
 
 	<select id="getMember" parameterType="java.lang.Integer" resultType="com.tim.ap.entity.MemberEntity">
@@ -38,10 +86,10 @@
 	</update>
 	
 	<insert id="excelUpload" parameterType="java.util.List">
-		INSERT INTO MEMBER(ID, EMAIL, PW, NAME_LAST, NAME_FIRST, ROLE , AUTH , DISABLE)
+		INSERT INTO MEMBER(ID, EMAIL, PW, NAME_LAST, NAME_FIRST, ROLE , AUTH , DISABLED)
 		VALUES
 		<foreach item="item" index="index" collection="list" separator=",">
-		(#{item.id}, #{item.email}, #{item.pw}, #{item.name_last}, #{item.name_first}, #{item.role} , #{item.auth} , #{item.disable})
+		(#{item.id}, #{item.email}, #{item.pw}, #{item.name_last}, #{item.name_first}, #{item.role} , #{item.auth} , #{item.disabled})
 		</foreach>
 	</insert>
 	

@@ -15,6 +15,7 @@
 									<button type="button" class="btn btn-default loginButton" onclick="loginButton();">로그인</button>
 									<button type="button" class="btn btn-default loginButton" onclick="location.href='/login/searchForm'">정보 찾기</button>
 									<button type="button" class="btn btn-default loginButton" onclick="joinMember();">회원가입</button>
+									<button type="button" class="btn btn-default loginButton" onclick="adminButton();">관리자 로그인</button>
 				</form>
 			</div>
 		</div>
@@ -38,6 +39,10 @@
 	}
 	function joinMember(){
 		location.href="/member/joinForm";
+	}
+	function adminButton(){
+		alert("관리자 로그인화면으로 넘어 감니다.");
+		location.href="/admin/loginForm";
 	}
 </script>
 <script>

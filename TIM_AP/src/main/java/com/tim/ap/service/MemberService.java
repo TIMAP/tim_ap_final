@@ -1,22 +1,18 @@
 package com.tim.ap.service;
 
-import java.io.File;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.tim.ap.dao.MemberDao;
 import com.tim.ap.entity.MemberEntity;
+import com.tim.ap.entity.PaginationInfoEntity;
 import com.tim.ap.mapper.MemberMapper;
-import com.tim.ap.util.ExcelRead;
-import com.tim.ap.util.ExcelReadOption;
 
 @Repository
 public class MemberService implements MemberDao {
@@ -25,13 +21,19 @@ public class MemberService implements MemberDao {
 	private SqlSession sqlSession;
 
 	@Override
-	public ArrayList<MemberEntity> getMemberList() {
+	public ArrayList<MemberEntity> getMemberList(PaginationInfoEntity pagingEntity) {
 		ArrayList<MemberEntity> result = new ArrayList<MemberEntity>();
 		MemberMapper memberMapper = sqlSession.getMapper(MemberMapper.class);
 
-		result = memberMapper.getMemberList();
+		result = memberMapper.getMemberList(pagingEntity);
 
 		return result;
+	}
+	
+	@Override
+	public int selectMemberListTotalCount(PaginationInfoEntity pagingEntity) {
+		return sqlSession.selectOne("selectMemberListTotalCount",pagingEntity);
+
 	}
 	
 	@Override

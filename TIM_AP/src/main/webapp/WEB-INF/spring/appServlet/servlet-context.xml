@@ -8,6 +8,13 @@
 
 	<annotation-driven />
 	<resources mapping="/resources/**" location="/resources/" />
+	
+	<!-- file download -->
+	<beans:bean id="download" class="com.tim.ap.util.DownloadView"/>
+	
+	<beans:bean class="org.springframework.web.servlet.view.BeanNameViewResolver">
+		<beans:property name="order" value="0"/>	
+    </beans:bean>
 
 	<interceptors>
 		<interceptor>
@@ -16,10 +23,13 @@
 			<exclude-mapping path="/member/login"/>
 			<exclude-mapping path="/member/joinForm"/>
 			<exclude-mapping path="/member/join"/>
+			<exclude-mapping path="/admin/loginForm"/>
+			<exclude-mapping path="/admin/adminlogin"/>
 			<beans:bean class="com.tim.ap.controller.loginCheck">
 			</beans:bean>
 		</interceptor>
 	</interceptors>
+	
 
 	<!-- Tiles -->
 	<beans:bean class="org.springframework.web.servlet.view.UrlBasedViewResolver">
@@ -36,13 +46,13 @@
 	</beans:bean>
 
 	<!-- View Resolver -->
-	<!-- <beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver"> 
+	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver"> 
 		<beans:property name="prefix" value="/WEB-INF/views/" /> <beans:property 
-		name="suffix" value=".jsp" /> <beans:property name="order" value="1" /> </beans:bean> -->
+		name="suffix" value=".jsp" /> <beans:property name="order" value="1" /> </beans:bean>
 
 	<beans:bean id="multipartResolver"
 		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
-		<!-- <beans:property name="maxUploadSize" value="100000"/> -->
+		<beans:property name="maxUploadSize" value="100000"/>
 	</beans:bean>
 
 	<context:component-scan base-package="com.tim.ap" />

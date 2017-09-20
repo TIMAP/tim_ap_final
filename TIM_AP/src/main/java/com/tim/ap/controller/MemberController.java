@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
@@ -12,9 +13,9 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
@@ -33,6 +34,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.opencsv.CSVReader;
 import com.tim.ap.entity.MemberEntity;
+import com.tim.ap.entity.PaginationInfoEntity;
 import com.tim.ap.service.MemberService;
 import com.tim.ap.util.ExcelRead;
 import com.tim.ap.util.ExcelReadOption;
@@ -50,10 +52,12 @@ public class MemberController implements ApplicationContextAware{
 		logger.info("/member/list", locale);
 
 		ModelAndView result = new ModelAndView();
+		PaginationInfoEntity<MemberEntity> pagingEntity = null;
+		List<MemberEntity> memberList = memberService.getMemberList(pagingEntity);
+		
+		pagingEntity.setDataList(memberList);
 
-		List<MemberEntity> memberList = memberService.getMemberList();
-
-		result.addObject("result", memberList);
+		result.addObject("result", pagingEntity);
 		result.setViewName("/member/list");
 
 		return result;
@@ -245,17 +249,20 @@ public class MemberController implements ApplicationContextAware{
 	/**
 	 * 엑셀 디비 인서트
 	 * @param request
-	 * @return
+	 * @return ModelAndView
 	 * @throws Exception
 	 */
 	
 	@ResponseBody
-    @RequestMapping(value = "/excelUploadAjax", method = RequestMethod.POST)
-    public ModelAndView excelUploadAjax(MultipartHttpServletRequest request)  throws Exception{
+    @RequestMapping(value = "/excelInsertMember", method = RequestMethod.POST)
+    public ModelAndView excelInsertMember(MultipartHttpServletRequest request ,RedirectAttributes redirect,HttpServletResponse response)  throws Exception{
+		ModelAndView result = new ModelAndView();
         MultipartFile excelFile =request.getFile("excelFile");
+        System.out.println("엑셀인서트");
         if(excelFile==null || excelFile.isEmpty()){
             throw new RuntimeException("엑셀파일을 선택 해 주세요.");
         }
+        
         
         File destFile = new File("D:\\"+excelFile.getOriginalFilename());
         
@@ -299,12 +306,24 @@ public class MemberController implements ApplicationContextAware{
         	memberList.add(memberEntity);
         }
         
+        ArrayList<MemberEntity> checkList = memberService.checkExist(memberList);
+		
+		String checkId = "";
+		
+		for (int i = 0; i < checkList.size(); i++) {
+			int id = checkList.get(i).getId();
+			if(checkList.size()-1 == i ){
+				checkId += id +"";
+			}else{
+				checkId += id + ",";
+			}
+		}
+		checkId += "는 이미 등록된 회원입니다."; 
+		
+		
+			memberService.excelUpload(memberList);
         
-        memberService.excelUpload(memberList);
-        
-        ModelAndView view = new ModelAndView();
-        view.setViewName("/member/excel");
-        return view;
+        return result;
     }
 	
 	
@@ -313,12 +332,14 @@ public class MemberController implements ApplicationContextAware{
 	 * @param multipartFile
 	 * @return 
 	 */
-	@RequestMapping(value = "/excelInsert", headers = ("content-type=multipart/*"), method = RequestMethod.POST)
-	public ModelAndView excelInsert(
-			@RequestParam("f") MultipartFile multipartFile) {
+	
+	@RequestMapping(value = "/excelUpload", headers = ("content-type=multipart/*"), method = RequestMethod.POST)
+	public ModelAndView excelUpload(
+			@RequestParam("f") MultipartFile multipartFile) throws Exception{
 		
 		ModelAndView view = new ModelAndView();
-		
+		System.out.println(multipartFile.getOriginalFilename());
+		System.out.println("파일업로드");
 		String upload = "C:\\tim\\tim_ap_final\\TIM_AP\\src\\main\\webapp\\resources\\upload";
 
 		String str = multipartFile.getOriginalFilename();
@@ -334,7 +355,7 @@ public class MemberController implements ApplicationContextAware{
 			}
 		}
 		
-		view.setViewName("/member/main");
+		view.setViewName("redirect:/admin/memList");
 		
 		return view;
 	}
@@ -348,9 +369,8 @@ public class MemberController implements ApplicationContextAware{
 	}
 	
 	@RequestMapping(value="/excelDownload")
-    public ModelAndView download(){ // 가져올 파일이름을 넘겨받음.
+    public ModelAndView download(){ 
          
-    	//파일을 가져올 경로를 적어주고 + 가져올 파일 이름을 받아옴. 
         String fullPath = "C:\\tim\\tim_ap_final\\TIM_AP\\src\\main\\webapp\\resources\\upload\\upload.xlsx";
          
         File file = new File(fullPath);
@@ -359,8 +379,9 @@ public class MemberController implements ApplicationContextAware{
     }
 	
 	
-	@RequestMapping(value="/csvInsert", method=RequestMethod.POST)
-	public ModelAndView csvInsert(@RequestParam("csvFile")MultipartFile multipartFile) throws Exception{
+	@ResponseBody
+	@RequestMapping(value="/csvInsertMember", method=RequestMethod.POST)
+	public ModelAndView csvInsertMember(@RequestParam("csvFile")MultipartFile multipartFile) throws Exception{
 		
 		ModelAndView result = new ModelAndView();
 		
@@ -368,6 +389,7 @@ public class MemberController implements ApplicationContextAware{
 		
 		ArrayList<MemberEntity> memberList = new ArrayList<MemberEntity>();
 		
+		System.out.println("csv인서트");
 		try{
 			InputStreamReader is = new InputStreamReader(new FileInputStream(uploadPath),"EUC-KR");
 			CSVReader reader = new CSVReader(is);
@@ -420,18 +442,7 @@ public class MemberController implements ApplicationContextAware{
 			}
 			checkId += "는 이미 등록된 회원입니다."; 
 			
-			
-			if(checkList.size()==0){
 				memberService.csvInsert(memberList);
-				result.addObject("result",true);
-				result.addObject("msg","모든 데이터가 업로드 되었습니다");
-				result.setViewName("/member/list");
-			}else{
-				result.addObject("result",false);
-				result.addObject("checkId",checkId);
-				result.setViewName("/member/excel");
-			}
-			
 			
 		return result;
 	}
