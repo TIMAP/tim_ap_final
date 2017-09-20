@@ -6,11 +6,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <script>
-// 	var a = $
-// 	{
-// 		aaa
-// 	};
-// 	alert(a);
 	
 	$(function(){ //전체선택 체크박스 클릭
 		$("#allCheck").click(function() {

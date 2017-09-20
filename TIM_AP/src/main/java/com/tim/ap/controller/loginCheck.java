@@ -17,6 +17,7 @@ public class loginCheck extends HandlerInterceptorAdapter{
 
 		HttpSession session  = request.getSession();
 		System.out.println("로그인 체크!");
+		//세션의 아이디 값이 없으면 로그인폼으로 보내기
 		if(session.getAttribute("id") == null) {
 			response.sendRedirect(request.getContextPath()+"/member/loginform");
 			return false;
