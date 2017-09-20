@@ -96,37 +96,12 @@ public class MemberService implements MemberDao {
 	
 	
 	@Override
-	public void excelUpload(File destFile){
+	public void excelUpload(List<MemberEntity> memberList){
 		MemberMapper userMapper = sqlSession.getMapper(MemberMapper.class);
-		ExcelReadOption excelReadOption = new ExcelReadOption();
-        excelReadOption.setFilePath(destFile.getAbsolutePath());
-        excelReadOption.setOutputColumns("A","B","C","D","E","F","G","H");
-        excelReadOption.setStartRow(1);
-        
-        
-        List<Map<String, String>> excelContent =ExcelRead.read(excelReadOption);
-        List<MemberEntity> memberList = new ArrayList<MemberEntity>();
-        
-        
-        for(Map<String, String> article: excelContent){
-        	
-        	MemberEntity memberEntity = new MemberEntity();
-        	
-        	memberEntity.setId(Integer.parseInt(article.get("A")));
-        	memberEntity.setEmail(article.get("B"));
-        	memberEntity.setPw(article.get("C"));
-        	memberEntity.setName_last(article.get("D"));
-        	memberEntity.setName_first(article.get("E"));
-        	memberEntity.setRole(article.get("F").charAt(0));
-        	memberEntity.setAuth(article.get("G").charAt(0));
-        	memberEntity.setDisabled(article.get("H").charAt(0));
-        	
-        	memberList.add(memberEntity);
-        }
-        
+		
         userMapper.excelUpload(memberList);
 
-}
+	}
 
 	@Override
 	public void csvInsert(List<MemberEntity> memberList) {

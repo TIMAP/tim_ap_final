@@ -365,9 +365,9 @@ th, tr, td  {
 		var c_id = '${c_id}';
 		alert(c_id);
 		$.ajax({
-				url : '/conference/conferenceUpdate',
+				url : '/conference/conferClosedUpdate',
 				type : 'post',
-				data :   c_id ,
+				data :   {"c_id":c_id} ,
 				success : function(result) {
 					alert("성공");
 				},

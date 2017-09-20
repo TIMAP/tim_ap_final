@@ -90,6 +90,15 @@ public class ConferenceService implements ConferenceDao {
 			conferenceMapper.conferenceInfoUpdate(conferList.get(i));
 		}
 	}
+
+	@Override
+	public ConferenceEntity conferenceFind(String c_id) {
+		ConferenceMapper conferenceMapper = sqlSession.getMapper(ConferenceMapper.class);
+		
+		ConferenceEntity conferenceEntity = conferenceMapper.conferenceFind(c_id);
+		
+		return conferenceEntity;
+	}
 	
 	
 }

@@ -11,7 +11,7 @@ public interface MemberDao {
     public void insertMember(MemberEntity member);
     //public void updateMember(MemberEntity member);
     //public void deleteMember(MemberEntity member);
-    public void excelUpload(File destFile);
+    public void excelUpload(List<MemberEntity> memberList);
     public void csvInsert(List<MemberEntity> memberList);
     ArrayList<MemberEntity> checkExist(List<MemberEntity> memberList);
 	public MemberEntity getMember(int id);

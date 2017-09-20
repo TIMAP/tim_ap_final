@@ -20,6 +20,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.tim.ap.entity.ConferListSelectEntity;
 import com.tim.ap.entity.ConferListViewEntity;
 import com.tim.ap.entity.ConferenceEntity;
+import com.tim.ap.service.AudioService;
 import com.tim.ap.service.ConferenceService;
 
 @Controller
@@ -154,8 +155,30 @@ public class ConferenceController {
 		return map;
 	}
 	
+	@ResponseBody
 	@RequestMapping("/conferClosedUpdate")
 	public void conferClosedUpdate(@RequestParam(value="c_id")String c_id){
-		System.out.println(c_id+"값이들어오나?");
+		ConferenceEntity conferenceEntity = conferenceService.conferenceFind(c_id);
+		List<ConferenceEntity> conferenceList = new ArrayList<ConferenceEntity>();
+		if(conferenceEntity.getClosed().equals("Y")){
+			conferenceEntity.setClosed("N");
+		}else{
+			conferenceEntity.setClosed("Y");
+		}
+		
+		conferenceList.add(conferenceEntity);
+		
+		conferenceService.conferenceInfoUpdate(conferenceList);
 	}
+	
+	
+	
+	
+	
 }
+
+
+
+
+
+
