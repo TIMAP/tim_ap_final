@@ -337,7 +337,7 @@ public class AudioController {
 
 	// jsp로 만듬
 	@RequestMapping(value = "/list", produces = "text/plain;charset=UTF-8", method = RequestMethod.GET)
-	public @ResponseBody ModelAndView listPost(Locale locale, @RequestParam("c_id") int c_id,
+	public @ResponseBody ModelAndView listPost(Locale locale, @RequestParam(value="c_id" ,defaultValue="0") int c_id,
 			@RequestParam(value = "page", defaultValue = "1") int pageNumber, String val, String index) {
 		logger.info("/audio/list", locale);
 
@@ -433,6 +433,20 @@ public class AudioController {
 
 		fileInputStream.close();
 		outPutStream.close();
+	}
+	
+	@RequestMapping(value = "/updateAdText", method = RequestMethod.GET)
+	public String updateAdText(Locale locale, @RequestParam("id") int id ,@RequestParam("ad_text") String ad_text){
+		logger.info("/audio/updateAdText", locale);
+		System.out.println("asdasd");
+		AudioEntity audioEntity = new AudioEntity();
+		audioEntity.setId(id);
+		audioEntity.setAd_text(ad_text);
+
+		audioService.updateAdText(audioEntity);
+		
+		return "audio/list";
+	
 	}
 
 	public String dateMaker() {

@@ -57,6 +57,39 @@ $(document).ready(function() {
     $('#hideConfbtn').click(function(){
     	$('#voiceRecorder').hide();
     });
+    
+    $('input[name=audioEdit]').click(function(){
+    	var val= $(this).val();
+		var parent=$(this).parent().parent();
+      	var adtext= parent.find("td:eq(5)").children().val();
+      	var id= parent.find("td:eq(0)").text();
+//     	alert(parent);
+    	if(val=="수정"){
+	    	$(this).attr("value","저장");		
+	    	parent.find("td:eq(5)").children().attr("readonly",false);
+
+    	}
+    	else{
+	        $.ajax({
+	             
+	            type : "GET",
+	            url : "updateAdText?id="+id+"&ad_text="+adtext,
+	            error : function(){
+	                alert('변경에 실패하였습니다 ');
+	            },
+	            success : function(data){
+	          		alert("AD_TEXT를 변경하였습니다 ");
+	            	
+	            }
+	             
+	        });
+	        $(this).attr("value","수정");		    		
+	    	parent.find("td:eq(5)").children().attr("readonly",true);
+    	}
+    	
+    });
+
+
 });
 	//작성자 : 홍기훈 오디오 녹음을 위한객체
 	
@@ -181,10 +214,9 @@ $(document).ready(function() {
 					});
 			  
 			 }
-		  
+
 		  window.Recorder = Recorder;
-		  
-	
+
 	</script>
 
 	<style>
@@ -264,8 +296,10 @@ th, tr, td  {
 			<input type="hidden" name="c_id" value="${c_id}"> 
 			<input type="text" class="memjoin form-control1 conferenceSelect" name="val" value="${select.val}"> 
 			<input type="submit" class="btn btn-default loginButton joinButton conferenceSelect" value="검색"> 
+			<c:if test="${id ne 1004}">
 			<input type="button" id="holdConfbtn" value="회의추가" class="btn btn-default loginButton joinButton conferenceSelect">
-			<input type="button" id="hideConfbtn" value="추가취소" class="btn btn-default loginButton joinButton conferenceSelect">
+			<input type="button" id="hideConfbtn" value="추가취소" class="btn btn-default loginButton joinButton conferenceSelect">			
+			</c:if>
 		</form>
 	</div>
 
@@ -290,10 +324,15 @@ th, tr, td  {
 					<td style="text-align:center;">${audioEntity.m_email}</td>
 					<td style="text-align:center;">${audioEntity.time_beg}</td>
 					<td style="text-align:center;">${audioEntity.time_end}</td>
-					<td style="text-align:center;"><textarea rows="3" cols="30" style="resize:none; border: 0;" readonly>${audioEntity.ad_text}</textarea></td>
+					<td style="text-align:center;" ><textarea id="${audioEntity.id}" rows="3" cols="30" style="resize:none; border: 0;" readonly>${audioEntity.ad_text}</textarea></td>
 					<td style="text-align:center;"><textarea rows="3" cols="30" style="resize:none; border: 0;" readonly>${audioEntity.ad_wav_filepath}</textarea></td>
 					<td style="text-align:center;">${audioEntity.ad_download_cnt}</td>
 					<td style="text-align:center;"><a href="/audio/download?id=${audioEntity.id}"><img src="/resources/images/save.svg" style="cursor:pointer"></a></td>
+					
+					<c:if test="${id eq 1004}">					
+						<td><input type="button" value="수정" name="audioEdit"/></td>
+						
+					</c:if>
 				</tr>
 			</c:forEach>
 		</table>

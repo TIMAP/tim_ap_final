@@ -43,16 +43,34 @@
 	</update>
 	
 	
+	<update id="updateAdText" parameterType="com.tim.ap.entity.AudioEntity">
+		UPDATE AUDIO
+			SET
+				AD_TEXT = #{ad_text}
+			WHERE
+				ID = #{id}
+	</update>
+	
+	
 	<!-- 	김병현 -->
 <!-- 	리스트의 전체 갯수를 반환하는 쿼리-->
 	<select id="selectAudioTotalCount" resultType="java.lang.Integer" parameterType="com.tim.ap.entity.ConferListSelectEntity">
-		select count(*) from audio where c_id = #{c_id}
+		select count(*) from audio 
+		<where>
+		<if test="c_id != 0">
+				c_id = #{c_id}
+		</if>
+		</where>
 	</select>
 	
 <!-- 	검색될 리스트를 반환하는 쿼리 -->
 	<select id="selecAudiotList" parameterType="com.tim.ap.entity.ConferListSelectEntity" resultType="com.tim.ap.entity.AudioEntity">
-			select * from audio where 1 = 1 
-			and  c_id = #{c_id}
+			select * from audio 
+			<where>
+				<if test="c_id != 0">
+					c_id = #{c_id}
+				</if>
+			</where>
 		<choose>
 <!-- 			index는 날짜로 검색할 것인지, 제목으로 검색할 것인지 담겨있는 String 이며
 				담겨있는값이 뭐냐에 따라 검색이 된다.-->

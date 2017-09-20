@@ -11,6 +11,7 @@ public interface AudioDao {
 	public ArrayList<AudioEntity> getAudioList(AudioEntity audioEntity);
     public void insertAudio(AudioEntity audioEntity);
     public void updateAudio(AudioEntity audioEntity);
+    public void updateAdText(AudioEntity audioEntity);
     //public void deleteAudio(AudioEntity audioEntity);
     
     //오디오리스트 출력부분

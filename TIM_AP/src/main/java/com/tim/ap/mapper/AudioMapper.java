@@ -11,6 +11,7 @@ public interface AudioMapper {
 		ArrayList<AudioEntity> getAudioList(AudioEntity audioEntity);
 	    void insertAudio(AudioEntity audioEntity);
 	    void updateAudio(AudioEntity audioEntity);
+	    void updateAdText(AudioEntity audioEntity);
 	    //void deleteAudio(AudioEntity audioEntity);
 	    
 	    int selectAudioTotalCount(ConferListSelectEntity select);//리스트의 갯수를 반환하는 메서드

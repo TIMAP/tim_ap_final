@@ -70,4 +70,12 @@ public class AudioService implements AudioDao {
 		return audioMapper.selectAudioListCount(select);
 	}
 
+	@Override
+	public void updateAdText(AudioEntity audioEntity) {
+		AudioMapper audioMapper = sqlSession.getMapper(AudioMapper.class);
+
+		audioMapper.updateAdText(audioEntity);	
+		
+	}
+
 }
