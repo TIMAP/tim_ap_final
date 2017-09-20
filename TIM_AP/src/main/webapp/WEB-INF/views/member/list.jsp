@@ -5,9 +5,6 @@
 <%@ page import="com.tim.ap.entity.MemberEntity"%>
 
 
-<script src="http://malsup.github.com/jquery.form.js"></script>
-<script src="/resources/js/member/member.js"></script>
-
 		<div>
 		<form id="searchForm" action="/admin/memList">
 			<select name="searchType"
@@ -82,7 +79,7 @@
 		
 			<c:forEach items="${result.dataList}" var="memberEntity">
 				<tr>
-					<td style="text-align: center;">${memberEntity.id}</td>
+					<td style="text-align: center;"><a onclick="memberInfo('${memberEntity.id}');">${memberEntity.id}</a></td>
 					<td style="text-align: center;">${memberEntity.email}</td>
 					<td style="text-align: center;">${memberEntity.name_first}</td>
 					<td style="text-align: center;">${memberEntity.name_last}</td>

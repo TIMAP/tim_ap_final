@@ -151,4 +151,30 @@ public class AdminController {
 
 		return result;
 	}
+	
+	
+	/**
+	 * 회원 정보 수정 폼 이동
+	 */
+	@RequestMapping("/memberInfo")
+	public ModelAndView userInfo(MemberEntity member){
+		ModelAndView result = new ModelAndView();
+		MemberEntity mem = memberService.getMember(member.getId());
+		result.addObject("mem", mem);
+		result.setViewName("/admin/memberManagement");
+		return result;
+	}
+	
+	/**
+	 * 회원 정보 수정 메서드(회원 쪽 자기 정보 수정과 같은 메서드 이용)
+	 * @param member
+	 * @return ModelAndView
+	 */
+	@RequestMapping("/memberManagement")
+	public ModelAndView memberUpdate(MemberEntity member){
+		ModelAndView result = new ModelAndView();
+		memberService.managementMember(member);
+		result.setViewName("redirect:/admin/memList");
+		return result;
+	}
 }

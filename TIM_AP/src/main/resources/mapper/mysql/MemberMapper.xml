@@ -81,6 +81,16 @@
 		UPDATE MEMBER SET PW = #{pw} WHERE ID = #{id}
 	</update>
 	
+	<update id="managementMember" parameterType="com.tim.ap.entity.MemberEntity">
+		UPDATE MEMBER SET EMAIL=#{email}, 
+						  PW = #{pw}, 
+						  NAME_LAST= #{name_last},
+						  NAME_FIRST = #{name_first},
+						  ROLE = #{role}, 
+						  AUTH = #{auth}
+		WHERE ID = #{id} 
+	</update>
+	
 	<update id="deleteMember">
 		UPDATE MEMBER SET DISABLED = 'Y' WHERE ID = #{id}
 	</update>

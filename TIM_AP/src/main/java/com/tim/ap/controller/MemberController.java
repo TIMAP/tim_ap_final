@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.PrintWriter;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
@@ -236,16 +235,6 @@ public class MemberController implements ApplicationContextAware{
 		return resultMap;
 	}
 	
-	
-	@RequestMapping("/excel")
-	public ModelAndView excelForm() {
-		
-		ModelAndView result = new ModelAndView();
-		
-		result.setViewName("/member/excel");
-		return result;
-	}
-	
 	/**
 	 * 엑셀 디비 인서트
 	 * @param request
@@ -364,8 +353,6 @@ public class MemberController implements ApplicationContextAware{
 	@Override
 	public void setApplicationContext(ApplicationContext arg0)
 			throws BeansException {
-		// TODO Auto-generated method stub
-		
 	}
 	
 	@RequestMapping(value="/excelDownload")
