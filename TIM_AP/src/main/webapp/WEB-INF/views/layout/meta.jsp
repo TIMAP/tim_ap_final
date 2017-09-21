@@ -85,6 +85,7 @@ div.mainDivOne{
  	margin-left: 20%;
  	margin-top: 10%;
  	border-radius:50px;
+ 	 	cursor: pointer;
 }
 div.mainDivTwo{
 	width: 20%;
@@ -92,6 +93,38 @@ div.mainDivTwo{
 	background: rgba(255, 255, 255, 0.8);
 	float: left;
 	margin-left: 20%;
+	margin-top: 10%; 
+ 	border-radius:50px;
+ 	 	cursor: pointer;
+}
+/* 어드민 */
+div.amainDivOne{
+	width: 20%;
+	height: 50%;
+	background: rgba(255, 255, 255, 0.8);
+ 	float: left; 
+ 	margin-left: 10%;
+ 	margin-top: 10%;
+ 	border-radius:50px;
+ 	cursor: pointer;
+}
+div.amainDivTwo{
+	width: 20%;
+	height: 50%;
+	background: rgba(255, 255, 255, 0.8);
+	float: left;
+	margin-left: 10%;
+	margin-top: 10%; 
+ 	border-radius:50px;
+ 	cursor: pointer;
+}
+div.amainDivThree{
+ 	cursor: pointer;
+	width: 20%;
+	height: 50%;
+	background: rgba(255, 255, 255, 0.8);
+	float: left;
+	margin-left: 10%;
 	margin-top: 10%; 
  	border-radius:50px;
 }
@@ -190,6 +223,28 @@ div.conferenceImgDiv{
 	height:30%;
 	margin: 25% auto 15% auto;
 	background-image: url('/resources/images/if_Group_Meeting_Light_80844.png');
+	background-repeat: no-repeat;
+}
+/* 어드민 */
+div.auserInfoImgDiv{
+	width:32%;
+	height:30%;
+	margin: 25% auto 15% auto;
+	background-image: url('/resources/images/if_Padlock_User_Control_88832.png');
+	background-repeat: no-repeat;
+}
+div.aconferenceImgDiv{
+	width:32%;
+	height:30%;
+	margin: 25% auto 15% auto;
+	background-image: url('/resources/images/if_Group_Meeting_Light_80844.png');
+	background-repeat: no-repeat;
+}
+div.aaudioImgDiv{
+	width:32%;
+	height:30%;
+	margin: 25% auto 15% auto;
+	background-image: url('/resources/images/if_shared-music_31284.png');
 	background-repeat: no-repeat;
 }
 
