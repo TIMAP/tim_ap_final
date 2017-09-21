@@ -185,4 +185,25 @@ public class AdminController {
 		result.setViewName("redirect:/admin/memList");
 		return result;
 	}
+	/**
+	 * 사용자 개별 추가 폼
+	 */
+	@RequestMapping("/addMemberForm")
+	public ModelAndView joinForm() {
+		ModelAndView result = new ModelAndView();
+		result.setViewName("/admin/addMember");
+		return result;
+	}
+	
+	/**
+	 *  사용자 개별 추가 메서드 
+	 */
+	@RequestMapping("/addMember")
+	public ModelAndView join(MemberEntity member) {
+		ModelAndView result = new ModelAndView();
+		System.out.println(member.getAuth());
+		memberService.addMember(member);
+		result.setViewName("redirect:/admin/memList");
+		return result;
+	}
 }

@@ -19,4 +19,5 @@ public interface MemberDao {
 	public void deleteMember(MemberEntity member);
 	public void updateMember(MemberEntity member);
 	public void managementMember(MemberEntity member);
+	public void addMember(MemberEntity member);
 }

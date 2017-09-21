@@ -3,7 +3,15 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ page import="java.util.*"%>
 <%@ page import="com.tim.ap.entity.MemberEntity"%>
-
+<script type="text/javascript">
+$(function(){
+	var msg = "${msg}";
+	if(msg != "" && msg != null){
+		alert(msg);
+		msg = "";
+	}
+})
+</script>
 
 		<div>
 		<form id="searchForm" action="/admin/memList">
@@ -43,8 +51,7 @@
 		    </div>
 		</form>
 		<hr> 
-		<form id="csvInsertForm" name="csvInsertForm" enctype="multipart/form-data" method="post"
-									action="${pageContext.request.contextPath}/member/csvInsertMember">
+		<form id="csvInsertForm" name="csvInsertForm" enctype="multipart/form-data" method="post">
 			<input id="csvFile" type="file" name="csvFile"/>
 			<button type="button" id="addCsvInsertBtn" onclick="checkCsv()"><span>추가</span></button>
 		</form>
@@ -65,6 +72,7 @@
 			<!-- 엑셀 양식 업로드 -->
 			<!-- 엑셀 양식 다운로드 -->
 			<!-- 사용자 일괄 추가 -->
+			<a href="${pageContext.request.contextPath}/admin/addMemberForm">사용자 개별추가</a>
 			</div>
 			
 		<table>

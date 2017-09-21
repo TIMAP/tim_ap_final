@@ -17,7 +17,7 @@ public interface MemberMapper {
 	    void updateMember(String id);
 	    void managementMember(MemberEntity member);
 	    void deleteMember(String id);
-	    
+	    void addMember(MemberEntity member);
 	    
 	    int selectConferenceTotalCount();//리스트의 갯수를 반환하는 메서드
 }

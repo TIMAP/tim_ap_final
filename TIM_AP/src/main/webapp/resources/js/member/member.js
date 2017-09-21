@@ -8,23 +8,13 @@ function check() {
         alert("파일을 선택해주세요.");
         return false;
     } 
-
-    if (confirm("업로드 하시겠습니까?")) {
-        var options = {
-            success : function(data) {
-                alert("모든 데이터가 업로드 되었습니다.");
-            },
-            type : "POST",
-            error:function(){
-            	alert("이미 등록된 사용자가 존재합니다");
-            }
-        };
-        $("#excelInsertForm").ajaxSubmit(options);
-
-    }
     
+    var excelInsertForm = document.getElementById("excelInsertForm");
+    excelInsertForm.action = "/member/excelInsertMember";
+    excelInsertForm.submit();
     
 }
+
 
 function checkCsv() {
     var file = $("#csvFile").val();
@@ -32,22 +22,12 @@ function checkCsv() {
         alert("파일을 선택해주세요.");
         return false;
     } 
-    
-    if (confirm("업로드 하시겠습니까?")) {
-        var options = {
-            success : function(data) {
-                alert("양식이 업로드 되었습니다.");
-            },
-            type : "POST",
-            error:function(){
-            	alert("이미 등록된 사용자가 존재합니다");
-            }
-        };
-        $("#csvInsertForm").ajaxSubmit(options);
-
-    }
+    var csvInsertForm = document.getElementById("csvInsertForm");
+    csvInsertForm.action = "/member/csvInsertMember";
+    csvInsertForm.submit();
     
 }
+
 
 function checkUpload() {
     var file = $("#f").val();
@@ -69,10 +49,15 @@ function checkUpload() {
     
 }
 
+
+
+
 function memberInfo(id){
 	alert(id);
 	location.href="/admin/memberInfo?id="+id;
 }
+
+
 
 function memberMg() {
 	$('.managementForm').submit();
