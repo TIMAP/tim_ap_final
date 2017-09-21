@@ -166,6 +166,7 @@ public class MemberService implements MemberDao {
         } catch(NoSuchAlgorithmException e){
             e.printStackTrace(); 
         }
+		
 		memberMapper.addMember(member);
 	}
 }
