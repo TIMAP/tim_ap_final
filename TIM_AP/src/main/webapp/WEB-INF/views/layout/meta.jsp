@@ -60,6 +60,43 @@ input.btn{
 .joinDiv{
 	text-align: center;
 }
+
+/* 어드민 조인 */
+
+.ajoinDiv{
+	background: linear-gradient(-135deg, #E4A972, #9941D8) fixed;  
+	text-align: center;
+	height: 90%;
+}
+
+div.ajoinForm{
+	background: rgba(255, 255, 255, 0.8);
+	width:30%;
+	padding-top: 3%;
+	float: left;
+	padding-bottom: 3%;
+	border-radius:50px;
+	margin-left: 34%;
+	margin-top: 3%;
+}
+
+ul.ajoinUl{
+	margin: 0 10%;
+/* 	width:40%; */
+	list-style: none;
+}
+
+div.aExcelCsv{
+	margin-top: 3%;
+	margin-right:36%;
+  	background: rgba(255, 255, 255, 0.8);  
+	float:right;
+	width: 30%;
+	height:397px;
+	padding-top: 3%;
+	border-radius:50px;
+}
+
 /* 회원가입시 라벨 */
 .joinlabel{
 	display: inline-block;
@@ -195,7 +232,7 @@ div.joinImgDiv{
 }
 .form-control1{
 /*     display: block; */
-    width: 100%;
+    width: 30%;
     height: 34px;
     padding: 6px 12px;
     font-size: 14px;
@@ -205,8 +242,8 @@ div.joinImgDiv{
     background-image: none;
     border: 1px solid #ccc;
     border-radius: 4px;
-    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
-    box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+/*     -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075); */
+/*     box-shadow: inset 0 1px 1px rgba(0,0,0,.075); */
     -webkit-transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
     -o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
     transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;

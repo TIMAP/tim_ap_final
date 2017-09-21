@@ -380,7 +380,7 @@ th, tr, td  {
 	</div>
 
 	<div style="margin: 0 auto;">
-
+	<c:if test="${!empty confer.title}">
 		<table style="margin: 0 auto; background: white;" class="table table-bordered table-hover conferenceList">
 			<tr>
 				<th style="text-align:center; width:100px;">회의명</th>
@@ -401,19 +401,14 @@ th, tr, td  {
 				</div>
 				</td>
 				<td>
-					<c:if test="${sessionScope.id == confer.u_id}">
-					
-       					<input type="button" id="conferEdit" value="수정" class="btn btn-default loginButton joinButton conferenceSelect"/>
-       					<input type="button" id="conferDel"  value="삭제" class="btn btn-default loginButton joinButton conferenceSelect"/>
-   					</c:if>
-   					<c:if test="${id eq 1004}">
+					<c:if test="${sessionScope.id == confer.u_id or id eq 1004}">
        					<input type="button" id="conferEdit" value="수정" class="btn btn-default loginButton joinButton conferenceSelect"/>
        					<input type="button" id="conferDel"  value="삭제" class="btn btn-default loginButton joinButton conferenceSelect"/>
    					</c:if>
 				</td>
 			</tr>
 		</table>
-
+</c:if>
 		<br><br>
 				<!-- 스타일을 위에서 잡아줘서 중복코딩 막는게 어떨지 생각됨 , 아니면 메타에 너어놔도..어차피 테이블 다똑같은 형식이니까 -->
 		<table  style="margin: 0 auto; background: white;" class="table table-bordered table-hover conferenceList">
@@ -443,13 +438,10 @@ th, tr, td  {
 					<td style="text-align:center;"><a href="/audio/download?id=${audioEntity.id}"><img src="/resources/images/save.svg" style="cursor:pointer"></a></td>
 
 					<td style="text-align:center;">
-					<c:if test="${id eq 1004}">					
+					<!-- 관리자 or 작성자 오디오 ad_text 정보 변경  -->
+					<c:if test="${sessionScope.email == audioEntity.m_email or id eq 1004}">					
 						<td><input type="button" value="수정" name="audioEdit"/></td>
 					</c:if>
-						<c:if test="${sessionScope.email == audioEntity.m_email}">
-        					<button type="button" id="btnUpdete" class="btn btn-default loginButton joinButton conferenceSelect">수정</button>
-        					<button type="button" id="btnDelete" class="btn btn-default loginButton joinButton conferenceSelect">삭제</button>
-    					</c:if>
 					</td>
 
 				</tr>

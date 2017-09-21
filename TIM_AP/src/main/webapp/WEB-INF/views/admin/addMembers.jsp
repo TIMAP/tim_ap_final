@@ -2,66 +2,119 @@
     pageEncoding="UTF-8"%>
     
 <script type="text/javascript">
+	$(function(){
+		var msg = "${msg}";
+		if(msg != "" && msg != null){
+			alert(msg);
+			msg = "";
+		}
+	});
+	
 $(function(){
-	var msg = "${msg}";
-	if(msg != "" && msg != null){
-		alert(msg);
-		msg = "";
-	}
+// 		var result = $(":input:radio[name=ra]:checked").val();
+// 		if(result == 1){
+// 			$('.aExcelCsv').attr('class','ssss');
+// // 			$('.aExcelCsv').addClass("ssss");
+
+// // 			$(this).removeClass("class_name");
+// 		}else{
+// 			alert("2");
+// 		}
+// 	    $("input[type=radio]").change(function(){
+// 			result = $(this).val();
+// 			if(result == 1){
+				
+// 			}else{
+				
+// 			}
+// 			alert(result);
+// 	    });
+
+  $( function() {
+    $( "#tabs" ).tabs();
+  } );
+
+// 	 if($(":input:radio[name=ra]:checked").val() == "1" || $(":input:radio[name=ra]:checked").val() != "2"){
+// 		 alert(this.val());
+// 	 }
+// 	$("#viewByOrg, #viewByProduct").bind(($.browser.msie ? "click" : "change"), function () {
+//         $(".visibleOnLoad").show();
+//         $(".hiddenOnLoad").hide();
+//     });
 })
+
+// $("#mdName" ).prop( "disabled", true );
+
+
+	
 </script>    
-    
-<div class="joinDiv">
-	<div class="joinForm">
-		<div class="joinImgDiv"></div><!-- 이미지 div -->
-		<form action="/admin/addMember" method="post" class="joinForm" name="joinForm">
-			<ul class="joinUl">
-				<li>
-					<label class="joinlabel">아 이 디  :</label><input type = "text" name = "id" class="memjoin form-control1" id="id" placeholder="10자 이내 숫자를 입력하세요" maxlength="10">
-				</li>
-				<li>
-					<label class="joinlabel">비밀번호:</label><input type = "password" name = "pw" class="memjoin form-control1" id="pw" placeholder="8 - 16자 이내로 입력해주세요." maxlength="16">
-				</li>
-				<li>
-					<label class="joinlabel">이 메 일  :</label><input type ="email" name = "email" class="memjoin form-control1" id="email" placeholder="이메일을 정확히 입력해주세요.">
-				</li>
-				<li>
-					<label class="joinlabel">성&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</label><input type = "text" name = "name_first" id="name_first" class="memjoin form-control1" placeholder="이름의 '성'을 적어주세요" maxlength="5">
-				</li>
-				<li>
-					<label class="joinlabel">이름&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</label><input type = "text" name = "name_last" class="memjoin form-control1" id="name_last" placeholder="이름을 적어주세요." maxlength="5">
-				</li>
-				<li>
-					<label class="joinlabel">권한&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</label><input type = "checkbox" name = "auth" class="memjoin form-control1" id="auth" value="auth">
-				</li>
-			</ul>
-			<input type="button" class="btn btn-default loginButton joinButton" value="뒤로가기" onclick="history.back(-1);" class="btn"> 
-			<input type="button" class="btn btn-default loginButton joinButton" value="추가" onclick="joinButton();" class="btn">
-			<input type="reset"  class="btn btn-default loginButton joinButton" value="초기화" class="btn">
-		</form>
-	</div>
-	
-	
-	<hr>
+
+<style>
+.ssss{
+	margin: 100px;
+}
+</style>
+
+<div class="ajoinDiv">
+	<div id="tabs" style="height: 0; background: none; border: 0;">
+		<ul style="background: none; border: 0; margin-left: 45%; margin-top: 2%;">
+			<li style="margin-right: 30px;"><a href="#tabs-1">개별</a></li>
+			<li><a href="#tabs-2">단체</a></li>
+		</ul>
+		<div id="tabs-1">
+			<div class="ajoinForm">
+		<!-- 		<div class="joinImgDiv"></div>이미지 div -->
+				<form action="/admin/addMember" method="post" class="ajoinForm" name="joinForm">
+					<ul class="ajoinUl">
+						<li>
+							<label class="joinlabel">아 이 디  :</label><input type = "text" name = "id" class="memjoin form-control1" id="id" placeholder="10자 이내 숫자를 입력하세요" maxlength="10">
+						</li>
+						<li>
+							<label class="joinlabel">비밀번호:</label><input type = "password" name = "pw" class="memjoin form-control1" id="pw" placeholder="8 - 16자 이내로 입력해주세요." maxlength="16">
+						</li>
+						<li>
+							<label class="joinlabel">이 메 일  :</label><input type ="email" name = "email" class="memjoin form-control1" id="email" placeholder="이메일을 정확히 입력해주세요.">
+						</li>
+						<li>
+							<label class="joinlabel">성&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</label><input type = "text" name = "name_first" id="name_first" class="memjoin form-control1" placeholder="이름의 '성'을 적어주세요" maxlength="5">
+						</li>
+						<li>
+							<label class="joinlabel">이름&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</label><input type = "text" name = "name_last" class="memjoin form-control1" id="name_last" placeholder="이름을 적어주세요." maxlength="5">
+						</li>
+						<li>
+							<label class="joinlabel">권한&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</label><input type = "checkbox" name = "auth" class="memjoin form-control1" id="auth" value="auth" style="vertical-align: middle; height: 20px;">
+						</li>
+					</ul>
+					<input type="button" class="btn btn-default loginButton joinButton" value="뒤로가기" onclick="history.back(-1);" class="btn" style="margin-top: 5%;"> 
+					<input type="button" class="btn btn-default loginButton joinButton" value="추가" onclick="joinButton();" class="btn"style="margin-top: 5%;">
+					<input type="reset"  class="btn btn-default loginButton joinButton" value="초기화" class="btn"style="margin-top: 5%;">
+				</form>
+			</div>
+		</div>
+		<div id="tabs-2">
+		<div class="aExcelCsv">
 		<form id="excelInsertForm" name="excelInsertForm" enctype="multipart/form-data" method="post"
-															action= "${pageContext.request.contextPath}/member/excelInsertMember">
+															action= "${pageContext.request.contextPath}/member/excelInsertMember" style="border-bottom: 1px solid black; margin-bottom: 1%; padding-bottom: 1%;">
 		    <div class="contents">
-		        <div>첨부파일은 한개만 등록 가능합니다.</div>
-		        <dl class="vm_name">
-		                <dt class="down w90">첨부 파일</dt>
-		                <dd><input id="excelFile" type="file" name="excelFile" /></dd>
+		        <div style="margin-top: -5%; margin-bottom: 3%;">첨부파일은 한개만 등록 가능합니다.</div>
+		        <dl class="vm_name" style="width: 50%; margin: 0 auto; margin-bottom: 1%;">
+		                <dt class="down w90">첨부 파일(Excel)</dt>
+		                <dd><input id="excelFile" type="file" name="excelFile" class="form-control" style="height: 40px;"/></dd>
 		        </dl>        
 		    </div>
 		    <div class="bottom">
 		        <button type="button" id="addExcelImpoartBtn" class="btn" onclick="check()" ><span>추가</span></button> 
 		    </div>
 		</form>
-		<hr> 
-		<form id="csvInsertForm" name="csvInsertForm" enctype="multipart/form-data" method="post">
-			<input id="csvFile" type="file" name="csvFile"/>
-			<button type="button" id="addCsvInsertBtn" onclick="checkCsv()"><span>추가</span></button>
-		</form>
-		<hr>
+		
+		<div style="margin-top: 3%; margin-bottom: 4%; border-bottom: 1px solid black;">
+			<p style="font-weight: bold;">첨부 파일(CSV)</p>
+			<form id="csvInsertForm" name="csvInsertForm" enctype="multipart/form-data" method="post" style=" width: 50%; margin: 0 auto; margin-bottom: 1%;">
+				<input id="csvFile" type="file" name="csvFile" class="form-control" style="height: 40px;"/>
+				<button type="button" id="addCsvInsertBtn" onclick="checkCsv()" class="btn" style="margin-top: 4%;"><span>추가</span></button>
+			</form>
+		</div>
+		
 <!-- 		<form id="excelUploadForm" name="excelUploadForm" enctype="multipart/form-data" method="post" -->
 <%-- 							 action="${pageContext.request.contextPath}/member/excelUpload" > --%>
 <!-- 				<div> -->
@@ -71,13 +124,14 @@ $(function(){
 <!-- 				<input type="submit" value="업로드"/> 			  -->
 <!-- 		</form> -->
 
-		<div>
-			<p>첨부파일</p>
+		<div style="margin-top: 10%; cursor: pointer; width: 200px; height: 40px; background: gray; border-radius:30px; padding-top: 2%; margin: 0 auto;">
 			<a href="${pageContext.request.contextPath}/member/excelDownload">양식 다운로드</a>
 		</div>
-			</div>
-	
-	
+	</div>
+		</div>
+	</div>
+
+</div>
 	
 	
 <script>
