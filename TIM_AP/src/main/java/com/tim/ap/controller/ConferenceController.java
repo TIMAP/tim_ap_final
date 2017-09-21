@@ -157,7 +157,7 @@ public class ConferenceController {
 	
 	@ResponseBody
 	@RequestMapping("/conferClosedUpdate")
-	public void conferClosedUpdate(@RequestParam(value="c_id")String c_id){
+	public void conferClosedUpdate(@RequestParam(value="c_id")int c_id){
 		ConferenceEntity conferenceEntity = conferenceService.conferenceFind(c_id);
 		List<ConferenceEntity> conferenceList = new ArrayList<ConferenceEntity>();
 		if(conferenceEntity.getClosed().equals("Y")){

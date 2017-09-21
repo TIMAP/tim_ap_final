@@ -7,6 +7,16 @@ public class ConferenceEntity {
 	private String role;
 	private int entry;
 	private String closed;
+	//회의 주체자를 위해  u_id생성
+	private int u_id;
+
+	public int getU_id() {
+		return u_id;
+	}
+
+	public void setU_id(int u_id) {
+		this.u_id = u_id;
+	}
 
 	public int getId() {
 		return id;

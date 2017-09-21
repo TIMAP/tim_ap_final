@@ -304,6 +304,29 @@ th, tr, td  {
 	</div>
 
 	<div style="margin: 0 auto;">
+		<table style="margin: 0 auto; background: white;" class="table table-bordered table-hover conferenceList">
+			<tr>
+				<th style="text-align:center; width:100px;">회의명</th>
+				<td style="text-align:center;">${confer.title }</td>
+				<th style="text-align:center; width:100px;">회의 상태</th>
+				<td style="text-align:center;">
+				<c:if test="${confer.closed eq 'N'}">
+					Open
+				</c:if>
+				<c:if test="${confer.closed eq 'Y'}">
+					Closed
+				</c:if>
+				</td>
+				<td>
+					<c:if test="${sessionScope.id == confer.u_id}">
+       					<button type="button" id="" class="btn btn-default loginButton joinButton conferenceSelect">수정</button>
+       					<button type="button" id="" class="btn btn-default loginButton joinButton conferenceSelect">삭제</button>
+   					</c:if>
+				</td>
+			</tr>
+		</table>
+		<br><br>
+				<!-- 스타일을 위에서 잡아줘서 중복코딩 막는게 어떨지 생각됨 , 아니면 메타에 너어놔도..어차피 테이블 다똑같은 형식이니까 -->
 		<table  style="margin: 0 auto; background: white;" class="table table-bordered table-hover conferenceList">
 			<tr>
 				<th style="text-align:center; width:100px;">ID</th> <!-- (오디오ID) -->
@@ -333,7 +356,6 @@ th, tr, td  {
 					<td style="text-align:center;">
 					<c:if test="${id eq 1004}">					
 						<td><input type="button" value="수정" name="audioEdit"/></td>
-						
 					</c:if>
 						<c:if test="${sessionScope.email == audioEntity.m_email}">
         					<button type="button" id="btnUpdete" class="btn btn-default loginButton joinButton conferenceSelect">수정</button>
@@ -358,33 +380,6 @@ th, tr, td  {
 					href="<c:url value="/audio/list?page=${endPage + 1}&index=${select.index}&val=${select.val}&c_id=${c_id}"/>">다음</a>
 			</c:if>
 		</div>
-<!-- 		<table  style="margin: 0 auto; background: white;" class="table table-bordered table-hover conferenceList"> -->
-<!-- 			<tr> -->
-<!-- 				<th style="text-align:center; width:100px;">ID</th> (오디오ID) -->
-<!-- 				<th style="text-align:center; width:100px;">C_ID</th> (회의번호) -->
-<!-- 				<th style="text-align:center; width:100px;">M_EMAIL</th>(작성자 이메일) -->
-<!-- 				<th style="text-align:center; width:100px;">TIME_BEG</th> -->
-<!-- 				<th style="text-align:center; width:100px;">TIME_END</th> -->
-<!-- 				<th style="text-align:center; width:100px;">AD_TEXT</th>(텍스트로변환된것) -->
-<!-- 				<th style="text-align:center; width:100px;">AD_WAV_FILEPATH</th>(경로) -->
-<!-- 				<th style="text-align:center; width:100px;">AD_DOWNLOAD_CNT</th>(횟수) -->
-<!-- 				<th style="text-align:center; width:100px;">다운로드</th> -->
-<!-- 			</tr> -->
-		
-<%-- 			<c:forEach items="${result}" var="audioEntity"> --%>
-<!-- 				<tr> -->
-<%-- 					<td style="text-align:center;">${audioEntity.id}</td> --%>
-<%-- 					<td style="text-align:center;">${audioEntity.c_id}</td> --%>
-<%-- 					<td style="text-align:center;">${audioEntity.m_email}</td> --%>
-<%-- 					<td style="text-align:center;">${audioEntity.time_beg}</td> --%>
-<%-- 					<td style="text-align:center;">${audioEntity.time_end}</td> --%>
-<%-- 					<td style="text-align:center;"><textarea rows="3" cols="30" style="resize:none; border: 0;" readonly>${audioEntity.ad_text}</textarea></td> --%>
-<%-- 					<td style="text-align:center;"><textarea rows="3" cols="30" style="resize:none; border: 0;" readonly>${audioEntity.ad_wav_filepath}</textarea></td> --%>
-<%-- 					<td style="text-align:center;">${audioEntity.ad_download_cnt}</td> --%>
-<!-- 					<td style="text-align:center;"><img src="/resources/images/save.svg" style="cursor:pointer"></td> -->
-<!-- 				</tr> -->
-<%-- 			</c:forEach> --%>
-<!-- 		</table> -->
 	</div>
 	
 	<div id="voiceRecorder">

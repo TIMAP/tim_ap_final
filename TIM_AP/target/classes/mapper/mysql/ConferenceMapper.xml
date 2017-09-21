@@ -10,10 +10,11 @@
 		<result property="role" column="ROLE" />
 		<result property="entry" column="ENTRY" />
 		<result property="closed" column="CLOSED" />
+		<result property="u_id" column="U_ID" />
 	</resultMap>
 
 	<select id="getConferenceList" resultType="com.tim.ap.entity.ConferenceEntity">
-		SELECT ID, TITLE, DATE, ROLE, ENTRY, CLOSED
+		SELECT ID, TITLE, DATE, ROLE, ENTRY, CLOSED, U_ID
 			FROM CONFERENCE
 			WHERE CLOSED = 'N'
 	</select>
@@ -36,17 +37,20 @@
 			<if test="closed">
 				CLOSED = #{closed}
 			</if>
+			<if test="u_id">
+				U_ID = #{u_id}
+			</if>
 			WHERE
 				ID = #{id}
 	</update>
 	
 	<insert id="insertConference" parameterType="com.tim.ap.entity.ConferenceEntity">
-        INSERT INTO CONFERENCE (TITLE, DATE) 
-        VALUES(#{title},#{date})
+        INSERT INTO CONFERENCE (TITLE, DATE, U_ID) 
+        VALUES(#{title},#{date},#{u_id})
     </insert>
 
 	<select id="selectConference" resultType="com.tim.ap.entity.ConferenceEntity">
-		SELECT ID, TITLE, DATE, ROLE, ENTRY, CLOSED
+		SELECT ID, TITLE, DATE, ROLE, ENTRY, CLOSED, U_ID
 			FROM CONFERENCE
 			ORDER BY ID DESC
             LIMIT 1
