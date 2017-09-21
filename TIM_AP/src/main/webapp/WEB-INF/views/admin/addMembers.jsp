@@ -1,15 +1,23 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+    
+<script type="text/javascript">
+$(function(){
+	var msg = "${msg}";
+	if(msg != "" && msg != null){
+		alert(msg);
+		msg = "";
+	}
+})
+</script>    
+    
 <div class="joinDiv">
 	<div class="joinForm">
 		<div class="joinImgDiv"></div><!-- 이미지 div -->
-		<form action="/member/join" method="post" class="joinForm">
+		<form action="/admin/addMember" method="post" class="joinForm" name="joinForm">
 			<ul class="joinUl">
 				<li>
-					<label class="joinlabel" style="margin-left: 10px; margin-right: -6px;">아 이 디  :</label>
-					<input type = "text" name = "id" class="memjoin form-control1" id="id" placeholder="10자 이내 숫자를 입력하세요" maxlength="10" style="width: 198px;">
-					<input type="button" onclick="idCheck();" value="중복확인" class="btn btn-default loginButton joinButton" style="width: 85px; margin-left: 12px; height: 34px;">
+					<label class="joinlabel">아 이 디  :</label><input type = "text" name = "id" class="memjoin form-control1" id="id" placeholder="10자 이내 숫자를 입력하세요" maxlength="10">
 				</li>
 				<li>
 					<label class="joinlabel">비밀번호:</label><input type = "password" name = "pw" class="memjoin form-control1" id="pw" placeholder="8 - 16자 이내로 입력해주세요." maxlength="16">
@@ -23,38 +31,56 @@
 				<li>
 					<label class="joinlabel">이름&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</label><input type = "text" name = "name_last" class="memjoin form-control1" id="name_last" placeholder="이름을 적어주세요." maxlength="5">
 				</li>
+				<li>
+					<label class="joinlabel">권한&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</label><input type = "checkbox" name = "auth" class="memjoin form-control1" id="auth" value="auth">
+				</li>
 			</ul>
 			<input type="button" class="btn btn-default loginButton joinButton" value="뒤로가기" onclick="history.back(-1);" class="btn"> 
-			<input type="button" class="btn btn-default loginButton joinButton" value="가입" onclick="joinButton();" class="btn">
+			<input type="button" class="btn btn-default loginButton joinButton" value="추가" onclick="joinButton();" class="btn">
 			<input type="reset"  class="btn btn-default loginButton joinButton" value="초기화" class="btn">
 		</form>
 	</div>
-</div>
-<script>
-	var userId = "";
-	function idCheck() {
-		var idPattern = /^[0-9]{1,10}$/; //아이디패턴
-		var userIdSave = $('#id').val().trim();
-		if(!idPattern.test(userIdSave)){
-			alert("10자 이내 숫자로 입력하세요.");
-			$('#id').val("");
-			$('#id').focus();
-			return false;
-		}
-		userId = userIdSave;
-		$.ajax({
-			url : "/member/userCheck",
-		    type : "POST",
-			data : {'userIdSave' : userIdSave},
-				success : function(result){
-					alert(result.msg);
-				}, 
-				error : function(){
-				},
-			dataType : 'json' 
-		});
-	}
 	
+	
+	<hr>
+		<form id="excelInsertForm" name="excelInsertForm" enctype="multipart/form-data" method="post"
+															action= "${pageContext.request.contextPath}/member/excelInsertMember">
+		    <div class="contents">
+		        <div>첨부파일은 한개만 등록 가능합니다.</div>
+		        <dl class="vm_name">
+		                <dt class="down w90">첨부 파일</dt>
+		                <dd><input id="excelFile" type="file" name="excelFile" /></dd>
+		        </dl>        
+		    </div>
+		    <div class="bottom">
+		        <button type="button" id="addExcelImpoartBtn" class="btn" onclick="check()" ><span>추가</span></button> 
+		    </div>
+		</form>
+		<hr> 
+		<form id="csvInsertForm" name="csvInsertForm" enctype="multipart/form-data" method="post">
+			<input id="csvFile" type="file" name="csvFile"/>
+			<button type="button" id="addCsvInsertBtn" onclick="checkCsv()"><span>추가</span></button>
+		</form>
+		<hr>
+<!-- 		<form id="excelUploadForm" name="excelUploadForm" enctype="multipart/form-data" method="post" -->
+<%-- 							 action="${pageContext.request.contextPath}/member/excelUpload" > --%>
+<!-- 				<div> -->
+<!-- 					<p>양식 업로드</p> -->
+<!-- 					<input id="f" type="file" name="f"> -->
+<!-- 				</div> -->
+<!-- 				<input type="submit" value="업로드"/> 			  -->
+<!-- 		</form> -->
+
+		<div>
+			<p>첨부파일</p>
+			<a href="${pageContext.request.contextPath}/member/excelDownload">양식 다운로드</a>
+		</div>
+			</div>
+	
+	
+	
+	
+<script>
 function joinButton(){
 	var id = $('#id').val().trim();
 	var pw = $('#pw').val().trim();
@@ -67,6 +93,11 @@ function joinButton(){
 	var emailPattern = /^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/; //비밀번호패턴
 	var nfPattern = /^[가-힣|a-z|A-Z|]{1,5}$/; //성 패턴 이름패턴
 	
+	if($('#auth').prop('checked')==false){
+		document.joinForm.auth.value='N';
+	}else{
+		document.joinForm.auth.value='Y';
+	}
 	
 	if(!idPattern.test(id)){
 		alert("10자 이내 숫자로 입력하세요.");
@@ -94,24 +125,7 @@ function joinButton(){
 		$('#name_last').focus();
 		return false;
 	}else{
-		var lastName = $('#id').val().trim();
-		if(userId != lastName){
-			userId = "";
-			alert("중복확인을 해주세요.");
-			return false;
-		}
 		 $('.joinForm').submit();
 	}
 }
-</script>
-<script>
-	$(function(){
-		var result = ${failed};
-		if(result == false){
-			var msg = "${msg}";
-			alert(msg);
-			msg = "";
-			result = true;
-		}
-	})
 </script>

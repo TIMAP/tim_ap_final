@@ -22,6 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -296,7 +297,29 @@ public class MemberController implements ApplicationContextAware{
         	memberList.add(memberEntity);
         }
         
-        ArrayList<MemberEntity> checkList = memberService.checkExist(memberList);
+        String checkId = checkList(memberList);
+		
+		
+		if(checkId.equals("") || checkId==null){
+			memberService.excelUpload(memberList);
+			redirect.addFlashAttribute("msg","모든 데이터가 업로드 되었습니다.");
+			result.setViewName("redirect:/admin/addMembers");
+		}else{
+			redirect.addFlashAttribute("msg",checkId);
+			result.setViewName("redirect:/admin/addMembers");
+		}
+		
+        return result;
+    }
+	
+	
+	/**
+	 * csv,excel 파일 사용자 일괄 추가 시 중복 되는 메서드를 따로 빼서 이용하기 위함
+	 * @param memberList
+	 * @return
+	 */
+	public String checkList(List<MemberEntity> memberList){
+		ArrayList<MemberEntity> checkList = memberService.checkExist(memberList);
 		
 		String checkId = "";
 		
@@ -308,13 +331,14 @@ public class MemberController implements ApplicationContextAware{
 				checkId += id + ",";
 			}
 		}
-		checkId += "는 이미 등록된 회원입니다."; 
 		
+		if(checkList.size()!=0){
+		checkId += "는 이미 등록된 회원입니다.";
+		}
 		
-			memberService.excelUpload(memberList);
-        
-        return result;
-    }
+		return checkId;
+	}
+	
 	
 	
 	/**
@@ -345,7 +369,7 @@ public class MemberController implements ApplicationContextAware{
 			}
 		}
 		
-		view.setViewName("redirect:/admin/memList");
+		view.setViewName("redirect:/admin/addMembers");
 		
 		return view;
 	}
@@ -367,9 +391,8 @@ public class MemberController implements ApplicationContextAware{
     }
 	
 	
-	@ResponseBody
 	@RequestMapping(value="/csvInsertMember", method=RequestMethod.POST)
-	public ModelAndView csvInsertMember(@RequestParam("csvFile")MultipartFile multipartFile) throws Exception{
+	public ModelAndView csvInsertMember(@RequestParam("csvFile")MultipartFile multipartFile,RedirectAttributes redirect) throws Exception{
 		
 		ModelAndView result = new ModelAndView();
 		
@@ -416,24 +439,33 @@ public class MemberController implements ApplicationContextAware{
 				e.printStackTrace();
 			}
 		
-			ArrayList<MemberEntity> checkList = memberService.checkExist(memberList);
+			String checkId = checkList(memberList);
 			
-			String checkId = "";
 			
-			for (int i = 0; i < checkList.size(); i++) {
-				int id = checkList.get(i).getId();
-				if(checkList.size()-1 == i ){
-					checkId += id +"";
-				}else{
-					checkId += id + ",";
-				}
-			}
-			checkId += "는 이미 등록된 회원입니다."; 
-			
+			if(checkId.equals("") || checkId==null){
 				memberService.csvInsert(memberList);
+				redirect.addFlashAttribute("msg","모든 데이터가 업로드 되었습니다.");
+				result.setViewName("redirect:/admin/addMembers");
+			}else{
+				redirect.addFlashAttribute("msg",checkId);
+				result.setViewName("redirect:/admin/addMembers");
+			}
 			
 		return result;
 	}
 	
+	@RequestMapping("/userCheck")
+	public @ResponseBody Map<String, String> userCheck(@RequestParam("userIdSave")int userIdSave){
+		Map<String, String> map = new HashMap<String, String>();
+		String msg = "";
+		MemberEntity member = memberService.getMember(userIdSave);
+		if(member == null){
+			msg = "사용이 가능한 아이디입니다.";
+		}else{
+			msg = "사용이 불가능한 아이디 입니다.";
+		}
+		map.put("msg", msg);
+		return map;
+	}
 	
 }

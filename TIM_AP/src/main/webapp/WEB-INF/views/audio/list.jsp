@@ -380,6 +380,7 @@ th, tr, td  {
 	</div>
 
 	<div style="margin: 0 auto;">
+
 		<table style="margin: 0 auto; background: white;" class="table table-bordered table-hover conferenceList">
 			<tr>
 				<th style="text-align:center; width:100px;">회의명</th>
@@ -412,6 +413,7 @@ th, tr, td  {
 				</td>
 			</tr>
 		</table>
+
 		<br><br>
 				<!-- 스타일을 위에서 잡아줘서 중복코딩 막는게 어떨지 생각됨 , 아니면 메타에 너어놔도..어차피 테이블 다똑같은 형식이니까 -->
 		<table  style="margin: 0 auto; background: white;" class="table table-bordered table-hover conferenceList">
@@ -453,7 +455,7 @@ th, tr, td  {
 				</tr>
 			</c:forEach>
 		</table>
-		<div id="pageNum">
+		<div id="pageNum" style="margin-top: 1%;">
 			<c:if test="${beginPage > perPage}">
 				<a
 					href="<c:url value="/audio/list?page=${beginPage-1}&index=${select.index}&val=${select.val}&c_id=${c_id}"/>">이전</a>

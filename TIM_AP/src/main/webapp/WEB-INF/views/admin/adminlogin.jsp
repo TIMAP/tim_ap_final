@@ -5,15 +5,15 @@
 
 	<div class="loginForm">
 		<div class="loginFormDiv">
-			<h2>관리자 로그인 화면 </h2>
+			<h2 style="margin-top: -43px;">관리자 로그인 화면 </h2>
 			<div class="loginImgDiv"></div><!-- 이미지 div -->
 			<div class="loginFromDiv">
 				<form action="<c:url value='/admin/adminlogin'/>" method="post" class="loginFormInfo">
 									<div class="form-group">
-										<input type="text" id="id" class="id form-control" name="id" placeholder="아이디를 입력하세요."/>
+										<input type="text" id="id" class="id form-control" style="width: 400px; margin-left: 90px;" name="id" placeholder="아이디를 입력하세요."/>
 									</div>
 									<div class="form-group">
-										<input type="password" id="pw" class="pw form-control" name="pw" placeholder="비밀번호를 입력하세요."/>
+										<input type="password" id="pw" class="pw form-control"style="width: 400px;margin-left: 90px;" name="pw" placeholder="비밀번호를 입력하세요."/>
 									</div>
 									<button type="button" class="btn btn-default loginButton" onclick="loginButton();">로그인</button>
 									<button type="button" class="btn btn-default loginButton" onclick="memberButton();">회원 로그인</button>

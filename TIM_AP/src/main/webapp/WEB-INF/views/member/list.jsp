@@ -4,8 +4,8 @@
 <%@ page import="java.util.*"%>
 <%@ page import="com.tim.ap.entity.MemberEntity"%>
 
-
 		<div>
+		<button onclick="addMembers();">등록</button>
 		<form id="searchForm" action="/admin/memList">
 			<select name="searchType"
 				class="btn btn-default loginButton joinButton conferenceSelect">
@@ -28,43 +28,6 @@
 					class="btn btn-default loginButton joinButton conferenceSelect"
 					value="뒤로 가기" onclick="history.back(-1);" class="btn">
 		</form>
-		<hr>
-		<form id="excelInsertForm" name="excelInsertForm" enctype="multipart/form-data" method="post"
-															action= "${pageContext.request.contextPath}/member/excelInsertMember">
-		    <div class="contents">
-		        <div>첨부파일은 한개만 등록 가능합니다.</div>
-		        <dl class="vm_name">
-		                <dt class="down w90">첨부 파일</dt>
-		                <dd><input id="excelFile" type="file" name="excelFile" /></dd>
-		        </dl>        
-		    </div>
-		    <div class="bottom">
-		        <button type="button" id="addExcelImpoartBtn" class="btn" onclick="check()" ><span>추가</span></button> 
-		    </div>
-		</form>
-		<hr> 
-		<form id="csvInsertForm" name="csvInsertForm" enctype="multipart/form-data" method="post"
-									action="${pageContext.request.contextPath}/member/csvInsertMember">
-			<input id="csvFile" type="file" name="csvFile"/>
-			<button type="button" id="addCsvInsertBtn" onclick="checkCsv()"><span>추가</span></button>
-		</form>
-		<hr>
-		<form id="excelUploadForm" name="excelUploadForm" enctype="multipart/form-data" method="post"
-							 action="${pageContext.request.contextPath}/member/excelUpload" >
-				<div>
-					<p>양식 업로드</p>
-					<input id="f" type="file" name="f">
-				</div>
-				<input type="submit" value="업로드"/> 			 
-		</form>
-
-		<div>
-			<p>첨부파일</p>
-			<a href="${pageContext.request.contextPath}/member/excelDownload">양식 다운로드</a>
-		</div>
-			<!-- 엑셀 양식 업로드 -->
-			<!-- 엑셀 양식 다운로드 -->
-			<!-- 사용자 일괄 추가 -->
 			</div>
 			
 		<table>
@@ -89,3 +52,8 @@
 			</c:forEach>
 		</table>
 		<div id="pagingArea">${result.pagingHTML }</div>
+<script>
+function addMembers(){
+	location.href="/admin/addMemberForm";
+}
+</script>
