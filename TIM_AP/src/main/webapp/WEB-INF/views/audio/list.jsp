@@ -33,6 +33,9 @@ $(document).ready(function() {
 	//녹음기 숨기기
 	$('#voiceRecorder').hide();
 	
+	//closed 라디오  버튼 숨기기 
+	$('#closedEdit').hide();
+	
 	
 	$('#addFile').click(function() {
 		var fileIndex = $('#fileListTable tr').children().length;      
@@ -57,7 +60,7 @@ $(document).ready(function() {
     $('#hideConfbtn').click(function(){
     	$('#voiceRecorder').hide();
     });
-    
+    //오디오 ad_text 수정 
     $('input[name=audioEdit]').click(function(){
     	var val= $(this).val();
 		var parent=$(this).parent().parent();
@@ -88,7 +91,52 @@ $(document).ready(function() {
     	}
     	
     });
+    
+    //회의 정보 변경
+    $('#conferEdit').click(function(){
+    	var p = getParams();
+    	var val= $(this).val();
+		var parent=$(this).parent().parent();
+      	var title= parent.find("td:eq(0)").children().val();
+      	var id = p["c_id"];
+      	
+      	if('${confer.closed }'=='N'){
+      		 $("#open").attr("checked",true);
+      	}else{
+      		 $("#close").attr("checked",true);
+      	}
+      	var closed_val=$("input[name='closed']:checked").val();
+//     	alert(parent);
+    	if(val=="수정"){
+	    	$(this).attr("value","저장");		
+ 	    	parent.find("td:eq(0)").children().attr("readonly",false);
+ 	   		$('#closedEdit').show();
+ 	   		$('#closedInfo').hide();
+ 		
 
+    	}
+    	else{
+	        $.ajax({
+	             
+	            type : "GET",
+	            url : "../conference/update?id="+id+"&title="+title+"&closed="+closed_val,
+	            error : function(){
+	                alert('변경에 실패하였습니다 ');
+	            },
+	            success : function(data){
+	          		alert("회의 정보를 변경하였습니다 ");
+	          		location.href="/audio/list?c_id="+id;
+	          		
+	            }
+	             
+	        });
+	        $(this).attr("value","수정");		    		
+	    	parent.find("td:eq(0)").children().attr("readonly",true);
+ 	   		$('#closedEdit').hide();
+ 	   		$('#closedInfo').show();
+    	}
+    	
+    });
 
 });
 	//작성자 : 홍기훈 오디오 녹음을 위한객체
@@ -186,7 +234,7 @@ $(document).ready(function() {
 		    link.href = url;
 		    
 		    link.download = filename || 'output.wav';
-		alert(url);
+			alert(url);
 		    uploadWav(blob);
 		    
 		  }
@@ -215,8 +263,36 @@ $(document).ready(function() {
 			  
 			 }
 
-		  window.Recorder = Recorder;
+		  function getParams() {
+			    // 파라미터가 담길 배열
+			    var param = new Array();
+			 
+			    // 현재 페이지의 url
+			    var url = decodeURIComponent(location.href);
+			    // url이 encodeURIComponent 로 인코딩 되었을때는 다시 디코딩 해준다.
+			    url = decodeURIComponent(url);
+			 
+			    var params;
+			    // url에서 '?' 문자 이후의 파라미터 문자열까지 자르기
+			    params = url.substring( url.indexOf('?')+1, url.length );
+			    // 파라미터 구분자("&") 로 분리
+			    params = params.split("&");
 
+			    // params 배열을 다시 "=" 구분자로 분리하여 param 배열에 key = value 로 담는다.
+			    var size = params.length;
+			    var key, value;
+			    for(var i=0 ; i < size ; i++) {
+			        key = params[i].split("=")[0];
+			        value = params[i].split("=")[1];
+
+			        param[key] = value;
+			    }
+
+			    return param;
+			}
+		  
+		  
+		  window.Recorder = Recorder;
 	</script>
 
 	<style>
@@ -307,20 +383,31 @@ th, tr, td  {
 		<table style="margin: 0 auto; background: white;" class="table table-bordered table-hover conferenceList">
 			<tr>
 				<th style="text-align:center; width:100px;">회의명</th>
-				<td style="text-align:center;">${confer.title }</td>
+				<td style="text-align:center;"><input type="text" value="${confer.title }" readonly style="border: 0"></td>
 				<th style="text-align:center; width:100px;">회의 상태</th>
 				<td style="text-align:center;">
+				<div id="closedInfo">
 				<c:if test="${confer.closed eq 'N'}">
 					Open
 				</c:if>
 				<c:if test="${confer.closed eq 'Y'}">
 					Closed
 				</c:if>
+				</div>
+				<div id="closedEdit">
+					<input type="radio" name="closed" id="open" value="N">Open<br/>
+					<input type="radio" name="closed" id="close" value="Y">Closed
+				</div>
 				</td>
 				<td>
 					<c:if test="${sessionScope.id == confer.u_id}">
-       					<button type="button" id="" class="btn btn-default loginButton joinButton conferenceSelect">수정</button>
-       					<button type="button" id="" class="btn btn-default loginButton joinButton conferenceSelect">삭제</button>
+					
+       					<input type="button" id="conferEdit" value="수정" class="btn btn-default loginButton joinButton conferenceSelect"/>
+       					<input type="button" id="conferDel"  value="삭제" class="btn btn-default loginButton joinButton conferenceSelect"/>
+   					</c:if>
+   					<c:if test="${id eq 1004}">
+       					<input type="button" id="conferEdit" value="수정" class="btn btn-default loginButton joinButton conferenceSelect"/>
+       					<input type="button" id="conferDel"  value="삭제" class="btn btn-default loginButton joinButton conferenceSelect"/>
    					</c:if>
 				</td>
 			</tr>

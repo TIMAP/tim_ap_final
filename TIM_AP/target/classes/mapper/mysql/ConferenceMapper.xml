@@ -22,26 +22,35 @@
 	<update id="updateConference" parameterType="com.tim.ap.entity.ConferenceEntity">
 		UPDATE CONFERENCE
 			SET
-			<if test="title != null">
-				TITLE = #{title}
-			</if>
-			<if test="date != null">
-				DATE = #{date}
-			</if>
-			<if test="role">
-				ROLE = #{role}
-			</if>
-			<if test="entry">
-				ENTRY = #{entry}
-			</if>
-			<if test="closed">
+				TITLE = #{title},
+
 				CLOSED = #{closed}
-			</if>
-			<if test="u_id">
-				U_ID = #{u_id}
-			</if>
+		
 			WHERE
 				ID = #{id}
+				
+<!-- 						UPDATE CONFERENCE -->
+<!-- 			SET -->
+<!-- 			<if test="title != null"> -->
+<!-- 				TITLE = #{title} -->
+<!-- 			</if> -->
+<!-- 			<if test="date != null"> -->
+<!-- 				DATE = #{date} -->
+<!-- 			</if> -->
+<!-- 			<if test="role"> -->
+<!-- 				ROLE = #{role} -->
+<!-- 			</if> -->
+<!-- 			<if test="entry"> -->
+<!-- 				ENTRY = #{entry} -->
+<!-- 			</if> -->
+<!-- 			<if test="closed"> -->
+<!-- 				CLOSED = #{closed} -->
+<!-- 			</if> -->
+<!-- 			<if test="u_id"> -->
+<!-- 				U_ID = #{u_id} -->
+<!-- 			</if> -->
+<!-- 			WHERE -->
+<!-- 				ID = #{id} -->
 	</update>
 	
 	<insert id="insertConference" parameterType="com.tim.ap.entity.ConferenceEntity">
