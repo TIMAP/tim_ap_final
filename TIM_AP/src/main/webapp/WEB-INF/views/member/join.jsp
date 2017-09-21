@@ -7,7 +7,9 @@
 		<form action="/member/join" method="post" class="joinForm">
 			<ul class="joinUl">
 				<li>
-					<label class="joinlabel">아 이 디  :</label><input type = "text" name = "id" class="memjoin form-control1" id="id" placeholder="10자 이내 숫자를 입력하세요" maxlength="10">
+					<label class="joinlabel" style="margin-left: 10px; margin-right: -6px;">아 이 디  :</label>
+					<input type = "text" name = "id" class="memjoin form-control1" id="id" placeholder="10자 이내 숫자를 입력하세요" maxlength="10" style="width: 198px;">
+					<input type="button" onclick="idCheck();" value="중복확인" class="btn btn-default loginButton joinButton" style="width: 85px; margin-left: 12px; height: 34px;">
 				</li>
 				<li>
 					<label class="joinlabel">비밀번호:</label><input type = "password" name = "pw" class="memjoin form-control1" id="pw" placeholder="8 - 16자 이내로 입력해주세요." maxlength="16">
@@ -29,6 +31,30 @@
 	</div>
 </div>
 <script>
+	var userId = "";
+	function idCheck() {
+		var idPattern = /^[0-9]{1,10}$/; //아이디패턴
+		var userIdSave = $('#id').val().trim();
+		if(!idPattern.test(userIdSave)){
+			alert("10자 이내 숫자로 입력하세요.");
+			$('#id').val("");
+			$('#id').focus();
+			return false;
+		}
+		userId = userIdSave;
+		$.ajax({
+			url : "/member/userCheck",
+		    type : "POST",
+			data : {'userIdSave' : userIdSave},
+				success : function(result){
+					alert(result.msg);
+				}, 
+				error : function(){
+				},
+			dataType : 'json' 
+		});
+	}
+	
 function joinButton(){
 	var id = $('#id').val().trim();
 	var pw = $('#pw').val().trim();
@@ -40,6 +66,7 @@ function joinButton(){
 	var pwPattern = /^[0-9a-zA-Z!@#$%^*+=-]{8,16}$/; //비밀번호패턴
 	var emailPattern = /^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/; //비밀번호패턴
 	var nfPattern = /^[가-힣|a-z|A-Z|]{1,5}$/; //성 패턴 이름패턴
+	
 	
 	if(!idPattern.test(id)){
 		alert("10자 이내 숫자로 입력하세요.");
@@ -67,8 +94,24 @@ function joinButton(){
 		$('#name_last').focus();
 		return false;
 	}else{
+		var lastName = $('#id').val().trim();
+		if(userId != lastName){
+			userId = "";
+			alert("중복확인을 해주세요.");
+			return false;
+		}
 		 $('.joinForm').submit();
 	}
 }
 </script>
-
+<script>
+	$(function(){
+		var result = ${failed};
+		if(result == false){
+			var msg = "${msg}";
+			alert(msg);
+			msg = "";
+			result = true;
+		}
+	})
+</script>

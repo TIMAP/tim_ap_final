@@ -6,7 +6,7 @@ function homeMain(){
 		location.href="/member/main";
 		
 	}else{
-		
+		location.href="/admin/adminpage";
 	}
 }
 </script>

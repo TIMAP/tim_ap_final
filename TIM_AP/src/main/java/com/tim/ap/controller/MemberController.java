@@ -22,6 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -453,5 +454,18 @@ public class MemberController implements ApplicationContextAware{
 		return result;
 	}
 	
+	@RequestMapping("/userCheck")
+	public @ResponseBody Map<String, String> userCheck(@RequestParam("userIdSave")int userIdSave){
+		Map<String, String> map = new HashMap<String, String>();
+		String msg = "";
+		MemberEntity member = memberService.getMember(userIdSave);
+		if(member == null){
+			msg = "사용이 가능한 아이디입니다.";
+		}else{
+			msg = "사용이 불가능한 아이디 입니다.";
+		}
+		map.put("msg", msg);
+		return map;
+	}
 	
 }

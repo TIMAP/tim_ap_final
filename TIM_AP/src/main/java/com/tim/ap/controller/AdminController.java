@@ -51,6 +51,10 @@ public class AdminController {
 	/**
 	 * 로그인 정보를 입력후 아이디와 비밀번호가 존재시 메인화면으로 넘어가고 없으면 다시 로그인폼으로 돌아가며 비밀번호나 아이디가 틀릴경우
 	 * 알럿메세지를 가지고 돌아간다.
+	
+	/** 화이팅합시다모두
+	 * 로그인 정보를 입력후 아이디와 비밀번호가 존재시 메인화면으로 넘어가고
+	 * 없으면 다시 로그인폼으로 돌아가며 비밀번호나 아이디가 틀릴경우 알럿메세지를 가지고 돌아간다. 
 	 */
 	@RequestMapping(value = "/adminlogin", method = RequestMethod.POST)
 	public @ResponseBody ModelAndView login(Locale locale, MemberEntity member,
