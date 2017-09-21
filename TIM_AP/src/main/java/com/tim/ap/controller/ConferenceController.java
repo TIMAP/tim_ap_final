@@ -53,14 +53,15 @@ public class ConferenceController {
 	}
 
 	@RequestMapping(value = "/update", produces="text/plain;charset=UTF-8", method = RequestMethod.GET)
-	public @ResponseBody String update(Locale locale, @RequestParam("id") int id) {
+	public @ResponseBody String update(Locale locale, @RequestParam("id") int id, @RequestParam("title") String title,@RequestParam("closed") String closed ) {
 		logger.info("/conference/update", locale);
 
 		ConferenceEntity conferenceEntity = new ConferenceEntity();
 
 		conferenceEntity.setId(id);
-		conferenceEntity.setClosed("Y");
-
+		conferenceEntity.setTitle(title);
+		conferenceEntity.setClosed(closed);
+		System.out.println(conferenceEntity);
 		conferenceService.updateConference(conferenceEntity);
 
 		return new com.google.gson.Gson().toJson(conferenceEntity);

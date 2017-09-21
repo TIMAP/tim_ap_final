@@ -6,8 +6,12 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <script>
-	
-	$(function(){ //전체선택 체크박스 클릭
+
+
+	$(function(){
+		$("#closedBtn").hide();
+		
+		//전체선택 체크박스 클릭
 		$("#allCheck").click(function() {
 				//만약 전체 선택 체크박스가 체크된상태일경우 
 				if ($("#allCheck").prop("checked")) {
@@ -38,6 +42,14 @@
 			dataType : 'json'
 		})
 	}
+
+	function check(){
+
+		 if($("input:checkbox[name='confer_chk']").is(":checked")){
+	        	$("#closedBtn").show();
+	        }
+	}
+
 </script>
 <style>
 table {
@@ -68,14 +80,20 @@ th, tr, td {
 			            onclick="location.href='/audio/form'" class="btn">
 			<input type="button" class="btn btn-default loginButton joinButton conferenceSelect" value="뒤로 가기" 
 			   	  	  	onclick="history.back(-1);" class="btn">
-			<input type="button" class="btn btn-default loginButton joinButton conferenceSelect" value="상태변경"
+			<input type="button" id="closedBtn" class="btn btn-default loginButton joinButton conferenceSelect" value="상태변경"
 						onclick="conferUpdate();">
 		</form>
 	</div>
 	<table class="table table-bordered table-hover conferenceList"
 		style="margin: 1% auto 1% auto;">
 		<tr>
+			<c:if test="${id eq 1004 }">
 			<th><input type="checkbox" id="allCheck" value="1"></th>
+			</c:if>
+			<c:if test="${id ne 1004 }">
+			<th></th>
+			</c:if>
+			
 			<th>No.</th>
 			<th>제목</th>
 			<th>등록일</th>
@@ -86,18 +104,33 @@ th, tr, td {
 			<c:when test="${viewData.boardTotalCount > 0 }">
 				<c:forEach items="${viewData.conferList }" var="confer" varStatus="i">
 					<tr>
-						<td><input type="checkbox" name="confer_chk" value="${confer.id}/${confer.closed}"></td>
+						<c:if test="${sessionScope.id == confer.u_id}">
+							<td><input type="checkbox" name="confer_chk"
+							value="${confer.id}/${confer.closed}" onchange="check()"></td>
+						</c:if>
+						<c:if test="${sessionScope.id != confer.u_id}">
+							<td></td>
+						</c:if>
 						<td>${confer.id }</td>
-						<td>
-							<c:choose>
+						<td><c:choose>
 								<c:when test="${confer.closed eq 'N' }">
-									<a href="/audio/list?c_id=${confer.id }" style="background: yellow; color: black;">${confer.title }</a>
+									<a href="/audio/list?c_id=${confer.id }"
+										style="background: yellow; color: black;">${confer.title }</a>
 								</c:when>
 								<c:otherwise>
-									<a style="background: red; color: white;">${confer.title} - (회의 보류)</a>
+
+									<c:if test="${id eq 1004 }">
+										<a href="/audio/list?c_id=${confer.id }"
+											style="background: red; color: white;">${confer.title} -
+											(회의 보류)</a>
+									</c:if>
+
+									<c:if test="${id ne 1004 }">
+										<a style="background: red; color: white;">${confer.title}
+											- (회의 보류)</a>
+									</c:if>
 								</c:otherwise>
-							</c:choose>
-						</td>
+							</c:choose></td>
 						<td>${confer.date}</td>
 						<td>${confer.role }</td>
 						<td>${confer.entry }</td>
