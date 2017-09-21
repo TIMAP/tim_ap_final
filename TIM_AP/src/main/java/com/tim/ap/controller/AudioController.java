@@ -82,6 +82,9 @@ public class AudioController {
 	}
 
 	//원래 만들어져있는 회의에 녹음 추가할시
+	//소스 주신것에 보면 오디오를 녹음하면 회의도 함께 저장됨 회의 컨트롤러에서 하지않음 
+	//그래서 건드리지 않고 이곳에서 회의 추가까지 진행
+	//여쭈어보고 회의 따로 저장할지 진행
 	@RequestMapping("/update")
 	public ModelAndView update(Locale locale, @RequestParam("multipartFile") List<MultipartFile> multipartFiles,
 			ConferenceEntity conferenceEntity, HttpSession session) throws IOException, UnsupportedAudioFileException {
@@ -192,7 +195,8 @@ public class AudioController {
 		int playTime = (int) durationInSeconds;
 		System.out.println("몇초? ->" + playTime + "초");
 
-		//회의 추가
+		//회의 추가합니다
+		conferenceEntity.setU_id((Integer)session.getAttribute("id"));
 		conferenceService.insertConference(conferenceEntity);
 
 		int conferenceId = conferenceService.selectConference().getId();
@@ -347,11 +351,15 @@ public class AudioController {
 	public @ResponseBody ModelAndView listPost(Locale locale, @RequestParam(value="c_id" ,defaultValue="0") int c_id,
 			@RequestParam(value = "page", defaultValue = "1") int pageNumber, String val, String index) {
 		logger.info("/audio/list", locale);
-
+		ModelAndView result = new ModelAndView();
+		//오디오 객체에 회의 아이디 set
 		AudioEntity audioEntity = new AudioEntity();
 		audioEntity.setC_id(c_id);
-
-		ModelAndView result = new ModelAndView();
+		//회의 아이디로 회의 찾기
+		ConferenceEntity confer = new ConferenceEntity();
+		confer = conferenceService.conferenceFind(c_id);
+		result.addObject("confer", confer);
+		
 		ConferListSelectEntity select = new ConferListSelectEntity();// 검색조건과 값을 가진 Entity
 		select.setC_id(c_id);
 		if (val != null && !val.equals("")) {// 처음 들어간 화면이 아닌 검색조건에 값을 입력한 경우 Entity에게 값을 넣어준다.

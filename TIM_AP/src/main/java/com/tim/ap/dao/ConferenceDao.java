@@ -20,5 +20,5 @@ public interface ConferenceDao {
 	
 	////정보변경을 위한 메서드
 	public void conferenceInfoUpdate(List<ConferenceEntity> conferList);
-	public ConferenceEntity conferenceFind(String c_id);
+	public ConferenceEntity conferenceFind(int c_id);
 }

@@ -92,7 +92,7 @@ public class ConferenceService implements ConferenceDao {
 	}
 
 	@Override
-	public ConferenceEntity conferenceFind(String c_id) {
+	public ConferenceEntity conferenceFind(int c_id) {
 		ConferenceMapper conferenceMapper = sqlSession.getMapper(ConferenceMapper.class);
 		
 		ConferenceEntity conferenceEntity = conferenceMapper.conferenceFind(c_id);
