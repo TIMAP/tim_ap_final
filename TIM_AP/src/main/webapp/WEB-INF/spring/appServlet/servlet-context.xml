@@ -53,6 +53,7 @@
 			<exclude-mapping path="/admin/adminlogin"/>
 			<exclude-mapping path="/resources/js/**"/>
 			<exclude-mapping path="/resources/images/**"/>
+			<exclude-mapping path="/member/userCheck/**"/>
 			<beans:bean class="com.tim.ap.controller.loginCheck">
 			</beans:bean>
 		</interceptor>

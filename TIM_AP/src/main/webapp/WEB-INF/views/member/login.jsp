@@ -6,10 +6,10 @@
 			<div class="loginImgDiv"></div><!-- 이미지 div -->
 			<div class="loginFromDiv">
 				<form action="<c:url value='/member/login'/>" method="post" class="loginFormInfo" name="login">
-									<div class="form-group">
+									<div class="form-group" style="width: 400px; margin-left: 85px;">
 										<input type="text" id="id" class="id form-control" name="id" placeholder="아이디를 입력하세요."/>
 									</div>
-									<div class="form-group">
+									<div class="form-group" style="width: 400px; margin-left: 85px;">
 										<input type="password" id="pw" class="pw form-control" name="pw" placeholder="비밀번호를 입력하세요."/>
 									</div>
 									<button type="button" class="btn btn-default loginButton" onclick="loginButton();" >로그인</button>

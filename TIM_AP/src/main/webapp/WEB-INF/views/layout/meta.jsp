@@ -125,7 +125,7 @@ div.loginImgDiv{
 div.loginFromDiv{
 /* 	border: 1px solid black; */
 	height: 30%;
-	width: 17%;
+	width: 30%;
 	margin: 0 auto;
 }
 
@@ -137,7 +137,7 @@ input.id,.pw{
 }
 
 button.loginButton{
-	margin: 2% 3%;
+	margin: 2% 2.5%;
 }
 
 input.joinButton{
