@@ -8,7 +8,7 @@ import java.util.List;
  */
 
 public class PaginationInfoEntity<T> {
-	private int screenSize   = 3  ;//한창에 띄울 화면수 
+	private int screenSize   = 10  ;//한창에 띄울 화면수 
 	private int blockSize    = 5  ;//보여질 페이징 개수
 	private int totalRecords   ;//총 목록수
 	private int currentPage    ;//현제 페이지
@@ -22,7 +22,7 @@ public class PaginationInfoEntity<T> {
 	private List<T> dataList;
 	
 	public PaginationInfoEntity() {
-		this(3, 5);		
+		this(10, 5);		
 	}
 
 	public int getScreenSize() {
