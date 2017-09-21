@@ -76,6 +76,10 @@
 		INSERT INTO MEMBER(ID, EMAIL, PW, NAME_LAST, NAME_FIRST)
 		VALUES(#{id}, #{email}, #{pw}, #{name_last}, #{name_first})
 	</insert>
+	<insert id="addMember" parameterType="com.tim.ap.entity.MemberEntity">
+		INSERT INTO MEMBER(ID, EMAIL, PW, NAME_LAST, NAME_FIRST,AUTH)
+		VALUES(#{id}, #{email}, #{pw}, #{name_last}, #{name_first},#{auth})
+	</insert>
 	
 	<update id="updateMember" parameterType="com.tim.ap.entity.MemberEntity">
 		UPDATE MEMBER SET PW = #{pw} WHERE ID = #{id}
