@@ -380,7 +380,7 @@ th, tr, td  {
 	</div>
 
 	<div style="margin: 0 auto;">
-
+	<c:if test="${!empty confer.title}">
 		<table style="margin: 0 auto; background: white;" class="table table-bordered table-hover conferenceList">
 			<tr>
 				<th style="text-align:center; width:100px;">회의명</th>
@@ -402,7 +402,6 @@ th, tr, td  {
 				</td>
 				<td>
 					<c:if test="${sessionScope.id == confer.u_id}">
-					
        					<input type="button" id="conferEdit" value="수정" class="btn btn-default loginButton joinButton conferenceSelect"/>
        					<input type="button" id="conferDel"  value="삭제" class="btn btn-default loginButton joinButton conferenceSelect"/>
    					</c:if>
@@ -413,7 +412,7 @@ th, tr, td  {
 				</td>
 			</tr>
 		</table>
-
+</c:if>
 		<br><br>
 				<!-- 스타일을 위에서 잡아줘서 중복코딩 막는게 어떨지 생각됨 , 아니면 메타에 너어놔도..어차피 테이블 다똑같은 형식이니까 -->
 		<table  style="margin: 0 auto; background: white;" class="table table-bordered table-hover conferenceList">
