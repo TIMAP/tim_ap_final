@@ -230,7 +230,8 @@ div.auserInfoImgDiv{
 	width:32%;
 	height:30%;
 	margin: 25% auto 15% auto;
-	background-image: url('/resources/images/if_Padlock_User_Control_88832.png');
+	background-image: url('/resources/images/96af815283e9d78b1f3e7aa744ec8cb0-users.png');
+	background-size: 121px;
 	background-repeat: no-repeat;
 }
 div.aconferenceImgDiv{
