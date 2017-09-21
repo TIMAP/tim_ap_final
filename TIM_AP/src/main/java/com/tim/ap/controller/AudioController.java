@@ -195,7 +195,7 @@ public class AudioController {
 		int playTime = (int) durationInSeconds;
 		System.out.println("몇초? ->" + playTime + "초");
 
-		//회의 추가
+		//회의 추가합니다
 		conferenceEntity.setU_id((Integer)session.getAttribute("id"));
 		conferenceService.insertConference(conferenceEntity);
 
