@@ -9,16 +9,22 @@
 
 
 	$(function(){
+		//상태 변경 버튼 숨김	
 		$("#closedBtn").hide();
-		
+
 		//전체선택 체크박스 클릭
 		$("#allCheck").click(function() {
+		
 				//만약 전체 선택 체크박스가 체크된상태일경우 
 				if ($("#allCheck").prop("checked")) {
+					// 전체 선택시 상태 변경 버튼 보이게
+					$("#closedBtn").show();
 					//해당화면에 전체 checkbox들을 체크해준다 
 					$("input[type=checkbox]").prop("checked", true);
 					// 전체선택 체크박스가 해제된 경우
 				} else {
+					//전체 선택시 상태 변경 버튼 숨김
+					$("#closedBtn").hide();
 					//해당화면에 모든 checkbox들의 체크를해제시킨다. 
 					$("input[type=checkbox]").prop("checked", false);
 				}
@@ -46,8 +52,13 @@
 	function check(){
 
 		 if($("input:checkbox[name='confer_chk']").is(":checked")){
-	        	$("#closedBtn").show();
+			//체크박스 선택시 상태 변경 버튼 보이게	
+			 $("#closedBtn").show();
 	        }
+		 else{
+			//체크박스 해제시 상태 변경 버튼 숨김	
+			 $("#closedBtn").hide();
+		 }
 	}
 
 </script>
@@ -87,6 +98,7 @@ th, tr, td {
 	<table class="table table-bordered table-hover conferenceList"
 		style="margin: 1% auto 1% auto;">
 		<tr>
+		<!-- 관리자 일때만 전체 선택 체크박스 보임-->	
 			<c:if test="${id eq 1004 }">
 			<th><input type="checkbox" id="allCheck" value="1"></th>
 			</c:if>
@@ -103,12 +115,14 @@ th, tr, td {
 		<c:choose>
 			<c:when test="${viewData.boardTotalCount > 0 }">
 				<c:forEach items="${viewData.conferList }" var="confer" varStatus="i">
-					<tr>
-						<c:if test="${sessionScope.id == confer.u_id}">
+ 					<tr>
+						<!-- 작성자 이거나 관리자 일때만 체크박스 보임-->				
+						<c:if test="${sessionScope.id == confer.u_id or id eq 1004}">
 							<td><input type="checkbox" name="confer_chk"
 							value="${confer.id}/${confer.closed}" onchange="check()"></td>
 						</c:if>
-						<c:if test="${sessionScope.id != confer.u_id}">
+						<!-- 작성자 이거나 관리자가 아닐때 공백 -->	
+						<c:if test="${sessionScope.id != confer.u_id and id ne 1004}">
 							<td></td>
 						</c:if>
 						<td>${confer.id }</td>
@@ -118,14 +132,14 @@ th, tr, td {
 										style="background: yellow; color: black;">${confer.title }</a>
 								</c:when>
 								<c:otherwise>
-
-									<c:if test="${id eq 1004 }">
+									<!-- 관리자나 작성자  일때만 보류상태떄 입장가능 -->	
+									<c:if test="${sessionScope.id == confer.u_id or id eq 1004}">
 										<a href="/audio/list?c_id=${confer.id }"
 											style="background: red; color: white;">${confer.title} -
 											(회의 보류)</a>
 									</c:if>
-
-									<c:if test="${id ne 1004 }">
+									<!-- 관리자나 작성자  아닐때 보류상태떄 입장불가능 -->	
+									<c:if test="${sessionScope.id != confer.u_id and id ne 1004 }">
 										<a style="background: red; color: white;">${confer.title}
 											- (회의 보류)</a>
 									</c:if>

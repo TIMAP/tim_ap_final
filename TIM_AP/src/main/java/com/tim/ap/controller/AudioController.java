@@ -451,7 +451,7 @@ public class AudioController {
 		fileInputStream.close();
 		outPutStream.close();
 	}
-	
+	//adtext 업데이트용
 	@RequestMapping(value = "/updateAdText", method = RequestMethod.GET)
 	public String updateAdText(Locale locale, @RequestParam("id") int id ,@RequestParam("ad_text") String ad_text){
 		logger.info("/audio/updateAdText", locale);
