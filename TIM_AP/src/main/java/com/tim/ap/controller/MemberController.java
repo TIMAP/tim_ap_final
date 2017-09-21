@@ -259,14 +259,16 @@ public class MemberController implements ApplicationContextAware{
         
         ExcelReadOption excelReadOption = new ExcelReadOption();
         excelReadOption.setFilePath(destFile.getAbsolutePath());
-        excelReadOption.setOutputColumns("A","B","C","D","E","F","G","H");
-        excelReadOption.setStartRow(1);
+        excelReadOption.setOutputColumns("A","B","C","D","E","F","G","H");//지정한 셀만 돌게 컬럼을 지정해준다.
+        excelReadOption.setStartRow(1);//START ROW를 2번째 부터 시작하여 해당 셀에 어떤 형태의 데이터를 넣으면 되는지 알려준다.
         
         
+        //엑셀 파일 자체를 읽어들여 각셀에대한 내용을 맵에 담고 그 맵을 리스트형태로 가지게 된다.
         List<Map<String, String>> excelContent =ExcelRead.read(excelReadOption);
         List<MemberEntity> memberList = new ArrayList<MemberEntity>();
         
         
+        //맵에서 값을 받아 SET해서 MAPPER XML에서  DB 한번 접근 후  FOREACH 문을 통해 여러 사용자를 입력
         for(Map<String, String> article: excelContent){
         	
         	MemberEntity memberEntity = new MemberEntity();
@@ -297,6 +299,8 @@ public class MemberController implements ApplicationContextAware{
         	memberList.add(memberEntity);
         }
         
+        
+        //CHECKLIST 메서드에서 STRING 값을 반환하여 해당 사용자가 등록이 되어있다면 해당 회원의 아이디를 반환하여 알려준다.
         String checkId = checkList(memberList);
 		
 		
@@ -380,6 +384,10 @@ public class MemberController implements ApplicationContextAware{
 			throws BeansException {
 	}
 	
+	/**
+	 * 지정된 파일 다운로드
+	 * @return
+	 */
 	@RequestMapping(value="/excelDownload")
     public ModelAndView download(){ 
          
@@ -391,6 +399,13 @@ public class MemberController implements ApplicationContextAware{
     }
 	
 	
+	/**
+	 * OPENCSV 라이브러리를 이용한 CSV 사용자 일괄추가
+	 * @param multipartFile
+	 * @param redirect
+	 * @return
+	 * @throws Exception
+	 */
 	@RequestMapping(value="/csvInsertMember", method=RequestMethod.POST)
 	public ModelAndView csvInsertMember(@RequestParam("csvFile")MultipartFile multipartFile,RedirectAttributes redirect) throws Exception{
 		
