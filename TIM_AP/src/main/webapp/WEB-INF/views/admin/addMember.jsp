@@ -31,53 +31,5 @@
 		</form>
 	</div>
 </div>
-<script>
-function joinButton(){
-	var id = $('#id').val().trim();
-	var pw = $('#pw').val().trim();
-	var email = $('#email').val().trim();
-	var name_first = $('#name_first').val().trim();
-	var name_last = $('#name_last').val().trim();
-	
-	var idPattern = /^[0-9]{1,10}$/; //아이디패턴
-	var pwPattern = /^[0-9a-zA-Z!@#$%^*+=-]{8,16}$/; //비밀번호패턴
-	var emailPattern = /^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/; //비밀번호패턴
-	var nfPattern = /^[가-힣|a-z|A-Z|]{1,5}$/; //성 패턴 이름패턴
-	
-	if($('#auth').prop('checked')==false){
-		document.joinForm.auth.value='N';
-	}else{
-		document.joinForm.auth.value='Y';
-	}
-	
-	if(!idPattern.test(id)){
-		alert("10자 이내 숫자로 입력하세요.");
-		$('#id').val("");
-		$('#id').focus();
-		return false;
-	}else if(!pwPattern.test(pw)){
-		alert("비밀번호를 8 - 16자 이내로 입력해주세요");
-		$('#pw').val("");
-		$('#pw').focus();
-		return false;
-	}else if(!emailPattern.test(email)){
-		alert("이메일을 정확히 입력해주세요.");
-		$('#email').val("");
-		$('#email').focus();
-		return false;
-	}else if(!nfPattern.test(name_first)){
-		alert("성을 입력해주세요");
-		$('#name_first').val("");
-		$('#name_first').focus();
-		return false;
-	}else if(!nfPattern.test(name_last)){
-		alert("이름을 입력해주세요");
-		$('#name_last').val("");
-		$('#name_last').focus();
-		return false;
-	}else{
-		 $('.joinForm').submit();
-	}
-}
-</script>
+
 

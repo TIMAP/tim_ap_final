@@ -302,10 +302,10 @@ public class MemberController implements ApplicationContextAware{
 		if(checkId.equals("") || checkId==null){
 			memberService.excelUpload(memberList);
 			redirect.addFlashAttribute("msg","모든 데이터가 업로드 되었습니다.");
-			result.setViewName("redirect:/admin/memList");
+			result.setViewName("redirect:/admin/addMembers");
 		}else{
 			redirect.addFlashAttribute("msg",checkId);
-			result.setViewName("redirect:/admin/memList");
+			result.setViewName("redirect:/admin/addMembers");
 		}
 		
         return result;
@@ -368,7 +368,7 @@ public class MemberController implements ApplicationContextAware{
 			}
 		}
 		
-		view.setViewName("redirect:/admin/memList");
+		view.setViewName("redirect:/admin/addMembers");
 		
 		return view;
 	}
@@ -444,10 +444,10 @@ public class MemberController implements ApplicationContextAware{
 			if(checkId.equals("") || checkId==null){
 				memberService.csvInsert(memberList);
 				redirect.addFlashAttribute("msg","모든 데이터가 업로드 되었습니다.");
-				result.setViewName("redirect:/admin/memList");
+				result.setViewName("redirect:/admin/addMembers");
 			}else{
 				redirect.addFlashAttribute("msg",checkId);
-				result.setViewName("redirect:/admin/memList");
+				result.setViewName("redirect:/admin/addMembers");
 			}
 			
 		return result;
