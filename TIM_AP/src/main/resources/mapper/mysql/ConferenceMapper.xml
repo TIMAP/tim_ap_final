@@ -29,28 +29,6 @@
 			WHERE
 				ID = #{id}
 				
-<!-- 						UPDATE CONFERENCE -->
-<!-- 			SET -->
-<!-- 			<if test="title != null"> -->
-<!-- 				TITLE = #{title} -->
-<!-- 			</if> -->
-<!-- 			<if test="date != null"> -->
-<!-- 				DATE = #{date} -->
-<!-- 			</if> -->
-<!-- 			<if test="role"> -->
-<!-- 				ROLE = #{role} -->
-<!-- 			</if> -->
-<!-- 			<if test="entry"> -->
-<!-- 				ENTRY = #{entry} -->
-<!-- 			</if> -->
-<!-- 			<if test="closed"> -->
-<!-- 				CLOSED = #{closed} -->
-<!-- 			</if> -->
-<!-- 			<if test="u_id"> -->
-<!-- 				U_ID = #{u_id} -->
-<!-- 			</if> -->
-<!-- 			WHERE -->
-<!-- 				ID = #{id} -->
 	</update>
 	
 	<insert id="insertConference" parameterType="com.tim.ap.entity.ConferenceEntity">
@@ -126,39 +104,7 @@
 	
 <!-- 	회의 상태 변경 -->
 	<update id="conferenceInfoUpdate" parameterType="com.tim.ap.entity.ConferenceEntity">
-<!-- 	<foreach collection="list" item="item" index="index" separator="," open="(" close=")"> -->
         update conference set closed = #{closed} where id = #{id}
-<!--     </foreach> -->
-    
-<!-- 		UPDATE conference  -->
-<!-- 	        SET closed = -->
-<!-- 		<foreach collection="list" item="item" index="index" separator="," open="(" close=")"> -->
-<!-- 			#{item.closed} -->
-<!-- 		</foreach> -->
-<!-- 		WHERE id = -->
-<!-- 		<foreach collection="list" item="item" open="(" close=")" separator=", "> -->
-<!-- 			#{item.id} -->
-<!-- 		</foreach> -->
-
-<!-- 			UPDATE conference SET -->
-<!-- 			CLOSED = -->
-<!-- 		<foreach collection="list" item="item" open="(" close=")" separator=","> -->
-<!-- 			 #{item.closed} -->
-<!-- 		</foreach> -->
-<!-- 			where -->
-<!-- 			ID = -->
-<!-- 		<foreach collection="list" item="item" open="(" close=")" separator=","> -->
-<!-- 			 #{item.id} -->
-<!-- 		</foreach> -->
-
-
-<!-- 		<foreach collection="list" item="item" separator=","> -->
-<!-- 			CLOSED = #{item.closed} -->
-<!-- 		</foreach> -->
-<!-- 			WHERE -->
-<!-- 		<foreach collection="list" item="item" separator="and" index="index" > -->
-<!-- 			ID = #{item.id} -->
-<!-- 		</foreach> -->
 	</update>
 	
 	<select id="conferenceFind" parameterType="java.lang.String" resultType="com.tim.ap.entity.ConferenceEntity">

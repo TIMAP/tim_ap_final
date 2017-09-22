@@ -13,7 +13,6 @@
 										<input type="password" id="pw" class="pw form-control" name="pw" placeholder="비밀번호를 입력하세요."/>
 									</div>
 									<button type="button" class="btn btn-default loginButton" onclick="loginButton();" >로그인</button>
-									<button type="button" class="btn btn-default loginButton" onclick="location.href='/login/searchForm'">정보 찾기</button>
 									<button type="button" class="btn btn-default loginButton" onclick="joinMember();">회원가입</button>
 									<button type="button" class="btn btn-default loginButton" onclick="adminButton();">관리자 로그인</button>
 				</form>

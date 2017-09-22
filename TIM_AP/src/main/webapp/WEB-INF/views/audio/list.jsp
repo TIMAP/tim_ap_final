@@ -112,8 +112,6 @@ $(document).ready(function() {
  	    	parent.find("td:eq(0)").children().attr("readonly",false);
  	   		$('#closedEdit').show();
  	   		$('#closedInfo').hide();
- 		
-
     	}
     	else{
 	        $.ajax({
@@ -126,9 +124,7 @@ $(document).ready(function() {
 	            success : function(data){
 	          		alert("회의 정보를 변경하였습니다 ");
 	          		location.href="/audio/list?c_id="+id;
-	          		
 	            }
-	             
 	        });
 	        $(this).attr("value","수정");		    		
 	    	parent.find("td:eq(0)").children().attr("readonly",true);
@@ -374,17 +370,18 @@ th, tr, td  {
 			<input type="submit" class="btn btn-default loginButton joinButton conferenceSelect" value="검색"> 
 			<c:if test="${id ne 1004}">
 			<input type="button" id="holdConfbtn" value="회의추가" class="btn btn-default loginButton joinButton conferenceSelect">
-			<input type="button" id="hideConfbtn" value="추가취소" class="btn btn-default loginButton joinButton conferenceSelect">			
 			</c:if>
 		</form>
 	</div>
 
 	<div style="margin: 0 auto;">
 	<c:if test="${!empty confer.title}">
-		<table style="margin: 0 auto; background: white;" class="table table-bordered table-hover conferenceList">
+		<table style="margin: 0 auto; background: white; width: 66%;" class="table table-bordered table-hover conferenceList" >
 			<tr>
 				<th style="text-align:center; width:100px;">회의명</th>
-				<td style="text-align:center;"><input type="text" value="${confer.title }" readonly style="border: 0"></td>
+				<td style="text-align:center;"><input type="text" id="title" value="${confer.title }" readonly style="border: 0"></td>
+				<th style="text-align:center; width:100px;">날짜 </th> 
+				<td style="text-align:center;"><input type="text" id="date" name="date" readonly ></td>
 				<th style="text-align:center; width:100px;">회의 상태</th>
 				<td style="text-align:center;">
 				<div id="closedInfo">
@@ -424,7 +421,8 @@ th, tr, td  {
 				<th style="text-align:center; width:100px;">다운로드</th><!--  -->
 				<th style="text-align:center; width:100px;">권한</th><!--  -->
 			</tr>
-		
+		<c:choose>
+		<c:when test="${!empty viewData.audioList}">
 			<c:forEach items="${viewData.audioList}" var="audioEntity">
 				<tr>
 					<td style="text-align:center;">${audioEntity.id}</td>
@@ -440,12 +438,20 @@ th, tr, td  {
 					<td style="text-align:center;">
 					<!-- 관리자 or 작성자 오디오 ad_text 정보 변경  -->
 					<c:if test="${sessionScope.email == audioEntity.m_email or id eq 1004}">					
-						<td><input type="button" value="수정" name="audioEdit"/></td>
+						<input type="button" value="수정" name="audioEdit"/>
 					</c:if>
 					</td>
 
 				</tr>
 			</c:forEach>
+		</c:when>
+		<c:otherwise>
+			<tr>
+				<td colspan="9">내용이 없습니다.</td>
+			</tr>
+		</c:otherwise>
+	</c:choose>
+			
 		</table>
 		<div id="pageNum" style="margin-top: 1%;">
 			<c:if test="${beginPage > perPage}">
@@ -464,11 +470,6 @@ th, tr, td  {
 	</div>
 	
 	<div id="voiceRecorder">
-		<div id="conferenceInfo">
-			회의명 : <input type="text" id="title" name="title" class="memjoin form-control1 conferenceSelect placeholder" value="${c_id }"> 
-			<input type="hidden" name="c_id" id="c_id" value="${c_id}">
-			날짜 : <input type="text" id="date" name="date" value="date" readonly class="memjoin form-control1 conferenceSelect">
-		</div>
 		<br> 녹음영역
 		<div id="viz">
 			<canvas id="analyser" width="300" height="200"></canvas>
