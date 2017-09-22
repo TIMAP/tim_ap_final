@@ -102,7 +102,7 @@ public class AudioController {
 		System.out.println("몇초? ->" + playTime + "초");
 		
 		//회의의 아이디 가져오는 것
-		int conferenceId = conferenceService.selectConference().getId();
+		int conferenceId = conferenceEntity.getId();
 
 		try {
 			if (multipartFiles != null && multipartFiles.size() != 0) {

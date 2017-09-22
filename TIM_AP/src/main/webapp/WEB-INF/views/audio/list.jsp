@@ -241,11 +241,11 @@ $(document).ready(function() {
 		  
 		  
 		  function uploadWav(blob){
-				var confTitle = $('#title').val(); 
+				var confId = $('#c_id').val(); 
 		    	var date = $('#date').val(); 
 		  		var formData = new FormData();
 		  		formData.append("multipartFile", blob,"temp.wav");
-		  		formData.append('title', confTitle);
+		  		formData.append('id', confId);
 		  		formData.append('date', date);
 		  		
 					$.ajax({
@@ -257,7 +257,7 @@ $(document).ready(function() {
 						enctype: "multipart/form-data",
 						success : function(result){
 								alert("성공적으로 회의가 저장되었습니다.");
-								location.href="/audio/list?c_id="+confTitle;
+								location.href="/audio/list?c_id="+confId;
 						}
 					});
 			  
@@ -466,6 +466,7 @@ th, tr, td  {
 	<div id="voiceRecorder">
 		<div id="conferenceInfo">
 			회의명 : <input type="text" id="title" name="title" class="memjoin form-control1 conferenceSelect placeholder" value="${c_id }"> 
+			<input type="hidden" name="c_id" id="c_id" value="${c_id}">
 			날짜 : <input type="text" id="date" name="date" value="date" readonly class="memjoin form-control1 conferenceSelect">
 		</div>
 		<br> 녹음영역
@@ -483,21 +484,3 @@ th, tr, td  {
 	</div>
 </div>
 
-<script>
-	$("#record").click(function() {
-		var c_id = '${c_id}';
-		alert(c_id);
-		$.ajax({
-				url : '/conference/conferClosedUpdate',
-				type : 'post',
-				data :   {"c_id":c_id} ,
-				success : function(result) {
-					alert("성공");
-				},
-				error : function() {
-					alert("실패");
-				},
-				dataType : 'json'
-		});
-	});
-</script>
