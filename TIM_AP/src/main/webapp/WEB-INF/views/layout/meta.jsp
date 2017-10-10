@@ -64,7 +64,7 @@ input.btn{
 /* 어드민 조인 */
 
 .ajoinDiv{
-	background: linear-gradient(-135deg, #E4A972, #9941D8) fixed;  
+/* 	background: linear-gradient(-135deg, #E4A972, #9941D8) fixed;   */
 	text-align: center;
 	height: 90%;
 }
@@ -89,7 +89,7 @@ ul.ajoinUl{
 div.aExcelCsv{
 	margin-top: 3%;
 	margin-right:36%;
-  	background: rgba(255, 255, 255, 0.8);  
+  	background: rgba(123, 123, 123, 0.8);  
 	float:right;
 	width: 30%;
 	height:397px;
@@ -111,7 +111,7 @@ ul li label{
 div.mainDiv{
 	width: 100%;
 	height: 90%;
-	background: linear-gradient(-135deg, #E4A972, #9941D8) fixed;  	
+/* 	background: linear-gradient(-135deg, #E4A972, #9941D8) fixed;  	 */
 	text-align: center;
 }
 div.mainDivOne{
@@ -172,7 +172,7 @@ div.loginForm,.joinDiv{
 	text-align: center;
 /* 	background-image : url('http://superkts.com/img/css/bg0426.gif'); */
 /* 	background-color: black; */
-  background: linear-gradient(-135deg, #E4A972, #9941D8) fixed;  
+/*   background: linear-gradient(-135deg, #E4A972, #9941D8) fixed;   */
 /*   	background: radial-gradient(#F2B9A1, #EA6264) fixed;    */
 /*  	background: radial-gradient(#EBCD22, #EA2132) fixed;   */
 /*  	background: linear-gradient(-45deg, rgba(246, 255, 0, .8), rgba(255, 0, 161, .8)) fixed, url(http://www.webcreatorbox.com/sample/images/bg-cherrybrossam.jpg) fixed;  */

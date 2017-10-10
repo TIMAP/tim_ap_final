@@ -153,7 +153,7 @@ th, tr, td {
 			</c:when>
 			<c:otherwise>
 				<tr>
-					<td style="text-align: center;" colspan="5">내용이 없습니다.</td>
+					<td style="text-align: center;" colspan="6">내용이 없습니다.</td>
 				</tr>
 			</c:otherwise>
 		</c:choose>

@@ -94,7 +94,7 @@ $(function(){
 		<div id="tabs-2">
 		<div class="aExcelCsv">
 		<form id="excelInsertForm" name="excelInsertForm" enctype="multipart/form-data" method="post"
-															action= "${pageContext.request.contextPath}/member/excelInsertMember" style="border-bottom: 1px solid black; margin-bottom: 1%; padding-bottom: 1%;">
+															action= "${pageContext.request.contextPath}/member/excelInsertMember" style="border-bottom: 1px solid white; margin-bottom: 1%; padding-bottom: 1%;">
 		    <div class="contents">
 		        <div style="margin-top: -5%; margin-bottom: 3%;">첨부파일은 한개만 등록 가능합니다.</div>
 		        <dl class="vm_name" style="width: 50%; margin: 0 auto; margin-bottom: 1%;">
@@ -107,7 +107,7 @@ $(function(){
 		    </div>
 		</form>
 		
-		<div style="margin-top: 3%; margin-bottom: 4%; border-bottom: 1px solid black;">
+		<div style="margin-top: 3%; margin-bottom: 4%; border-bottom: 1px solid white;">
 			<p style="font-weight: bold;">첨부 파일(CSV)</p>
 			<form id="csvInsertForm" name="csvInsertForm" enctype="multipart/form-data" method="post" style=" width: 50%; margin: 0 auto; margin-bottom: 1%;">
 				<input id="csvFile" type="file" name="csvFile" class="form-control" style="height: 40px;"/>
@@ -124,7 +124,7 @@ $(function(){
 <!-- 				<input type="submit" value="업로드"/> 			  -->
 <!-- 		</form> -->
 
-		<div style="margin-top: 10%; cursor: pointer; width: 200px; height: 40px; background: gray; border-radius:30px; padding-top: 2%; margin: 0 auto;">
+		<div style="margin-top: 10%; cursor: pointer; width: 200px; height: 40px; background: white; border-radius:30px; padding-top: 2%; margin: 0 auto;">
 			<a href="${pageContext.request.contextPath}/member/excelDownload">양식 다운로드</a>
 		</div>
 	</div>
