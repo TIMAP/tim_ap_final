@@ -3,19 +3,16 @@
 <script>
 // 	로그인유저 개인정보
 	function loginUserInfo() {
-		alert("로그인유저");
 		location.href="/member/userInfo?id=${id}";
 	}
 	
 // 	회의
 	function conference() {
-		alert("회의");
 		location.href="/conference/conferencelist";
 	}
 	
 // 	오디오
 	function audio() {
-		alert("오디오");
 		location.href="/audio/form";
 	}
 	

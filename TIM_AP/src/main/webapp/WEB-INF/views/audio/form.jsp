@@ -42,7 +42,7 @@ $(document).ready(function() {
     	var confTitle = $('#title').val(); 
     	var date = $('#date').val(); 
     	if(confTitle == null ||  confTitle == "" || date == null || date =="") {
-    		alert("회의 정보를 입력하세요")
+    		swal("", "회의 정보를 입력하세요", "warning");
     	}else{
     		$('#voiceRecorder').show();
     	}
@@ -149,7 +149,7 @@ $(document).ready(function() {
 		    link.href = url;
 		    
 		    link.download = filename || 'output.wav';
-		alert(url);
+		//alert(url);
 		    uploadWav(blob);
 		    
 		  }
@@ -171,7 +171,7 @@ $(document).ready(function() {
 						contentType:false,
 						enctype: "multipart/form-data",
 						success : function(result){
-								alert("성공적으로 회의가 저장되었습니다.")
+								swal("성공적으로 회의가 저장되었습니다.")
 						}
 					});
 			  
@@ -239,11 +239,11 @@ $(document).ready(function() {
 <div class="mainDiv">
 	
 	<div id="conferenceInfo">
-		회의명 : <input type="text" id="title" name="title" class="memjoin form-control1 conferenceSelect">  날짜 : <input type="text" id="date" name="date" value="date" readonly class="memjoin form-control1 conferenceSelect">
+		회의명 : <input type="text" placeholder="필수입력사항입니다." id="title" name="title" class="memjoin form-control1 conferenceSelect">  날짜 : <input type="text" id="date" name="date" value="date" readonly class="memjoin form-control1 conferenceSelect">
 	</div>
 	<div id="content">
 		<form action="upload" method="post" enctype="multipart/form-data">
-		    <input type="button" value="완료" class="btn btn-default loginButton joinButton conferenceSelect" onclick="location.href='/conference/conferencelist'"/>
+		    <input type="button" value="뒤로가기" class="btn btn-default loginButton joinButton conferenceSelect" onclick="location.href='/conference/conferencelist'"/>
 			<input type="button" id="holdConfbtn" value="회의개설" class="btn btn-default loginButton joinButton conferenceSelect">
 		</form>
 	</div>

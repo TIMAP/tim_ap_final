@@ -13,12 +13,12 @@ $(function(){
 	var msg = "";
 	if(result == false){
 		msg = "${checkId}";
-		alert(msg);
+		swal(msg);
 		msg = "";
 		result = true;
 	}else if(result == true){
 		msg = "${msg}";
-		alert(msg);
+		swal(msg);
 		msg="";
 	}
 })

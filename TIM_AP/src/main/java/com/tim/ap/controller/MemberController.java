@@ -65,7 +65,6 @@ public class MemberController implements ApplicationContextAware{
 
 	@RequestMapping("/loginform")
 	public ModelAndView loginForm(Locale locale, boolean deleteResult) {
-		System.out.println("로그인폼");
 		logger.info("/member/login", locale);
 		ModelAndView result = new ModelAndView();
 		if(deleteResult == true){
@@ -249,7 +248,6 @@ public class MemberController implements ApplicationContextAware{
     public ModelAndView excelInsertMember(MultipartHttpServletRequest request ,RedirectAttributes redirect,HttpServletResponse response)  throws Exception{
 		ModelAndView result = new ModelAndView();
         MultipartFile excelFile =request.getFile("excelFile");
-        System.out.println("엑셀인서트");
         if(excelFile==null || excelFile.isEmpty()){
             throw new RuntimeException("엑셀파일을 선택 해 주세요.");
         }

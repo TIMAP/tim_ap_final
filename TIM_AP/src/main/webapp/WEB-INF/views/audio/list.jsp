@@ -46,7 +46,7 @@ $(document).ready(function() {
     	var confTitle = $('#title').val(); 
     	var date = $('#date').val(); 
     	if(confTitle == null ||  confTitle == "" || date == null || date =="") {
-    		alert("회의 정보를 입력하세요")
+    		swal("", "회의 정보를 입력하세요", "warning");
     	}else{
     		$('#voiceRecorder').show();
     	}
@@ -78,10 +78,10 @@ $(document).ready(function() {
 	            type : "GET",
 	            url : "updateAdText?id="+id+"&ad_text="+adtext,
 	            error : function(){
-	                alert('변경에 실패하였습니다 ');
+	            	swal("", "변경에 실패하였습니다.", "error");
 	            },
 	            success : function(data){
-	          		alert("AD_TEXT를 변경하였습니다 ");
+	          		swal("AD_TEXT를 변경하였습니다 ");
 	            	
 	            }
 	             
@@ -119,10 +119,10 @@ $(document).ready(function() {
 	            type : "GET",
 	            url : "../conference/update?id="+id+"&title="+title+"&closed="+closed_val,
 	            error : function(){
-	                alert('변경에 실패하였습니다 ');
+	            	swal("", "변경에 실패하였습니다.", "error");
 	            },
 	            success : function(data){
-	          		alert("회의 정보를 변경하였습니다 ");
+	          		swal("회의 정보를 변경하였습니다 ");
 	          		location.href="/audio/list?c_id="+id;
 	            }
 	        });
@@ -230,7 +230,7 @@ $(document).ready(function() {
 		    link.href = url;
 		    
 		    link.download = filename || 'output.wav';
-			alert(url);
+			swal(url);
 		    uploadWav(blob);
 		    
 		  }
@@ -252,7 +252,7 @@ $(document).ready(function() {
 						contentType:false,
 						enctype: "multipart/form-data",
 						success : function(result){
-								alert("성공적으로 회의가 저장되었습니다.");
+								swal("성공적으로 회의가 저장되었습니다.");
 								location.href="/audio/list?c_id="+confId;
 						}
 					});

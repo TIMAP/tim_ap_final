@@ -36,7 +36,7 @@
 		var idPattern = /^[0-9]{1,10}$/; //아이디패턴
 		var userIdSave = $('#id').val().trim();
 		if(!idPattern.test(userIdSave)){
-			alert("10자 이내 숫자로 입력하세요.");
+			swal("warning", "10자 이내 숫자로 입력하세요.", "error");
 			$('#id').val("");
 			$('#id').focus();
 			return false;
@@ -47,7 +47,7 @@
 		    type : "POST",
 			data : {'userIdSave' : userIdSave},
 				success : function(result){
-					alert(result.msg);
+					swal(result.msg);
 				}, 
 				error : function(){
 				},
@@ -69,27 +69,27 @@ function joinButton(){
 	
 	
 	if(!idPattern.test(id)){
-		alert("10자 이내 숫자로 입력하세요.");
+		swal("warning", "10자 이내 숫자로 입력하세요.", "error");
 		$('#id').val("");
 		$('#id').focus();
 		return false;
 	}else if(!pwPattern.test(pw)){
-		alert("비밀번호를 8 - 16자 이내로 입력해주세요");
+		swal("warning", "비밀번호를 8 - 16자 이내로 입력해주세요", "error");
 		$('#pw').val("");
 		$('#pw').focus();
 		return false;
 	}else if(!emailPattern.test(email)){
-		alert("이메일을 정확히 입력해주세요.");
+		swal("warning", "이메일을 정확히 입력해주세요.", "error");
 		$('#email').val("");
 		$('#email').focus();
 		return false;
 	}else if(!nfPattern.test(name_first)){
-		alert("성을 입력해주세요");
+		swal("warning", "성을 입력해주세요", "error");
 		$('#name_first').val("");
 		$('#name_first').focus();
 		return false;
 	}else if(!nfPattern.test(name_last)){
-		alert("이름을 입력해주세요");
+		swal("warning", "이름을 입력해주세요", "error");
 		$('#name_last').val("");
 		$('#name_last').focus();
 		return false;
@@ -97,7 +97,7 @@ function joinButton(){
 		var lastName = $('#id').val().trim();
 		if(userId != lastName){
 			userId = "";
-			alert("중복확인을 해주세요.");
+			swal("warning", "중복확인을 해주세요.", "error");
 			return false;
 		}
 		 $('.joinForm').submit();
@@ -109,7 +109,7 @@ function joinButton(){
 		var result = ${failed};
 		if(result == false){
 			var msg = "${msg}";
-			alert(msg);
+			swal(msg);
 			msg = "";
 			result = true;
 		}

@@ -7,6 +7,8 @@
 <link rel="stylesheet" href="/resources/js/boot/bootstrap-theme.min.css">
 <!-- 합쳐지고 최소화된 최신 자바스크립트 -->
 <script src="/resources/js/boot/bootstrap.min.js"></script>
+<!-- sweetalert js -->
+<script src="/resources/js/sweetalert.min.js"></script>
 <!-- jQuery -->
 <link rel="stylesheet" href="/resources/js/boot/jquery-ui.css">
 <script type="text/javascript" src="/resources/js/boot/jquery-3.2.1.min.js"></script>

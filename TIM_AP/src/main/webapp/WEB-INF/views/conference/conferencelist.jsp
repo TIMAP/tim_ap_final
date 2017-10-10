@@ -34,7 +34,7 @@
 	function conferUpdate() {
 		var items=[];
 		$('input[name="confer_chk"]:checkbox:checked').each(function(){items.push($(this).val());});
-		alert(items);
+		swal(items);
 		$.ajax({
 			url : '/conference/conferenceUpdate',
 			type : 'post',

@@ -42,7 +42,7 @@ $(document).ready(function() {
     	var confTitle = $('#title').val(); 
     	var date = $('#date').val(); 
     	if(confTitle == null ||  confTitle == "" || date == null || date =="") {
-    		alert("회의 정보를 입력하세요")
+    		swal("", "회의 정보를 입력하세요", "warning");
     	}else{
     		$('#voiceRecorder').show();
     	}
@@ -169,7 +169,7 @@ $(document).ready(function() {
 						contentType:false,
 						enctype: "multipart/form-data",
 						success : function(result){
-								alert("성공적으로 회의가 저장되었습니다.")
+								swal("성공적으로 회의가 저장되었습니다.")
 						}
 					});
 			  
