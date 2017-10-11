@@ -70,6 +70,14 @@ input.btn{
 	text-align: center;
 	height: 90%;
 }
+div.adminLogin{
+   margin-top: 1%;
+   margin-right:35.5%;
+   padding-bottom : 1%;
+   float:right;
+   width: 30%;
+   border-radius:50px;
+}
 
 div.ajoinForm{
 	background: rgba(255, 255, 255, 0.8);

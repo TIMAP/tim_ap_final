@@ -62,6 +62,7 @@ $(document).ready(function() {
     });
     //오디오 ad_text 수정 
     $('input[name=audioEdit]').click(function(){
+    	swal("audio 내용을 수정할 수 있습니다.");
     	var val= $(this).val();
 		var parent=$(this).parent().parent();
       	var adtext= parent.find("td:eq(5)").children().val();
@@ -82,7 +83,6 @@ $(document).ready(function() {
 	            },
 	            success : function(data){
 	          		swal("AD_TEXT를 변경하였습니다 ");
-	            	
 	            }
 	             
 	        });
@@ -94,6 +94,7 @@ $(document).ready(function() {
     
     //회의 정보 변경
     $('#conferEdit').click(function(){
+    	swal("제목과 회의상태를 변경할 수 있습니다.");
     	var p = getParams();
     	var val= $(this).val();
 		var parent=$(this).parent().parent();
@@ -108,22 +109,21 @@ $(document).ready(function() {
       	var closed_val=$("input[name='closed']:checked").val();
 //     	alert(parent);
     	if(val=="수정"){
-	    	$(this).attr("value","저장");		
+	    	$(this).attr("value","저장");
  	    	parent.find("td:eq(0)").children().attr("readonly",false);
  	   		$('#closedEdit').show();
  	   		$('#closedInfo').hide();
     	}
     	else{
 	        $.ajax({
-	             
 	            type : "GET",
 	            url : "../conference/update?id="+id+"&title="+title+"&closed="+closed_val,
 	            error : function(){
 	            	swal("", "변경에 실패하였습니다.", "error");
 	            },
 	            success : function(data){
-	          		swal("회의 정보를 변경하였습니다 ");
-	          		location.href="/audio/list?c_id="+id;
+	            	swal("", "회의정보변경", "success");
+	            	//location.href="/audio/list?c_id="+id;
 	            }
 	        });
 	        $(this).attr("value","수정");		    		
