@@ -9,6 +9,17 @@ function homeMain(){
 		location.href="/admin/adminpage";
 	}
 }
+
+function logout() {
+	$.ajax({
+		type: "GET",
+		url: "<c:url value='/member/logout'/>",
+		success: function() {
+			  location.replace("/member/logout")
+		}
+	});
+	return false;
+}
 </script>
 	<div class="container-fliud headerTopColor">
 		<c:if test="${id != null }">	
@@ -22,7 +33,7 @@ function homeMain(){
 					<a href="/member/main" class="btn btn-default btn-header">
 						<i class="fa-lg fa fa-home" aria-hidden="true"></i>Home
 					</a>
-					<a href="/member/logout" class="btn btn-default btn-header">
+					<a onclick="logout()" class="btn btn-default btn-header">
 						<i class="fa-lg fa fa-sign-out" aria-hidden="true"></i>Logout
 					</a>
 					</c:if>
@@ -32,7 +43,7 @@ function homeMain(){
 					<a href="/admin/adminpage" class="btn btn-default btn-header">
 						<i class="fa-lg fa fa-home" aria-hidden="true"></i>Home
 					</a>
-					<a href="/member/logout" class="btn btn-default btn-header">
+					<a onclick="logout()" class="btn btn-default btn-header">
 						<i class="fa-lg fa fa-sign-out" aria-hidden="true"></i>Logout
 					</a>
 					</c:if>

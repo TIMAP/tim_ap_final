@@ -30,7 +30,7 @@ $( function() {
                </ul>
                <div id="tabs-1">
                   <div class="loginFromDiv" style="margin-top: 1%;">
-                     <form action="<c:url value='/member/login'/>" method="post" class="loginFormInfo" name="login">
+                     <form id="memForm" action="<c:url value='/member/login'/>" method="post" class="loginFormInfo" name="login">
                         <div class="form-group" style="width: 400px; margin-left: 90px;">
                            <input type="text" id="id" class="id form-control" name="id" placeholder="아이디를 입력하세요." style="margin-left: -2.4%;"/>
                         </div>
@@ -44,7 +44,7 @@ $( function() {
                </div>
                <div id="tabs-2">
                   <div class="adminLogin">
-                     <form action="<c:url value='/admin/adminlogin'/>" method="post" class="aloginFormInfo" name="login">
+                     <form id="adForm" action="<c:url value='/admin/adminlogin'/>" method="post" class="aloginFormInfo" name="login">
                         <div class="form-group" style="width: 400px; margin-left: 90px;">
                            <input type="text" id="aid" class="aid form-control" name="id" placeholder="아이디를 입력하세요."/>
                         </div>
@@ -72,9 +72,11 @@ $( function() {
 </script>
 <script>
    $(function(){
+	   
       var result = ${failed};
+      alert("aaaaa")
       if(result == false){
-         var msg = "${msg}";
+    	  var msg = "${msg}";
          swal(msg);
          msg = "";
          result = true;
@@ -82,34 +84,81 @@ $( function() {
    })
 </script>
 <script>
-function loginButton(){
-      var id = $('.id').val().trim();
-      var pw = $('.pw').val().trim();
-      if(id==""){
-    	  swal("warning", "아이디를 입력해주세요", "error");
-         $('.id').focus();
-         return false;
-      }else if(pw==""){
-    	  swal("warning", "비밀번호를 입력해주세요", "error");
-         $('.pw').focus();
-         return false;
-      }else{
-          $('.loginFormInfo').submit();
-      }
-   }
+ function loginButton(){
+//       var id = $('.id').val().trim();
+//       var pw = $('.pw').val().trim();
+//       if(id==""){
+//     	  swal("warning", "아이디를 입력해주세요", "error");
+//          $('.id').focus();
+//          return false;
+//       }else if(pw==""){
+//     	  swal("warning", "비밀번호를 입력해주세요", "error");
+//          $('.pw').focus();
+//          return false;
+//       }else{
+//           $('.loginFormInfo').submit();
+//       }
+	var id = $('.id').val().trim();
+    var pw = $('.pw').val().trim();
+	var action = $("#memForm").attr('action');
+	var form_data = {
+		id: id,
+		pw: pw,
+		is_ajax: 1
+	};
+	if(id==""){
+   	 swal("warning", "아이디를 입력해주세요", "error");
+        $('.id').focus();
+        return false;
+     }else if(pw==""){
+   	  swal("warning", "비밀번호를 입력해주세요", "error");
+        $('.pw').focus();
+        return false;
+     }else{
+		$.ajax({
+			type: "POST",
+			
+			url: action,
+			data: form_data,
+			success: function(aa) {
+
+					location.replace("/member/main")
+			}
+		});
+		return false;
+	}
+ }
+   
 function adminLoginButton(){
-      var id = $('.aid').val().trim();
-      var pw = $('.apw').val().trim();
-      if(id==""){
-    	 swal("warning", "아이디를 입력해주세요", "error");
-         $('.aid').focus();
-         return false;
-      }else if(pw==""){
-    	  swal("warning", "비밀번호를 입력해주세요", "error");
-         $('.apw').focus();
-         return false;
-      }else{
-          $('.aloginFormInfo').submit();
-      }
+//       var id = $('.aid').val().trim();
+//       var pw = $('.apw').val().trim();
+//       if(id==""){
+//     	 swal("warning", "아이디를 입력해주세요", "error");
+//          $('.aid').focus();
+//          return false;
+//       }else if(pw==""){
+//     	  swal("warning", "비밀번호를 입력해주세요", "error");
+//          $('.apw').focus();
+//          return false;
+//       }else{
+//           $('.aloginFormInfo').submit();
+//       }
+   	var id = $('.aid').val().trim();
+    var pw = $('.apw').val().trim(); 
+  	var action = $("#adForm").attr('action');
+	var form_data = {
+		id: id,
+		pw: pw,
+		is_ajax: 1
+	};
+	$.ajax({
+		type: "POST",
+		url: action,
+		data: form_data,
+		success: function() {
+				location.replace("/admin/adminpage");	
+		}
+	});
+	return false;
    }
 </script>
