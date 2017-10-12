@@ -230,7 +230,7 @@ $(document).ready(function() {
 		    link.href = url;
 		    
 		    link.download = filename || 'output.wav';
-			swal(url);
+// 			swal(url);
 		    uploadWav(blob);
 		    
 		  }

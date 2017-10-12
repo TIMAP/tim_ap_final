@@ -62,9 +62,11 @@ function toggleRecording(e) {
 		audioRecorder.stop();
 		e.classList.remove("recording");
 		audioRecorder.getBuffers(gotBuffers);
+		//swal("", "녹음이 종료되었습니다!", "success");
 		alert("녹음이 종료되었습니다!");
 		
 	} else {
+		//swal("", "녹음을 시작합니다!", "success");
 		alert("녹음을 시작합니다.");
 //		audio.play();
 		var downloadbtn = document.getElementById("save");
@@ -210,7 +212,8 @@ function initAudio() {
 			"optional" : []
 		},
 	}, gotStream, function(e) {
-		alert("녹음 장치를 연결해 주세요.");
+		swal("", "녹음 장치를 연결해 주세요.", "warning");
+//		alert("녹음 장치를 연결해 주세요.");
 
 		console.log(e);
 	});

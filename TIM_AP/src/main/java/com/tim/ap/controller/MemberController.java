@@ -215,12 +215,21 @@ public class MemberController implements ApplicationContextAware{
 	 * 개인정보의 값을 받아서 Update를 해주는 컨트롤러
 	 * jsp에서 모든 값을 받지만 실제 변경되는 값은 비밀번호 하나의 값만 변경될 것이기 때문에 service에 접근시 password만 가지고 갈것이다.
 	 */
+//	@RequestMapping("/memberUpdate")
+//	public ModelAndView memberUpdate(MemberEntity member){
+//		ModelAndView result = new ModelAndView();
+//		memberService.updateMember(member);
+//		result.setViewName("/member/main");
+//		return result;
+//	}
 	@RequestMapping("/memberUpdate")
-	public ModelAndView memberUpdate(MemberEntity member){
-		ModelAndView result = new ModelAndView();
+	public @ResponseBody Map<String, String> memberUpdate(MemberEntity member){
+		Map<String,String> resultMap = new HashMap<String, String>();
+		String count = "1";
 		memberService.updateMember(member);
-		result.setViewName("/member/main");
-		return result;
+		resultMap.put("uri", "/member/main");
+		resultMap.put("count", count);
+		return resultMap;
 	}
 	
 	/**

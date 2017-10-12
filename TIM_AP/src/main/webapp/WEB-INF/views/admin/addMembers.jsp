@@ -154,32 +154,32 @@ function joinButton(){
 	}
 	
 	if(!idPattern.test(id)){
-		alert("10자 이내 숫자로 입력하세요.");
+        swal("", "10자 이내 숫자로 입력하세요.", "warning");
 		$('#id').val("");
 		$('#id').focus();
 		return false;
 	}else if(!pwPattern.test(pw)){
-		alert("비밀번호를 8 - 16자 이내로 입력해주세요");
+        swal("", "비밀번호를 8 - 16자 이내로 입력해주세요.", "warning");
 		$('#pw').val("");
 		$('#pw').focus();
 		return false;
 	}else if(!emailPattern.test(email)){
-		alert("이메일을 정확히 입력해주세요.");
+		swal("", "이메일을 정확히 입력해주세요.", "warning");
 		$('#email').val("");
 		$('#email').focus();
 		return false;
 	}else if(!nfPattern.test(name_first)){
-		alert("성을 입력해주세요");
+		swal("", "성을 입력해주세요.", "warning");
 		$('#name_first').val("");
 		$('#name_first').focus();
 		return false;
 	}else if(!nfPattern.test(name_last)){
-		alert("이름을 입력해주세요");
+		swal("", "이름을 입력해주세요.", "warning");
 		$('#name_last').val("");
 		$('#name_last').focus();
 		return false;
 	}else{
-		 $('.joinForm').submit();
+		 $('.ajoinForm').submit();
 	}
 }
 </script>
